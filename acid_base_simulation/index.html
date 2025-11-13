@@ -28,7 +28,7 @@
         .home-button {
             position: absolute;
             top: 25px;
-            left: 25px;
+            left: 160px; /* [MODIFIED] 145px -> 160px (최종 위치) */
             font-family: 'Jua', sans-serif;
             font-size: 1.1rem;
             padding: 8px 15px;
@@ -845,18 +845,16 @@
         function playWaterSound(type = 'drop') {
             if (!waterPlayer) return; // waterPlayer가 로드되지 않았으면 중지
 
-            // [v28] Audio() 객체는 start()가 아닌 play()를 사용해야 합니다.
-            // 또한, 매번 재생하려면 시간을 0으로 되돌려야 합니다.
             waterPlayer.currentTime = 0; // 재생 위치를 처음으로
 
             if (type === 'drop') {
                 waterPlayer.volume = 0.3; // 0~1 사이 값 (작게)
                 waterPlayer.playbackRate = 1.5; // 재생 속도 (빠르게)
-                waterPlayer.play();
+                waterPlayer.play().catch(e => console.error("Audio play failed:", e)); // 재생 오류 처리
             } else if (type === 'neutral') {
                 waterPlayer.volume = 0.6; // 0~1 사이 값 (보통)
                 waterPlayer.playbackRate = 1.0; // 재생 속도 (보통)
-                waterPlayer.play();
+                waterPlayer.play().catch(e => console.error("Audio play failed:", e)); // 재생 오류 처리
             }
         }
 
@@ -867,6 +865,8 @@
                 // 'water.mp3' 파일이 이 html 파일과 같은 폴더에 있다고 가정합니다.
                 waterPlayer = new Audio('water.mp3');
                 waterPlayer.load(); 
+                // 사용자가 페이지와 상호작용(클릭 등)해야 사운드가 재생될 수 있으므로,
+                // 첫 로드 시점에 미리 로드만 해둡니다.
             } catch (e) {
                 console.error("Audio 파일을 로드할 수 없습니다.", e);
                 waterPlayer = null; // 오류 발생 시 waterPlayer를 null로 설정
@@ -1083,17 +1083,20 @@
             /** [NEW] 반응 시각화 함수 (버그 수정용) */
             function showReaction(targetWell, materialId) {
                 const solutionDiv = targetWell.querySelector('.solution');
+                /* [BUG FIX] 이미 그려진 효과/결과가 있다면 지운다 (탭 전환 시 중복 방지) */
+                solutionDiv.innerHTML = ''; 
+
                 const solutionType = targetWell.dataset.solution;
                 const reaction = getReaction(materialId, solutionType);
                 
                 /* 1. 재료 시각화 */
                 const materialClassName = `mat_${materialId}`;
-                if (!solutionDiv.querySelector(`.${materialClassName}`)) {
+                // if (!solutionDiv.querySelector(`.${materialClassName}`)) { // 버그 수정 위해 조건 제거
                     const materialVisual = document.createElement('div');
                     materialVisual.className = `material-in-well ${materialClassName}`;
                     materialVisual.innerText = getMaterialDisplayName(materialId); 
                     solutionDiv.appendChild(materialVisual);
-                }
+                // }
 
                 /* 2. 시각 효과 (기포, 흐려짐 등) */
                 const effectContainer = document.createElement('div');
@@ -1113,6 +1116,9 @@
 
                 /* 3. 결과 텍스트 (지연 표시) */
                 setTimeout(() => {
+                    /* [BUG FIX] 이미 결과가 있다면 추가하지 않음 (드롭 시 중복 방지) */
+                    if (solutionDiv.querySelector('.well-result')) return;
+                    
                     const resultEl = document.createElement('div');
                     resultEl.className = `well-result ${reaction.className}`;
                     resultEl.innerHTML = reaction.text.replace(/\//g, '<br>');
@@ -1328,8 +1334,9 @@
 
                 /* [MODIFIED] 홈판 내용 다시 그리기 (버그 수정) */
                 droppables.forEach(well => {
+                    // 1. 일단 모두 지우는 대신, showReaction이 내부에서 지우도록 함
                     const solutionDiv = well.querySelector('.solution');
-                    solutionDiv.innerHTML = ''; // 1. 일단 모두 지운다
+                    solutionDiv.innerHTML = ''; 
 
                     if (expNum === 1 && well.dataset.set1Used === 'true') {
                         // 2. 실험 1 탭이면, 실험 1 결과만 다시 그린다
