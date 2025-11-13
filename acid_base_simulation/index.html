@@ -28,7 +28,7 @@
         .home-button {
             position: absolute;
             top: 25px;
-            left: 25px; /* Default (태블릿/중간 화면용): 961px ~ 1199px */
+            left: 45px; /* Default (태블릿/중간 화면용): 961px ~ 1199px */
             font-family: 'Jua', sans-serif;
             font-size: 1.1rem;
             padding: 8px 15px;
@@ -148,7 +148,7 @@
             /* Mobile: ~ 960px */
             .home-button {
                 top: 10px;
-                left: 10px; 
+                left: 45px; /* [MODIFIED] 10px -> 45px, '실험하기' 탭 안쪽 정렬 */
                 font-size: 1.0rem;
                 padding: 5px 10px;
             }
@@ -165,15 +165,10 @@
             }
         }
 
-        /* [NEW] Wide screen: 1200px+ */
+        /* [MODIFIED] Wide screen: 1200px+ */
         @media (min-width: 1200px) {
             .home-button {
-                left: 50px; /* (1200 - 1100) / 2 + 0 (padding 25는 1100 계산에 썼으니) -> 아님 (1200-1100)/2 = 50. 이게 맞음. */
-                /* (1200 (컨테이너) - 1100 (래퍼)) / 2 = 50px (래퍼의 왼쪽 마진). 버튼은 컨테이너 기준 50px. */
-                /* 다시 계산: (1200 - 1100) / 2 = 50px. 이게 래퍼의 좌우 마진. 컨테이너 padding 25px. 래퍼는 25px+50px = 75px에서 시작. 버튼은 25px(패딩) + 50px(마진) = 75px. */
-                /* 2차 계산: container (1200px, p:25). content-box: 1150px. wrapper (1100px) in 1150px. (1150-1100)/2 = 25px margin. 
-                   버튼은 container padding-box 기준. content wrapper는 padding(25px) + margin(25px) = 50px 에서 시작. */
-                left: 50px; 
+                left: 70px; /* (1200-1100)/2 (컨테이너-래퍼여백) + 20 (탭 내부 패딩) = 70px */
             }
         }
 
