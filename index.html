@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>산과 염기 과학 실험실</title>
+    
+    <!-- Jua 폰트 -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Jua&display=swap" rel="stylesheet">
+    
+    <style>
+        /* 기존 양배추 실험 앱과 스타일 통일 */
+        body {
+            font-family: 'Jua', sans-serif;
+            background-color: #f0f4f8; 
+            color: #333;
+            display: flex;
+            justify-content: center; 
+            align-items: center; 
+            padding: 20px;
+            min-height: 100vh;
+        }
+        
+        /* 전체 컨테이너 */
+        .container {
+            width: 100%;
+            max-width: 900px; /* 4개 카드에 맞게 크기 조절 */
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            padding: 30px 40px;
+            display: flex; 
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* 메인 타이틀 (기존 앱과 동일한 스타일) */
+        .main-title {
+            text-align: center;
+            font-size: 3.8rem; 
+            font-weight: bold;
+            color: #6666FF; 
+            text-shadow: 
+                -2px -2px 0 #fff,  
+                 2px -2px 0 #fff,
+                -2px  2px 0 #fff,
+                 2px  2px 0 #fff,
+                 4px 4px 0 rgba(0,0,0,0.3); 
+            line-height: 1.2; 
+            margin-bottom: 40px; /* 카드와 여백 */
+            display: flex; 
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .main-title::before {
+            content: '🔬'; /* 메인 아이콘 변경 */
+        }
+
+        /* 시뮬레이터 선택 그리드 (스크린샷 레이아웃) */
+        .simulation-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 25px;
+            width: 100%;
+        }
+
+        /* 시뮬레이션 카드 (클릭 가능) */
+        .sim-card {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: #e0f2ff; /* 기존 '안내' 박스 배경색 */
+            border: 2px solid #a7d9ff; /* 기존 '안내' 박스 테두리 */
+            border-radius: 10px;
+            padding: 20px;
+            text-decoration: none;
+            color: #004085; /* 기존 '안내' 박스 글자색 */
+            font-size: 1.8rem;
+            text-align: center;
+            min-height: 200px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            line-height: 1.4;
+            word-break: keep-all;
+        }
+
+        .sim-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 15px rgba(0, 123, 255, 0.2);
+            border-color: #007bff;
+        }
+
+        /* 준비중인 카드 스타일 */
+        .sim-card.disabled {
+            background: #f4f4f4;
+            border-color: #ddd;
+            color: #999;
+            cursor: not-allowed;
+        }
+        .sim-card.disabled:hover {
+            transform: none;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            border-color: #ddd;
+        }
+        .sim-card.disabled span {
+            font-size: 1.2rem;
+            margin-top: 10px;
+        }
+
+        /* 모바일 반응형 */
+        @media (max-width: 768px) {
+            .simulation-grid {
+                grid-template-columns: 1fr; /* 모바일에선 1줄로 */
+            }
+            .main-title {
+                font-size: 2.8rem;
+            }
+            .sim-card {
+                font-size: 1.5rem;
+                min-height: 150px;
+            }
+        }
+
+    </style>
+</head>
+<body class="bg-gray-100"> 
+
+    <div class="container my-5">
+
+        <h1 class="main-title"> 
+            산과 염기 과학 실험실
+        </h1>
+
+        <div class="simulation-grid">
+            
+            <!-- 1. 붉은 양배추 실험 -->
+            <a href="./cabbage_simulation/index.html" class="sim-card">
+                붉은 양배추 지시약<br>중화 반응
+            </a>
+
+            <!-- 2. 준비중인 시뮬레이션 -->
+            <a href="#" class="sim-card disabled" onclick="event.preventDefault();">
+                시뮬레이션 2
+                <span>(준비중)</span>
+            </a>
+
+            <!-- 3. 준비중인 시뮬레이션 -->
+            <a href="#" class="sim-card disabled" onclick="event.preventDefault();">
+                시뮬레이션 3
+                <span>(준비중)</span>
+            </a>
+
+            <!-- 4. 준비중인 시뮬레이션 -->
+            <a href="#" class="sim-card disabled" onclick="event.preventDefault();">
+                시뮬레이션 4
+                <span>(준비중)</span>
+            </a>
+
+        </div>
+
+    </div> 
+
+</body>
+</html>
