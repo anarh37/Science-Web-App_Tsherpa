@@ -24,27 +24,6 @@
             user-select: none; /* 텍스트 선택 방지 */
         }
 
-        /* [MODIFIED] 홈 버튼 스타일 (반응형 left 적용) */
-        .home-button {
-            position: absolute;
-            top: 25px;
-            left: 25px; /* Default (태블릿/중간 화면용): 961px ~ 1199px */
-            font-family: 'Jua', sans-serif;
-            font-size: 1.1rem;
-            padding: 8px 15px;
-            background-color: #6666FF;
-            color: white;
-            text-decoration: none;
-            border-radius: 8px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-            transition: all 0.3s ease;
-            z-index: 100;
-        }
-        .home-button:hover {
-            background-color: #5050d4;
-            transform: translateY(-2px);
-        }
-
         .container {
             width: 100%;
             max-width: 1200px;
@@ -55,7 +34,6 @@
             display: flex; 
             flex-direction: column;
             align-items: center;
-            position: relative; /* 홈 버튼 기준점 */
         }
 
         /* 메인 타이틀 스타일 */
@@ -73,14 +51,14 @@
             line-height: 1.2; 
             padding-bottom: 10px;
             margin-bottom: 20px; 
-            margin-top: 50px; /* 홈 버튼과 겹치지 않도록 */
         }
         
+        /* [MODIFIED] 메인 탭 스타일 - 50:50 비율 */
         .main-tabs {
             width: 100%;
-            max-width: 1100px; 
+            max-width: 880px; 
             display: grid; 
-            grid-template-columns: 1fr 1fr; 
+            grid-template-columns: 1fr 1fr; /* [MODIFIED] 50:50 비율로 하단과 통일 */
             gap: 10px;
             margin-bottom: 20px;
         }
@@ -133,50 +111,30 @@
             flex-direction: column;
             align-items: center; 
             width: 100%; 
-            max-width: 1100px; 
+            max-width: 880px; /* 상단 탭과 max-width 통일 */
         }
 
+        /* [MODIFIED] 전체 레이아웃 (데스크탑 2단) - 50:50 비율 */
         .lab-bench {
             display: grid; 
-            grid-template-columns: 1fr 1fr; /* 50:50 비율 */
+            grid-template-columns: 1fr 1fr; /* [MODIFIED] 50:50 비율로 재조정 */
             gap: 10px; 
             margin-top: 0; 
             width: 100%;
         }
 
         @media (max-width: 960px) { 
-            /* Mobile: ~ 960px */
-            .home-button {
-                top: 10px;
-                left: 10px; 
-                font-size: 1.0rem;
-                padding: 5px 10px;
-            }
-            .container {
-                padding-top: 60px; /* 홈 버튼용 여백 */
-            }
-            .main-title {
-                margin-top: 0; /* 모바일에서 타이틀 상단 여백 제거 */
-            }
+            /* 모바일에서는 다시 1단으로 */
             .lab-bench {
                 grid-template-columns: 1fr; 
                 gap: 20px; 
                 align-items: center;
             }
-        }
-
-        /* [NEW] Wide screen: 1200px+ */
-        @media (min-width: 1200px) {
-            .home-button {
-                left: 50px; /* (1200 - 1100) / 2 + 0 (padding 25는 1100 계산에 썼으니) -> 아님 (1200-1100)/2 = 50. 이게 맞음. */
-                /* (1200 (컨테이너) - 1100 (래퍼)) / 2 = 50px (래퍼의 왼쪽 마진). 버튼은 컨테이너 기준 50px. */
-                /* 다시 계산: (1200 - 1100) / 2 = 50px. 이게 래퍼의 좌우 마진. 컨테이너 padding 25px. 래퍼는 25px+50px = 75px에서 시작. 버튼은 25px(패딩) + 50px(마진) = 75px. */
-                /* 2차 계산: container (1200px, p:25). content-box: 1150px. wrapper (1100px) in 1150px. (1150-1100)/2 = 25px margin. 
-                   버튼은 container padding-box 기준. content wrapper는 padding(25px) + margin(25px) = 50px 에서 시작. */
-                left: 50px; 
+            /* 모바일에서는 탭 비율 1:1 유지 */
+            .main-tabs {
+                grid-template-columns: 1fr 1fr;
             }
         }
-
 
         /* 왼쪽 전체 영역 (제목과 박스 모두 포함) */
         .left-content-wrapper {
@@ -343,15 +301,13 @@
             align-items: center;
             width: 100%; 
             margin: 0 auto;
-            /* [MODIFIED] 홈판이 꽉 차도록 padding 조정 */
-            padding: 15px; 
+            padding: 15px 90px; 
             background-color: #ffffff;
             border: 1px solid #e0e0e0; 
             border-radius: 10px;
             box-shadow: 0 4px 12px rgba(0,0,0,0.05); 
             height: 400px; 
             box-sizing: border-box;
-            justify-content: center; /* [NEW] 홈판 중앙 정렬 */
         }
 
         /* 6홈판 본체 */
@@ -360,9 +316,7 @@
             grid-template-columns: repeat(2, 1fr); 
             grid-template-rows: repeat(2, 1fr); 
             gap: 8px; 
-            /* [MODIFIED] 너비 자동, 양쪽 라벨 공간 확보 */
-            width: 260px; /* 130px * 2 + 8px gap (대략) */
-            margin: 0 80px; /* 80px 라벨 공간 */
+            width: fit-content; 
             position: relative; 
         }
 
@@ -558,7 +512,7 @@
         /* 하단 결과 요약 - 정렬 문제 수정 */
         .instructions {
             width: 100%;
-            max-width: 100%; /* 부모의 1100px를 따르도록 */
+            max-width: 100%; /* 부모의 880px를 따르도록 */
             margin-top: 25px;
             padding: 20px;
             background: #f9fafb;
@@ -709,9 +663,6 @@
 <body class="bg-gray-100">
 
     <div class="container my-5">
-        <!-- [NEW] 홈 버튼 -->
-        <a href="../index.html" class="home-button">🏠 과학 실험실 홈으로</a>
-
         <h1 class="main-title">
             🧪 산성 용액과 염기성 용액의 성질
         </h1>
@@ -855,16 +806,18 @@
         function playWaterSound(type = 'drop') {
             if (!waterPlayer) return; // waterPlayer가 로드되지 않았으면 중지
 
+            // [v28] Audio() 객체는 start()가 아닌 play()를 사용해야 합니다.
+            // 또한, 매번 재생하려면 시간을 0으로 되돌려야 합니다.
             waterPlayer.currentTime = 0; // 재생 위치를 처음으로
 
             if (type === 'drop') {
                 waterPlayer.volume = 0.3; // 0~1 사이 값 (작게)
                 waterPlayer.playbackRate = 1.5; // 재생 속도 (빠르게)
-                waterPlayer.play().catch(e => console.error("Audio play failed:", e)); // 재생 오류 처리
+                waterPlayer.play().catch(e => console.error("효과음 재생 실패:", e));
             } else if (type === 'neutral') {
                 waterPlayer.volume = 0.6; // 0~1 사이 값 (보통)
                 waterPlayer.playbackRate = 1.0; // 재생 속도 (보통)
-                waterPlayer.play().catch(e => console.error("Audio play failed:", e)); // 재생 오류 처리
+                waterPlayer.play().catch(e => console.error("효과음 재생 실패:", e));
             }
         }
 
@@ -882,7 +835,6 @@
 
 
             /* --- 1. 주요 요소 --- */
-            /* [FIXED] 오류 수정을 위해 중복 선언 제거 */
             const btnExp1 = document.getElementById('btn-exp1');
             const btnExp2 = document.getElementById('btn-exp2');
             const resetButton = document.getElementById('reset-button');
@@ -1092,20 +1044,17 @@
             /** [NEW] 반응 시각화 함수 (버그 수정용) */
             function showReaction(targetWell, materialId) {
                 const solutionDiv = targetWell.querySelector('.solution');
-                /* [BUG FIX] 이미 그려진 효과/결과가 있다면 지운다 (탭 전환 시 중복 방지) */
-                solutionDiv.innerHTML = ''; 
-
                 const solutionType = targetWell.dataset.solution;
                 const reaction = getReaction(materialId, solutionType);
                 
                 /* 1. 재료 시각화 */
                 const materialClassName = `mat_${materialId}`;
-                // if (!solutionDiv.querySelector(`.${materialClassName}`)) { // 버그 수정 위해 조건 제거
+                if (!solutionDiv.querySelector(`.${materialClassName}`)) {
                     const materialVisual = document.createElement('div');
                     materialVisual.className = `material-in-well ${materialClassName}`;
                     materialVisual.innerText = getMaterialDisplayName(materialId); 
                     solutionDiv.appendChild(materialVisual);
-                // }
+                }
 
                 /* 2. 시각 효과 (기포, 흐려짐 등) */
                 const effectContainer = document.createElement('div');
@@ -1125,9 +1074,6 @@
 
                 /* 3. 결과 텍스트 (지연 표시) */
                 setTimeout(() => {
-                    /* [BUG FIX] 이미 결과가 있다면 추가하지 않음 (드롭 시 중복 방지) */
-                    if (solutionDiv.querySelector('.well-result')) return;
-                    
                     const resultEl = document.createElement('div');
                     resultEl.className = `well-result ${reaction.className}`;
                     resultEl.innerHTML = reaction.text.replace(/\//g, '<br>');
@@ -1343,9 +1289,8 @@
 
                 /* [MODIFIED] 홈판 내용 다시 그리기 (버그 수정) */
                 droppables.forEach(well => {
-                    // 1. 일단 모두 지운다 (showReaction이 내부에서 지우도록 수정)
                     const solutionDiv = well.querySelector('.solution');
-                    solutionDiv.innerHTML = ''; 
+                    solutionDiv.innerHTML = ''; // 1. 일단 모두 지운다
 
                     if (expNum === 1 && well.dataset.set1Used === 'true') {
                         // 2. 실험 1 탭이면, 실험 1 결과만 다시 그린다
