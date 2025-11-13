@@ -11,20 +11,19 @@
     
     <!-- Tailwind CSS 로드 --><script src="https://cdn.tailwindcss.com"></script>
     <style>
-        /* 'Jua' 폰트 기본 적용 */
+        /* [MODIFIED] body 정렬 수정 */
         body {
             font-family: 'Jua', sans-serif;
             background-color: #f0f4f8; 
             color: #333;
             display: flex;
             justify-content: center;
-            align-items: center;
+            /* align-items: center; 제거 (상단 정렬) */
             padding: 20px;
             min-height: 100vh;
             user-select: none; /* 텍스트 선택 방지 */
         }
 
-        /* [MODIFIED] 홈 버튼 스타일 (단순화 및 고정) */
         .home-button {
             position: absolute;
             top: 25px;
@@ -45,10 +44,10 @@
             transform: translateY(-2px);
         }
 
-        /* [MODIFIED] 컨테이너 max-width를 1100px로 통일 */
+        /* [MODIFIED] width: 95%로 변경, max-width 상향 */
         .container {
-            width: 100%;
-            max-width: 1100px; /* 1200px -> 1100px */
+            width: 95%; /* 100% -> 95% */
+            max-width: 1800px; /* 1100px -> 1800px (상한선) */
             background-color: #ffffff;
             border-radius: 10px;
             box-shadow: 0 4px 12px rgba(0,0,0,0.05);
@@ -57,6 +56,8 @@
             flex-direction: column;
             align-items: center;
             position: relative; /* 홈 버튼 기준점 */
+            margin-top: 20px; /* [NEW] body의 padding과 별도 여백 */
+            margin-bottom: 20px;
         }
 
         /* 메인 타이틀 스타일 */
@@ -77,9 +78,10 @@
             margin-top: 50px; /* 홈 버튼과 겹치지 않도록 */
         }
         
+        /* [MODIFIED] max-width 제거 (부모 100% 따름) */
         .main-tabs {
             width: 100%;
-            max-width: 1100px; 
+            /* max-width: 1100px; 제거 */
             display: grid; 
             grid-template-columns: 1fr 1fr; 
             gap: 10px;
@@ -128,13 +130,13 @@
              margin-right: 0;
         }
         
-        /* 실험 영역 전체를 감싸는 래퍼 */
+        /* [MODIFIED] max-width 제거 (부모 100% 따름) */
         .experiment-wrapper {
             display: flex;
             flex-direction: column;
             align-items: center; 
             width: 100%; 
-            max-width: 1100px; 
+            /* max-width: 1100px; 제거 */
         }
 
         .lab-bench {
@@ -149,12 +151,13 @@
             /* Mobile: ~ 960px */
             .home-button {
                 top: 10px;
-                left: 10px; /* [MODIFIED] 모바일에서는 10px로 */
+                left: 10px; /* 모바일에서는 10px로 */
                 font-size: 1.0rem;
                 padding: 5px 10px;
             }
             .container {
                 padding-top: 60px; /* 홈 버튼용 여백 */
+                width: 95%; /* 모바일에서도 95% 유지 */
             }
             .main-title {
                 margin-top: 0; /* 모바일에서 타이틀 상단 여백 제거 */
@@ -165,8 +168,6 @@
                 align-items: center;
             }
         }
-
-        /* [REMOVED] 복잡했던 Wide screen 룰 제거 */
 
 
         /* 왼쪽 전체 영역 (제목과 박스 모두 포함) */
