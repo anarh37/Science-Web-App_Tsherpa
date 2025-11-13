@@ -11,7 +11,6 @@
     
     <!-- Tailwind CSS 로드 --><script src="https://cdn.tailwindcss.com"></script>
     <style>
-        /* [MODIFIED] body 정렬 및 비율 고정 대응 */
         body {
             font-family: 'Jua', sans-serif;
             background-color: #f0f4f8; 
@@ -45,19 +44,10 @@
             transform: translateY(-2px);
         }
 
-        /* [MODIFIED] max-width로 변경, aspect-ratio 제거 */
+        /* [MODIFIED] max-width 1150px 유지, aspect-ratio 제거 */
         .container {
-            /* [REMOVED] aspect-ratio, max-height, margin 제거 */
-            /* aspect-ratio: 1150 / 858; */
-            /* max-height: 100%; */
-            /* margin-top: 20px; */ 
-            /* margin-bottom: 20px; */
-
-            /* [NEW] "좋은" 스크린샷 기준으로 max-width 설정 */
             max-width: 1150px; 
             width: 100%;
-            /* ----------------------------- */
-            
             background-color: #ffffff;
             border-radius: 10px;
             box-shadow: 0 4px 12px rgba(0,0,0,0.05);
@@ -138,55 +128,27 @@
              margin-right: 0;
         }
         
-        /* [MODIFIED] flex-grow 제거 */
         .experiment-wrapper {
             display: flex;
             flex-direction: column;
             align-items: center; 
             width: 100%; 
-            /* flex-grow: 1; [REMOVED] */
             overflow: hidden; 
         }
 
-        /* [MODIFIED] grid-template-columns 및 flex-grow 제거 */
+        /* [MODIFIED] 항상 1fr 1fr (대칭) 유지 */
         .lab-bench {
             display: grid; 
-            /* [MODIFIED] 1fr 1fr (대칭)으로 복원 */
             grid-template-columns: 1fr 1fr;
             gap: 10px; 
             margin-top: 0; 
             width: 100%;
-            /* flex-grow: 1; [REMOVED] */
             overflow: hidden; 
         }
 
-        @media (max-width: 960px) { 
-            /* 모바일에서는 1열로 변경 */
-            .home-button {
-                top: 10px;
-                left: 10px;
-                font-size: 1.0rem;
-                padding: 5px 10px;
-            }
-            .container {
-                padding-top: 60px;
-                width: 95%; 
-                max-width: 95%; /* [NEW] 모바일 max-width */
-            }
-            .main-title {
-                margin-top: 0;
-            }
-            .lab-bench {
-                grid-template-columns: 1fr; /* 모바일에선 1열 */
-                gap: 20px; 
-                align-items: center;
-            }
-            /* [NEW] 모바일에선 박스 높이 자동 조절 */
-            .instructions-box, .well-plate-wrapper {
-                height: auto;
-                min-height: 400px; /* 최소 높이만 보장 */
-            }
-        }
+        /* [REMOVED] 960px 이하에서 1단으로 부수던 미디어 쿼리 삭제 */
+        /* @media (max-width: 960px) { ... } */
+
 
         /* 왼쪽 전체 영역 (제목과 박스 모두 포함) */
         .left-content-wrapper {
@@ -199,7 +161,7 @@
             min-width: 0; 
         }
         
-        /* [MODIFIED] height: 400px 고정, flex-grow 제거 */
+        /* [MODIFIED] height: 400px 고정 (대칭 유지) */
         .instructions-box {
             border: 2px dashed #C8B6E2;
             background-color: #fafaff; 
@@ -210,8 +172,7 @@
             flex-direction: column;
             gap: 15px; 
             align-items: center;
-            height: 400px; /* [RESTORED] 고정 높이 */
-            /* flex-grow: 1; [REMOVED] */
+            height: 400px; /* 고정 높이 */
             box-sizing: border-box; 
             justify-content: space-between; 
             min-height: 0; 
@@ -326,9 +287,7 @@
             box-sizing: border-box;
             width: 100%; 
             min-width: 0; 
-            /* [NEW] 오른쪽 열의 최소 너비 설정 (420px) */
-            /* 420px = 260px (well-plate) + 80px*2 (labels) */
-            min-width: 420px; 
+            /* [REMOVED] min-width: 420px 제거 (대칭 유지) */
         }
         
         .experiment-area h2::before {
@@ -354,7 +313,7 @@
             background-color: #dc2626; 
         }
 
-        /* [MODIFIED] height: 400px 고정, flex-grow 제거 */
+        /* [MODIFIED] height: 400px 고정 (대칭 유지) */
         .well-plate-wrapper {
             position: relative;
             display: flex;
@@ -367,8 +326,7 @@
             border: 1px solid #e0e0e0; 
             border-radius: 10px;
             box-shadow: 0 4px 12px rgba(0,0,0,0.05); 
-            height: 400px; /* [RESTORED] 고정 높이 */
-            /* flex-grow: 1; [REMOVED] */
+            height: 400px; /* 고정 높이 */
             box-sizing: border-box;
             justify-content: center; 
             min-height: 0; 
@@ -386,7 +344,6 @@
             height: 368px; /* 180px * 2 + 8px gap (대략) */
         }
 
-        /* [MODIFIED] 고정 크기 유지 */
         .well {
             position: relative; 
             width: 130px; 
@@ -409,7 +366,6 @@
             transform: scale(1.05);
         }
         
-        /* 각 홈의 재료 라벨 (고정 위치 유지) */
         .well-material-label {
             position: absolute;
             font-size: 0.9rem; 
@@ -423,7 +379,6 @@
             text-align: center; 
             z-index: 1; 
             width: 80px; 
-            
             top: 50px; 
             height: 80px; 
             display: flex;
@@ -437,7 +392,6 @@
             right: -80px; 
         }
 
-        /* 용액 원 (고정 크기 유지) */
         .well .solution {
             width: 90px; 
             height: 90px; 
@@ -456,7 +410,6 @@
             flex-shrink: 0; 
         }
 
-        /* 홈 내부 용액 라벨 (고정 크기 유지) */
         .well-solution-label {
             font-weight: bold;
             font-size: 1rem; 
