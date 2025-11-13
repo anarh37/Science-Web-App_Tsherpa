@@ -24,11 +24,11 @@
             user-select: none; /* 텍스트 선택 방지 */
         }
 
-        /* [NEW] 홈 버튼 스타일 */
+        /* [MODIFIED] 홈 버튼 스타일 (반응형 left 적용) */
         .home-button {
             position: absolute;
             top: 25px;
-            left: 50px; /* [MODIFIED] 1100px 컨텐츠 기준 왼쪽 정렬 */
+            left: 25px; /* Default (태블릿/중간 화면용): 961px ~ 1199px */
             font-family: 'Jua', sans-serif;
             font-size: 1.1rem;
             padding: 8px 15px;
@@ -76,10 +76,9 @@
             margin-top: 50px; /* 홈 버튼과 겹치지 않도록 */
         }
         
-        /* [MODIFIED] 메인 탭 스타일 - 50:50 비율 */
         .main-tabs {
             width: 100%;
-            max-width: 1100px; /* [MODIFIED] 880px -> 1100px */
+            max-width: 1100px; 
             display: grid; 
             grid-template-columns: 1fr 1fr; 
             gap: 10px;
@@ -134,10 +133,9 @@
             flex-direction: column;
             align-items: center; 
             width: 100%; 
-            max-width: 1100px; /* [MODIFIED] 880px -> 1100px */
+            max-width: 1100px; 
         }
 
-        /* [MODIFIED] 전체 레이아웃 (데스크탑 2단) - 50:50 비율 */
         .lab-bench {
             display: grid; 
             grid-template-columns: 1fr 1fr; /* 50:50 비율 */
@@ -147,10 +145,10 @@
         }
 
         @media (max-width: 960px) { 
-            /* [NEW] 홈 버튼 모바일 */
+            /* Mobile: ~ 960px */
             .home-button {
                 top: 10px;
-                left: 10px;
+                left: 10px; 
                 font-size: 1.0rem;
                 padding: 5px 10px;
             }
@@ -160,13 +158,25 @@
             .main-title {
                 margin-top: 0; /* 모바일에서 타이틀 상단 여백 제거 */
             }
-            /* 모바일에서는 다시 1단으로 */
             .lab-bench {
                 grid-template-columns: 1fr; 
                 gap: 20px; 
                 align-items: center;
             }
         }
+
+        /* [NEW] Wide screen: 1200px+ */
+        @media (min-width: 1200px) {
+            .home-button {
+                left: 50px; /* (1200 - 1100) / 2 + 0 (padding 25는 1100 계산에 썼으니) -> 아님 (1200-1100)/2 = 50. 이게 맞음. */
+                /* (1200 (컨테이너) - 1100 (래퍼)) / 2 = 50px (래퍼의 왼쪽 마진). 버튼은 컨테이너 기준 50px. */
+                /* 다시 계산: (1200 - 1100) / 2 = 50px. 이게 래퍼의 좌우 마진. 컨테이너 padding 25px. 래퍼는 25px+50px = 75px에서 시작. 버튼은 25px(패딩) + 50px(마진) = 75px. */
+                /* 2차 계산: container (1200px, p:25). content-box: 1150px. wrapper (1100px) in 1150px. (1150-1100)/2 = 25px margin. 
+                   버튼은 container padding-box 기준. content wrapper는 padding(25px) + margin(25px) = 50px 에서 시작. */
+                left: 50px; 
+            }
+        }
+
 
         /* 왼쪽 전체 영역 (제목과 박스 모두 포함) */
         .left-content-wrapper {
