@@ -24,11 +24,11 @@
             user-select: none; /* 텍스트 선택 방지 */
         }
 
-        /* [MODIFIED] 홈 버튼 스타일 (반응형 left 적용) */
+        /* [MODIFIED] 홈 버튼 스타일 (단순화 및 고정) */
         .home-button {
             position: absolute;
             top: 25px;
-            left: 45px; /* Default (태블릿/중간 화면용): 961px ~ 1199px */
+            left: 25px; /* 컨테이너 padding과 동일하게 고정 (빨간 선) */
             font-family: 'Jua', sans-serif;
             font-size: 1.1rem;
             padding: 8px 15px;
@@ -148,7 +148,7 @@
             /* Mobile: ~ 960px */
             .home-button {
                 top: 10px;
-                left: 45px; /* [MODIFIED] 10px -> 45px, '실험하기' 탭 안쪽 정렬 */
+                left: 10px; /* [MODIFIED] 모바일에서는 10px로 */
                 font-size: 1.0rem;
                 padding: 5px 10px;
             }
@@ -165,12 +165,14 @@
             }
         }
 
-        /* [MODIFIED] Wide screen: 1200px+ */
+        /* [REMOVED] 복잡했던 Wide screen 룰 제거 */
+        /*
         @media (min-width: 1200px) {
             .home-button {
-                left: 70px; /* (1200-1100)/2 (컨테이너-래퍼여백) + 20 (탭 내부 패딩) = 70px */
+                left: 70px; 
             }
         }
+        */
 
 
         /* 왼쪽 전체 영역 (제목과 박스 모두 포함) */
