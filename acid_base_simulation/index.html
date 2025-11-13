@@ -28,7 +28,7 @@
         .home-button {
             position: absolute;
             top: 25px;
-            left: 160px; /* [MODIFIED] 145px -> 160px (최종 위치) */
+            left: 50px; /* [MODIFIED] 1100px 컨텐츠 기준 왼쪽 정렬 */
             font-family: 'Jua', sans-serif;
             font-size: 1.1rem;
             padding: 8px 15px;
@@ -79,9 +79,9 @@
         /* [MODIFIED] 메인 탭 스타일 - 50:50 비율 */
         .main-tabs {
             width: 100%;
-            max-width: 880px; 
+            max-width: 1100px; /* [MODIFIED] 880px -> 1100px */
             display: grid; 
-            grid-template-columns: 1fr 1fr; /* [MODIFIED] 50:50 비율로 하단과 통일 */
+            grid-template-columns: 1fr 1fr; 
             gap: 10px;
             margin-bottom: 20px;
         }
@@ -134,13 +134,13 @@
             flex-direction: column;
             align-items: center; 
             width: 100%; 
-            max-width: 880px; /* 상단 탭과 max-width 통일 */
+            max-width: 1100px; /* [MODIFIED] 880px -> 1100px */
         }
 
         /* [MODIFIED] 전체 레이아웃 (데스크탑 2단) - 50:50 비율 */
         .lab-bench {
             display: grid; 
-            grid-template-columns: 1fr 1fr; /* [MODIFIED] 50:50 비율로 재조정 */
+            grid-template-columns: 1fr 1fr; /* 50:50 비율 */
             gap: 10px; 
             margin-top: 0; 
             width: 100%;
@@ -165,10 +165,6 @@
                 grid-template-columns: 1fr; 
                 gap: 20px; 
                 align-items: center;
-            }
-            /* 모바일에서는 탭 비율 1:1 유지 */
-            .main-tabs {
-                grid-template-columns: 1fr 1fr;
             }
         }
 
@@ -337,13 +333,15 @@
             align-items: center;
             width: 100%; 
             margin: 0 auto;
-            padding: 15px 90px; 
+            /* [MODIFIED] 홈판이 꽉 차도록 padding 조정 */
+            padding: 15px; 
             background-color: #ffffff;
             border: 1px solid #e0e0e0; 
             border-radius: 10px;
             box-shadow: 0 4px 12px rgba(0,0,0,0.05); 
             height: 400px; 
             box-sizing: border-box;
+            justify-content: center; /* [NEW] 홈판 중앙 정렬 */
         }
 
         /* 6홈판 본체 */
@@ -352,7 +350,9 @@
             grid-template-columns: repeat(2, 1fr); 
             grid-template-rows: repeat(2, 1fr); 
             gap: 8px; 
-            width: fit-content; 
+            /* [MODIFIED] 너비 자동, 양쪽 라벨 공간 확보 */
+            width: 260px; /* 130px * 2 + 8px gap (대략) */
+            margin: 0 80px; /* 80px 라벨 공간 */
             position: relative; 
         }
 
@@ -548,7 +548,7 @@
         /* 하단 결과 요약 - 정렬 문제 수정 */
         .instructions {
             width: 100%;
-            max-width: 100%; /* 부모의 880px를 따르도록 */
+            max-width: 100%; /* 부모의 1100px를 따르도록 */
             margin-top: 25px;
             padding: 20px;
             background: #f9fafb;
@@ -865,8 +865,6 @@
                 // 'water.mp3' 파일이 이 html 파일과 같은 폴더에 있다고 가정합니다.
                 waterPlayer = new Audio('water.mp3');
                 waterPlayer.load(); 
-                // 사용자가 페이지와 상호작용(클릭 등)해야 사운드가 재생될 수 있으므로,
-                // 첫 로드 시점에 미리 로드만 해둡니다.
             } catch (e) {
                 console.error("Audio 파일을 로드할 수 없습니다.", e);
                 waterPlayer = null; // 오류 발생 시 waterPlayer를 null로 설정
@@ -874,6 +872,7 @@
 
 
             /* --- 1. 주요 요소 --- */
+            /* [FIXED] 오류 수정을 위해 중복 선언 제거 */
             const btnExp1 = document.getElementById('btn-exp1');
             const btnExp2 = document.getElementById('btn-exp2');
             const resetButton = document.getElementById('reset-button');
@@ -1334,7 +1333,7 @@
 
                 /* [MODIFIED] 홈판 내용 다시 그리기 (버그 수정) */
                 droppables.forEach(well => {
-                    // 1. 일단 모두 지우는 대신, showReaction이 내부에서 지우도록 함
+                    // 1. 일단 모두 지운다 (showReaction이 내부에서 지우도록 수정)
                     const solutionDiv = well.querySelector('.solution');
                     solutionDiv.innerHTML = ''; 
 
