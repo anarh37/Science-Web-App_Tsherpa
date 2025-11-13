@@ -11,14 +11,14 @@
     
     <!-- Tailwind CSS 로드 --><script src="https://cdn.tailwindcss.com"></script>
     <style>
-        /* body 중앙 정렬 */
+        /* [MODIFIED] body 정렬 수정 (중앙 정렬로 복귀) */
         body {
             font-family: 'Jua', sans-serif;
             background-color: #f0f4f8; 
             color: #333;
             display: flex;
             justify-content: center;
-            align-items: center; 
+            align-items: center; /* [RE-ADDED] 중앙 정렬 */
             padding: 20px;
             min-height: 100vh;
             user-select: none; /* 텍스트 선택 방지 */
@@ -27,7 +27,7 @@
         .home-button {
             position: absolute;
             top: 25px;
-            left: 25px; /* 컨테이너 padding과 동일하게 고정 */
+            left: 25px; /* 컨테이너 padding과 동일하게 고정 (빨간 선) */
             font-family: 'Jua', sans-serif;
             font-size: 1.1rem;
             padding: 8px 15px;
@@ -44,11 +44,10 @@
             transform: translateY(-2px);
         }
 
-        /* [MODIFIED] max-width 700px로 고정 및 min-width 추가 */
+        /* [MODIFIED] max-width 900px로 고정 (비율 깨짐 방지) */
         .container {
-            width: 100%; 
-            max-width: 700px; /* 700px로 고정 */
-            min-width: 700px; /* 레이아웃 고정을 위한 최소 너비 */
+            width: 100%; /* 항상 100%를 채우되 */
+            max-width: 900px; /* 1100px -> 900px */
             background-color: #ffffff;
             border-radius: 10px;
             box-shadow: 0 4px 12px rgba(0,0,0,0.05);
@@ -79,9 +78,10 @@
             margin-top: 50px; /* 홈 버튼과 겹치지 않도록 */
         }
         
-        /* 부모 .container를 따름 */
+        /* [MODIFIED] max-width 제거 (부모 100% 따름) */
         .main-tabs {
             width: 100%;
+            /* max-width: 1100px; 제거 (부모 .container를 따름) */
             display: grid; 
             grid-template-columns: 1fr 1fr; 
             gap: 10px;
@@ -130,12 +130,13 @@
              margin-right: 0;
         }
         
-        /* 부모 .container를 따름 */
+        /* [MODIFIED] max-width 제거 (부모 100% 따름) */
         .experiment-wrapper {
             display: flex;
             flex-direction: column;
             align-items: center; 
             width: 100%; 
+            /* max-width: 1100px; 제거 (부모 .container를 따름) */
         }
 
         .lab-bench {
@@ -146,7 +147,28 @@
             width: 100%;
         }
 
-        /* [REMOVED] 반응형 미디어 쿼리 삭제 (레이아웃 고정) */
+        @media (max-width: 960px) { 
+            /* Mobile: ~ 960px */
+            .home-button {
+                top: 10px;
+                left: 10px; /* 모바일에서는 10px로 */
+                font-size: 1.0rem;
+                padding: 5px 10px;
+            }
+            .container {
+                padding-top: 60px; /* 홈 버튼용 여백 */
+                width: 95%; /* 모바일에서는 95% 유지 */
+                max-width: 95%; /* [NEW] 모바일에서는 900px 고정 해제 */
+            }
+            .main-title {
+                margin-top: 0; /* 모바일에서 타이틀 상단 여백 제거 */
+            }
+            .lab-bench {
+                grid-template-columns: 1fr; 
+                gap: 20px; 
+                align-items: center;
+            }
+        }
 
 
         /* 왼쪽 전체 영역 (제목과 박스 모두 포함) */
@@ -314,6 +336,7 @@
             align-items: center;
             width: 100%; 
             margin: 0 auto;
+            /* [MODIFIED] 홈판이 꽉 차도록 padding 조정 */
             padding: 15px; 
             background-color: #ffffff;
             border: 1px solid #e0e0e0; 
@@ -321,26 +344,25 @@
             box-shadow: 0 4px 12px rgba(0,0,0,0.05); 
             height: 400px; 
             box-sizing: border-box;
-            justify-content: center; 
+            justify-content: center; /* [NEW] 홈판 중앙 정렬 */
         }
 
         /* 6홈판 본체 */
-        /* [MODIFIED] 700px 너비에 맞게 margin 수정 */
         .well-plate {
             display: grid;
             grid-template-columns: repeat(2, 1fr); 
             grid-template-rows: repeat(2, 1fr); 
             gap: 8px; 
-            width: auto; /* 260px -> auto */
-            margin: 0 40px; /* 80px -> 40px 라벨 공간 */
+            /* [MODIFIED] 너비 자동, 양쪽 라벨 공간 확보 */
+            width: 260px; /* 130px * 2 + 8px gap (대략) */
+            margin: 0 80px; /* 80px 라벨 공간 */
             position: relative; 
         }
 
         /* 각 홈(well) 컨테이너 */
-        /* [MODIFIED] 700px 너비에 맞게 width 수정 */
         .well {
             position: relative; 
-            width: 116px; /* 130px -> 116px */
+            width: 130px; 
             height: 180px; 
             border: 1px solid #eee; 
             border-radius: 8px;
@@ -360,7 +382,7 @@
             transform: scale(1.05);
         }
         
-        /* [MODIFIED] 라벨 너비 및 위치 수정 */
+        /* 각 홈의 재료 라벨 (2줄 표시) */
         .well-material-label {
             position: absolute;
             font-size: 0.9rem; 
@@ -373,7 +395,7 @@
             white-space: normal; 
             text-align: center; 
             z-index: 1; 
-            width: 40px; /* 80px -> 40px */
+            width: 80px; 
             
             top: 50px; 
             height: 80px; 
@@ -382,17 +404,16 @@
             justify-content: center;
         }
         .well-material-label.left {
-            left: -40px; /* -80px -> -40px */
+            left: -80px; 
         }
         .well-material-label.right {
-            right: -40px; /* -80px -> -40px */
+            right: -80px; 
         }
 
         /* 용액 원 */
-        /* [MODIFIED] 700px 너비에 맞게 크기 수정 */
         .well .solution {
-            width: 80px; /* 90px -> 80px */
-            height: 80px; /* 90px -> 80px */
+            width: 90px; 
+            height: 90px; 
             margin: 0; 
             border: 1px solid #d0d0d0; 
             border-radius: 50%;
@@ -435,12 +456,12 @@
         }
         
         .material-in-well {
-            width: 60px; /* 70px -> 60px */
-            height: 60px; /* 70px -> 60px */
+            width: 70px; 
+            height: 70px; 
             background-color: #e0e6ed;
             border: 1px solid #c0c8d4;
             border-radius: 6px;
-            font-size: 10px; /* 11px -> 10px */
+            font-size: 11px; 
             color: #555;
             text-align: center;
             padding: 2px;
@@ -460,7 +481,7 @@
             transform: translate(-50%, -50%); 
             
             font-weight: bold;
-            font-size: 1.1rem; /* 1.2rem -> 1.1rem */
+            font-size: 1.2rem; 
             padding: 3px 6px;
             background-color: rgba(255, 255, 255, 0.9);
             border-radius: 4px;
@@ -471,7 +492,7 @@
             word-break: keep-all;
             text-align: center;
             line-height: 1.2; 
-            width: 70px; /* 80px -> 70px */
+            width: 80px; 
         }
 
         /* 효과용 CSS */
@@ -530,7 +551,7 @@
         /* 하단 결과 요약 - 정렬 문제 수정 */
         .instructions {
             width: 100%;
-            max-width: 100%; /* 부모의 700px를 따르도록 */
+            max-width: 100%; /* 부모의 900px를 따르도록 */
             margin-top: 25px;
             padding: 20px;
             background: #f9fafb;
