@@ -435,7 +435,7 @@
         /* [v28 수정] 이온 비커 최소 높이 대폭 증가 */
         #ion-beaker {
             width: 100%;
-            min-height: 150px; /* [v29 수정] 200px -> 150px (여백 감소) */ 
+            min-height: 120px; /* [v30 수정] 150px -> 120px (초기 코드로 복원) */ 
             background-color: #eaeaea;
             border: 3px solid #777;
             border-radius: 5px;
@@ -503,11 +503,11 @@
             margin-top: 10px;
             color: #333;
             line-height: 1.4; 
-            min-height: 84px; /* height -> min-height */
+            height: 84px; /* [v30 수정] min-height -> height (고정 높이로 복원) */
             width: 100%; 
             box-sizing: border-box; 
             padding: 0; 
-            overflow: hidden; /* auto -> hidden */
+            overflow: auto; /* [v30 수정] hidden -> auto (스크롤 활성화 복원) */
         }
         #ion-info b.ion-h { color: #e65a5f; }
         #ion-info b.ion-oh { color: #70a1b5; }
