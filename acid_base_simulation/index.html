@@ -161,9 +161,7 @@
             overflow: hidden;
             border: 1px solid #b0c4de;
         }
-        .exp-controls.pulsing {
-            overflow: visible;
-        }
+        /* .exp-controls.pulsing 제거됨 (꿀렁임 방지) */
 
         .exp-btn {
             flex: 1;
@@ -208,8 +206,7 @@
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
         
-        /* --- [CSS 수정됨 1/5] ---
-           이미지 박스 크기를 70px -> 110px로 키움 */
+        /* 이미지 박스 크기 110px */
         .material-img {
             width: 110px; 
             height: 110px; 
@@ -227,7 +224,7 @@
         .material-img img {
             width: 100%;
             height: 100%;
-            object-fit: contain; /* 이미지가 잘리지 않게 'contain' 사용 */
+            object-fit: contain;
             border-radius: 6px;
         }
         
@@ -237,8 +234,7 @@
             text-align: center; 
         }
         
-        /* --- [CSS 수정됨 2/5] ---
-           고스트 이미지 크기를 130px -> 150px로 키움 */
+        /* 고스트 이미지 크기 150px */
         .ghost-supply {
             position: absolute;
             pointer-events: none;
@@ -256,7 +252,7 @@
             border-radius: 8px;
             background: #fff;
             box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-            width: 150px; /* 이미지 크기에 맞게 너비 조정 */
+            width: 150px;
         }
 
         .experiment-area {
@@ -408,26 +404,22 @@
             height: 45px; 
         }
         
-        /* --- [CSS 수정됨 3/5] ---
-           홈판 속 재료 크기를 70px -> 80px로 키움 */
+        /* 홈판 속 재료 크기 80px */
         .material-in-well {
             width: 80px; 
             height: 80px; 
-            /* background-color, border 등은 JS가 이미지를 넣으면 불필요해짐 */
             animation: fadeIn 0.3s;
             z-index: 1; 
             position: absolute; 
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            /* [CSS 신규 4/5] 홈판 속 이미지 스타일 */
-            display: flex; /* 이미지 중앙 정렬용 */
-            align-items: center; /* 이미지 중앙 정렬용 */
-            justify-content: center; /* 이미지 중앙 정렬용 */
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
-        /* --- [CSS 신규 5/5] ---
-           홈판에 드롭된 이미지 스타일 정의 */
+        /* 홈판에 드롭된 이미지 스타일 */
         .material-in-well img {
             width: 100%;
             height: 100%;
@@ -540,10 +532,7 @@
             border-top: 2px dashed #ffab00; 
             background: #fffaf0;
         }
-        /* --- [CSS 신규 1/1] ---
-           '보기' 박스의 최소 높이를 지정하여, 라벨이 다 사라져도
-           레이아웃이 꿀렁이지 않도록 수정합니다.
-           (p-3(12px*2) + label height(~40px) = 64px) */
+        /* '보기' 박스 최소 높이 (꿀렁임 방지) */
         #summary-label-pool {
             min-height: 64px;
         }
@@ -604,27 +593,26 @@
             box-shadow: 0 4px 8px rgba(0,0,0,0.2); 
         }
         
-        /* --- [CSS 수정됨 5/5] ---
-           파란 가이드 박스 높이를 110px -> 80px로 줄임 */
+        /* 파란 가이드 박스 높이 80px */
         .guide-text-box {
             font-size: 1.1rem;
             font-weight: bold;
             color: #004085; 
-            padding: 10px 15px; /* 내부 패딩 조절 */
+            padding: 10px 15px;
             background: #e0f2ff; 
             border: 2px solid #a7d9ff; 
             border-radius: 8px; 
-            height: 80px; /* 높이 축소 */
+            height: 80px;
             width: 100%;
             text-align: center; 
             display: flex;
             flex-direction: column; 
             align-items: center;
-            justify-content: center; /* 수직 중앙 정렬 */
+            justify-content: center;
             line-height: 1.3; 
             word-break: keep-all; 
             white-space: normal; 
-            padding-top: 10px; /* 상단 패딩 리셋 */
+            padding-top: 10px;
         }
         .guide-text-box p {
             font-weight: normal;
@@ -651,20 +639,8 @@
             70% { box-shadow: 0 0 0 10px rgba(0, 123, 255, 0); }
             100% { box-shadow: 0 0 0 0 rgba(0, 123, 255, 0); }
         }
-        /* 버튼 전용 펄스 클래스 */
-        .exp-btn.pulsing-guide {
-            animation: pulse-blue 1.5s infinite;
-            border-radius: 8px; /* 버튼 둥글기에 맞춤 */
-            box-shadow: 0 0 0 0 rgba(0, 123, 255, 0.9); 
-        }
-        /* --- [CSS 수정 1/2] ---
-           .exp-controls.pulsing 제거 (아래 .exp-controls.pulsing-guide 로 대체) */
-        .exp-controls.pulsing {
-            /* overflow: visible; 속성 제거됨 */
-        }
-
-        /* --- [CSS 수정 2/2] ---
-           .exp-btn.pulsing-guide 대신 .exp-controls.pulsing-guide 를 사용 */
+        
+        /* 버튼 그룹 펄스 (꿀렁임 방지) */
         .exp-controls.pulsing-guide {
             animation: pulse-blue 1.5s infinite;
             box-shadow: 0 0 0 0 rgba(0, 123, 255, 0.9); 
@@ -700,9 +676,7 @@
                             <button id="btn-exp2" class="exp-btn">실험 2</button>
                         </div>
 
-                        <!-- --- [HTML 수정됨] --- -->
-                        <!-- 깃허브의 새 파일명 (quail-egg.png, Chicken-meat.png) 으로 수정 -->
-
+                        <!-- 깃허브 파일명과 일치하는지 확인 -->
                         <div id="supply-set-1" class="supply-area">
                             <div class="supply-item" id="eggshell" draggable="true">
                                 <div class="material-img" id="eggshell-img">
@@ -732,8 +706,6 @@
                                 <div class="material-name">삶은 닭 가슴살</div>
                             </div>
                         </div>
-                        
-                        <!-- --- [수정 끝] --- -->
                         
                         <div id="guide-text" class="guide-text-box">
                             여기에 안내 문구가 표시됩니다.
@@ -1043,10 +1015,7 @@
 
             /* --- 7. 실험/퀴즈 실행 로직 --- */
 
-            /** [JS 수정됨]
-             * showReaction 함수 수정
-             * 이제 텍스트 대신 원본 이미지의 src를 가져와 <img> 태그를 생성합니다.
-             */
+            /** 홈판에 이미지 표시하도록 수정된 함수 */
             function showReaction(targetWell, materialId) {
                 const solutionDiv = targetWell.querySelector('.solution');
                 const solutionType = targetWell.dataset.solution;
@@ -1065,18 +1034,16 @@
                     if (originalSupplyItem) {
                         const originalImg = originalSupplyItem.querySelector('.material-img img');
                         if (originalImg) {
-                            imgSrc = originalImg.src; // 원본 이미지의 URL (예: .../quail-egg.png)
+                            imgSrc = originalImg.src;
                         }
                     }
 
                     if (imgSrc) {
-                        // <img> 태그 생성
                         const img = document.createElement('img');
                         img.src = imgSrc;
                         img.alt = getMaterialDisplayName(materialId);
                         materialVisual.appendChild(img);
                     } else {
-                        // 이미지를 못찾을 경우 텍스트로 대체
                         materialVisual.innerText = getMaterialDisplayName(materialId);
                     }
                     
@@ -1107,8 +1074,6 @@
                     solutionDiv.appendChild(resultEl); 
                 }, 500); 
             }
-            /* --- [JS 수정 끝] --- */
-
 
             function runExperimentDrop(targetWell, droppedMaterialId) {
                 const expectedMaterialKey = 'materialSet' + currentExperiment + 'Id';
@@ -1168,14 +1133,18 @@
                 document.querySelectorAll('.pulsing-guide, .pulsing-lightblue, .pulsing-pink').forEach(el => { 
                     el.className = el.className.replace(/pulsing-\w+/g, '').replace('pulsing-guide', '');
                 });
-                /* 부모 펄스 클래스 제거 */
-                expControls.classList.remove('pulsing');
-                /* --- [JS 수정 1/3] ---
-                   .pulsing 클래스 제거 로직 삭제 (이제 .pulsing-guide 만 사용) */
-                /* expControls.classList.remove('pulsing'); */
+                /* 버튼 그룹 펄스 제거 (꿀렁임 방지) */
+                expControls.classList.remove('pulsing-guide');
             }
 
-            /** updateGuide 함수 - 새 상태 로직 적용 */
+            /* --- [JS 오류 수정] ---
+               누락되었던 `updateGuide` 함수 선언부와 `forEach` 반복문을
+               올바르게 복원했습니다. */
+            function updateGuide(guideState) {
+                clearAllPulses();
+                
+                let isEggshellNeeded = false;
+                let isMarbleNeeded = false;
                 let isEggWhiteNeeded = false;
                 let isChickenNeeded = false;
 
@@ -1198,6 +1167,7 @@
                         }
                     }
                 });
+                /* --- [JS 오류 수정 끝] --- */
 
                 if (currentExperiment === 1) {
                     if (isEggshellNeeded) document.getElementById('eggshell').classList.add('pulsing-lightblue');
@@ -1213,21 +1183,15 @@
                         break;
                     case 'EXP1_DONE':
                         guideText.innerHTML = "<b>'실험 1' 완료!</b><p class='mt-1'>'실험 2' 버튼을 눌러<br>다음 실험을 진행하세요.</p>";
-                        btnExp2.classList.add('pulsing-guide');
-                        expControls.classList.add('pulsing'); // 펄싱 부모 클래스 추가
-                        /* --- [JS 수정 2/3] ---
-                           btnExp2 대신 부모인 expControls에 펄스 적용
-                           .pulsing 클래스 추가 제거 */
+                        /* 버튼 그룹 펄스 (꿀렁임 방지) */
                         expControls.classList.add('pulsing-guide');
                         break;
-                    case 'EXP2_MODE': // 실험 2 탭을 눌렀으나 아직 미완료
-                    case 'EXP2_DONE': // 실험 1은 안하고 2만 완료 (이론상 가능)
+                    case 'EXP2_MODE': 
+                         guideText.innerHTML = "<b>2. 실험 2 시작</b><p class='mt-1'>'실험 2' 재료를<br>알맞은 홈에 끌어다 놓으세요.</p>";
+                         break;
+                    case 'EXP2_DONE': 
                         guideText.innerHTML = "<b>'실험 2' 완료!</b><p class='mt-1'>'실험 1' 버튼을 눌러<br>마저 진행하세요.</p>";
-                        btnExp1.classList.add('pulsing-guide');
-                        expControls.classList.add('pulsing');
-                        /* --- [JS 수정 3/3] ---
-                           btnExp1 대신 부모인 expControls에 펄스 적용
-                           .pulsing 클래스 추가 제거 */
+                        /* 버튼 그룹 펄스 (꿀렁임 방지) */
                         expControls.classList.add('pulsing-guide');
                         break;
                     case 'ALL_DONE':
