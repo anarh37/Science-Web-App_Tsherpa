@@ -44,10 +44,10 @@
             transform: translateY(-2px);
         }
 
-        /* [MODIFIED] max-width 1100px로 고정 (비율 깨짐 방지) */
+        /* [MODIFIED] max-width 900px로 고정 (비율 깨짐 방지) */
         .container {
             width: 100%; /* 항상 100%를 채우되 */
-            max-width: 1100px; /* 1100px에서 멈춤 */
+            max-width: 900px; /* 1100px -> 900px */
             background-color: #ffffff;
             border-radius: 10px;
             box-shadow: 0 4px 12px rgba(0,0,0,0.05);
@@ -158,6 +158,7 @@
             .container {
                 padding-top: 60px; /* 홈 버튼용 여백 */
                 width: 95%; /* 모바일에서는 95% 유지 */
+                max-width: 95%; /* [NEW] 모바일에서는 900px 고정 해제 */
             }
             .main-title {
                 margin-top: 0; /* 모바일에서 타이틀 상단 여백 제거 */
@@ -550,7 +551,7 @@
         /* 하단 결과 요약 - 정렬 문제 수정 */
         .instructions {
             width: 100%;
-            max-width: 100%; /* 부모의 1100px를 따르도록 */
+            max-width: 100%; /* 부모의 900px를 따르도록 */
             margin-top: 25px;
             padding: 20px;
             background: #f9fafb;
