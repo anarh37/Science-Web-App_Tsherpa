@@ -820,16 +820,19 @@
                 <h2 id="plate-title">용액 섞기 판 ①</h2> 
                 
                 <div class="plate-content-wrapper"> 
-                    <div class="well-plate" style="width: 100%; padding: 20px 25px; gap: 25px;"> 
+                    <!-- [v33 수정] padding 25px -> 10px, gap 30px -> 25px (CSS와 동일하게) -->
+                    <div class="well-plate" style="width: 100%; padding: 20px 10px; gap: 25px;"> 
                         <div class="well" id="well-0"></div>
                         <div class="well" id="well-1"></div>
                         <div class="well" id="well-2"></div>
                     </div>
                     
-                    <!-- [v21] 초기 안내 메시지용 컨테이너 --><div class="labels-init" id="labels-container-init" style="width: 100%; padding: 0 25px; gap: 25px;"> 
+                    <!-- [v33 수정] padding 25px -> 10px, gap 30px -> 25px (CSS와 동일하게) -->
+                    <div class="labels-init" id="labels-container-init" style="width: 100%; padding: 0 10px; gap: 25px;"> 
                         실험 ① 또는 ② 버튼을 눌러<br>실험을 시작해 보세요!
                     </div>
-                    <!-- [v21] 실험 라벨용 컨테이너 (초기 숨김) --><div class="labels" id="labels-container" style="width: 100%; padding: 0 25px; gap: 25px; display: none;"> 
+                    <!-- [v33 수정] padding 25px -> 10px, gap 30px -> 25px (CSS와 동일하게) -->
+                    <div class="labels" id="labels-container" style="width: 100%; padding: 0 10px; gap: 25px; display: none;"> 
                         <div></div><div></div><div></div>
                     </div>
 
@@ -897,6 +900,9 @@
 
     </div> 
 
+    <!-- [v33 추가] 효과음 오디오 요소 -->
+    <audio id="drop-sound" src="https://github.actions.googleusercontent.com/sounds/v1/water_droplet_1.mp3" preload="auto"></audio>
+
     <script>
         // [사용자 요청] 강염기 색상 연두색 -> 노란색(#E6DB65) 변경
         const EXP1_COLORS = {
@@ -920,8 +926,17 @@
 
         let wells, droppers, exp1Button, exp2Button, resetButton, instructions, labelsContainer, labelsContainerInit, plateTitle, summaryBox, summaryContent, gradientBar, ionBeaker, ionInfo, summaryCheckBtn, summaryFeedback;
         let chartTicker; 
+        let dropSound; // [v33 추가] 효과음 변수
 
         const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+
+        // [v33 추가] 효과음 재생 함수
+        function playDropSound() {
+            if (dropSound) {
+                dropSound.currentTime = 0;
+                dropSound.play().catch(e => console.error("Audio playback failed:", e));
+            }
+        }
 
         function createIon(type, text) {
             const ion = document.createElement('div');
@@ -1219,6 +1234,7 @@
                     state.indicator = true;
                     updateWellVisuals(index, true); 
                     updateGuide('INDICATOR_DROPPED');
+                    playDropSound(); // [v33 추가] 효과음
                 }
             } 
             else if ((currentExperiment === 1 && toolType === 'naoh') || (currentExperiment === 2 && toolType === 'hcl')) {
@@ -1232,6 +1248,7 @@
                     return;
                 }
                 
+                playDropSound(); // [v33 추가] 효과음
                 await animateNeutralization(index);
             } 
             else {
@@ -1570,6 +1587,7 @@
             chartTicker = document.getElementById('chart-ticker'); 
             summaryCheckBtn = document.getElementById('summary-check-btn'); 
             summaryFeedback = document.getElementById('summary-feedback'); 
+            dropSound = document.getElementById('drop-sound'); // [v33 추가] 효과음 할당
 
             // --- 이벤트 리스너 연결 ---
             exp1Button.addEventListener('click', () => setupExperiment(1));
