@@ -23,14 +23,14 @@
             min-height: 100vh;
             user-select: none;
             -webkit-user-select: none;
-            position: relative; /* [홈 버튼] 위치 기준점 */
+            /* [v29] position: relative; 제거 */
         }
         
         /* [홈 버튼] 스타일 */
         .home-button {
             position: absolute;
-            top: 20px;
-            left: 20px;
+            top: 25px;  /* [v29] 20px -> 25px (컨테이너 padding과 맞춤) */
+            left: 25px; /* [v29] 20px -> 25px (컨테이너 padding과 맞춤) */
             font-family: 'Jua', sans-serif;
             font-size: 1.1rem;
             padding: 8px 15px;
@@ -58,7 +58,8 @@
             display: flex; 
             flex-direction: column;
             align-items: center;
-            margin-top: 50px; /* [홈 버튼] 과의 여백 확보 */
+            position: relative; /* [v29] 홈 버튼의 기준점이 됨 */
+            /* [v29] margin-top: 50px; 제거 */
         }
 
         /* 메인 타이틀 */
@@ -79,6 +80,7 @@
             display: flex; 
             align-items: center;
             gap: 10px;
+            margin-top: 50px; /* [v29] 홈 버튼과 겹치지 않도록 여백 추가 */
         }
         
         h1::before {
@@ -173,7 +175,11 @@
                 padding: 5px 10px;
             }
             .container {
-                margin-top: 40px; /* 모바일 홈 버튼 여백 */
+                margin-top: 0; /* [v29] 모바일에선 상단 여백 제거 */
+                padding-top: 60px; /* [v29] 모바일 홈 버튼용 여백 */
+            }
+            .main-title {
+                margin-top: 0; /* [v29] 모바일에선 타이틀 상단 여백 제거 */
             }
             .lab-area {
                 flex-direction: column;
@@ -751,10 +757,10 @@
 </head>
 <body class="bg-gray-100"> 
 
-    <!-- [홈 버튼] HTML -->
-    <a href="../index.html" class="home-button">🏠 과학 실험실 홈으로</a>
-
     <div class="container my-5">
+        
+        <!-- [v29] 홈 버튼 HTML 위치 이동 -->
+        <a href="../index.html" class="home-button">🏠 과학 실험실 홈으로</a>
 
         <h1 class="main-title"> 
             붉은 양배추 지시약 중화 반응
@@ -1479,7 +1485,6 @@
         window.addEventListener('DOMContentLoaded', () => {
             // [v27] Tone.js 대신 mp3 플레이어 로드
             // *** 중요 ***: "water.mp3" 파일이 index.html과 같은 폴더에 있어야 합니다.
-            // 깃허브 구조라면 "./water.mp3"가 맞습니다.
             try {
                 // [v28] new Audio() 사용
                 waterPlayer = new Audio('water.mp3');
