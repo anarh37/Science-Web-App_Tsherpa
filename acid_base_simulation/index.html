@@ -540,6 +540,13 @@
             border-top: 2px dashed #ffab00; 
             background: #fffaf0;
         }
+        /* --- [CSS 신규 1/1] ---
+           '보기' 박스의 최소 높이를 지정하여, 라벨이 다 사라져도
+           레이아웃이 꿀렁이지 않도록 수정합니다.
+           (p-3(12px*2) + label height(~40px) = 64px) */
+        #summary-label-pool {
+            min-height: 64px;
+        }
         .summary-label { 
             padding: 8px 12px; 
             background-color: white; 
@@ -644,9 +651,22 @@
             70% { box-shadow: 0 0 0 10px rgba(0, 123, 255, 0); }
             100% { box-shadow: 0 0 0 0 rgba(0, 123, 255, 0); }
         }
+        /* 버튼 전용 펄스 클래스 */
         .exp-btn.pulsing-guide {
             animation: pulse-blue 1.5s infinite;
-            border-radius: 8px;
+            border-radius: 8px; /* 버튼 둥글기에 맞춤 */
+            box-shadow: 0 0 0 0 rgba(0, 123, 255, 0.9); 
+        }
+        /* --- [CSS 수정 1/2] ---
+           .exp-controls.pulsing 제거 (아래 .exp-controls.pulsing-guide 로 대체) */
+        .exp-controls.pulsing {
+            /* overflow: visible; 속성 제거됨 */
+        }
+
+        /* --- [CSS 수정 2/2] ---
+           .exp-btn.pulsing-guide 대신 .exp-controls.pulsing-guide 를 사용 */
+        .exp-controls.pulsing-guide {
+            animation: pulse-blue 1.5s infinite;
             box-shadow: 0 0 0 0 rgba(0, 123, 255, 0.9); 
         }
         .main-tab-btn.pulsing-guide {
@@ -1148,14 +1168,14 @@
                 document.querySelectorAll('.pulsing-guide, .pulsing-lightblue, .pulsing-pink').forEach(el => { 
                     el.className = el.className.replace(/pulsing-\w+/g, '').replace('pulsing-guide', '');
                 });
+                /* 부모 펄스 클래스 제거 */
                 expControls.classList.remove('pulsing');
+                /* --- [JS 수정 1/3] ---
+                   .pulsing 클래스 제거 로직 삭제 (이제 .pulsing-guide 만 사용) */
+                /* expControls.classList.remove('pulsing'); */
             }
 
-            function updateGuide(guideState) {
-                clearAllPulses();
-                
-                let isEggshellNeeded = false;
-                let isMarbleNeeded = false;
+            /** updateGuide 함수 - 새 상태 로직 적용 */
                 let isEggWhiteNeeded = false;
                 let isChickenNeeded = false;
 
@@ -1194,15 +1214,21 @@
                     case 'EXP1_DONE':
                         guideText.innerHTML = "<b>'실험 1' 완료!</b><p class='mt-1'>'실험 2' 버튼을 눌러<br>다음 실험을 진행하세요.</p>";
                         btnExp2.classList.add('pulsing-guide');
-                        expControls.classList.add('pulsing');
+                        expControls.classList.add('pulsing'); // 펄싱 부모 클래스 추가
+                        /* --- [JS 수정 2/3] ---
+                           btnExp2 대신 부모인 expControls에 펄스 적용
+                           .pulsing 클래스 추가 제거 */
+                        expControls.classList.add('pulsing-guide');
                         break;
-                    case 'EXP2_MODE':
-                         guideText.innerHTML = "<b>2. 실험 2 시작</b><p class='mt-1'>'실험 2' 재료를<br>알맞은 홈에 끌어다 놓으세요.</p>";
-                         break;
-                    case 'EXP2_DONE':
+                    case 'EXP2_MODE': // 실험 2 탭을 눌렀으나 아직 미완료
+                    case 'EXP2_DONE': // 실험 1은 안하고 2만 완료 (이론상 가능)
                         guideText.innerHTML = "<b>'실험 2' 완료!</b><p class='mt-1'>'실험 1' 버튼을 눌러<br>마저 진행하세요.</p>";
                         btnExp1.classList.add('pulsing-guide');
                         expControls.classList.add('pulsing');
+                        /* --- [JS 수정 3/3] ---
+                           btnExp1 대신 부모인 expControls에 펄스 적용
+                           .pulsing 클래스 추가 제거 */
+                        expControls.classList.add('pulsing-guide');
                         break;
                     case 'ALL_DONE':
                         guideText.innerHTML = "<b>3. 결과 정리</b><p class='mt-1'>실험 완료! [결과 정리] 탭을<br>눌러 퀴즈를 풀어보세요.</p>";
