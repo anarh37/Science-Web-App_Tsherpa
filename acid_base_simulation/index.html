@@ -24,6 +24,27 @@
             user-select: none; /* 텍스트 선택 방지 */
         }
 
+        /* [NEW] 홈 버튼 스타일 */
+        .home-button {
+            position: absolute;
+            top: 25px;
+            left: 25px;
+            font-family: 'Jua', sans-serif;
+            font-size: 1.1rem;
+            padding: 8px 15px;
+            background-color: #6666FF;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+            z-index: 100;
+        }
+        .home-button:hover {
+            background-color: #5050d4;
+            transform: translateY(-2px);
+        }
+
         .container {
             width: 100%;
             max-width: 1200px;
@@ -34,6 +55,7 @@
             display: flex; 
             flex-direction: column;
             align-items: center;
+            position: relative; /* 홈 버튼 기준점 */
         }
 
         /* 메인 타이틀 스타일 */
@@ -51,6 +73,7 @@
             line-height: 1.2; 
             padding-bottom: 10px;
             margin-bottom: 20px; 
+            margin-top: 50px; /* 홈 버튼과 겹치지 않도록 */
         }
         
         /* [MODIFIED] 메인 탭 스타일 - 50:50 비율 */
@@ -124,6 +147,19 @@
         }
 
         @media (max-width: 960px) { 
+            /* [NEW] 홈 버튼 모바일 */
+            .home-button {
+                top: 10px;
+                left: 10px;
+                font-size: 1.0rem;
+                padding: 5px 10px;
+            }
+            .container {
+                padding-top: 60px; /* 홈 버튼용 여백 */
+            }
+            .main-title {
+                margin-top: 0; /* 모바일에서 타이틀 상단 여백 제거 */
+            }
             /* 모바일에서는 다시 1단으로 */
             .lab-bench {
                 grid-template-columns: 1fr; 
@@ -663,6 +699,9 @@
 <body class="bg-gray-100">
 
     <div class="container my-5">
+        <!-- [NEW] 홈 버튼 -->
+        <a href="../index.html" class="home-button">🏠 과학 실험실 홈으로</a>
+
         <h1 class="main-title">
             🧪 산성 용액과 염기성 용액의 성질
         </h1>
@@ -799,7 +838,40 @@
     </div>
 
     <script>
+        /* [NEW] mp3 효과음 플레이어 */
+        let waterPlayer;
+
+        /* [NEW] 효과음 재생 함수 (cabbage_simulation에서 복사) */
+        function playWaterSound(type = 'drop') {
+            if (!waterPlayer) return; // waterPlayer가 로드되지 않았으면 중지
+
+            // [v28] Audio() 객체는 start()가 아닌 play()를 사용해야 합니다.
+            // 또한, 매번 재생하려면 시간을 0으로 되돌려야 합니다.
+            waterPlayer.currentTime = 0; // 재생 위치를 처음으로
+
+            if (type === 'drop') {
+                waterPlayer.volume = 0.3; // 0~1 사이 값 (작게)
+                waterPlayer.playbackRate = 1.5; // 재생 속도 (빠르게)
+                waterPlayer.play();
+            } else if (type === 'neutral') {
+                waterPlayer.volume = 0.6; // 0~1 사이 값 (보통)
+                waterPlayer.playbackRate = 1.0; // 재생 속도 (보통)
+                waterPlayer.play();
+            }
+        }
+
         document.addEventListener('DOMContentLoaded', () => {
+
+            /* [NEW] mp3 효과음 플레이어 로드 */
+            try {
+                // 'water.mp3' 파일이 이 html 파일과 같은 폴더에 있다고 가정합니다.
+                waterPlayer = new Audio('water.mp3');
+                waterPlayer.load(); 
+            } catch (e) {
+                console.error("Audio 파일을 로드할 수 없습니다.", e);
+                waterPlayer = null; // 오류 발생 시 waterPlayer를 null로 설정
+            }
+
 
             /* --- 1. 주요 요소 --- */
             const btnExp1 = document.getElementById('btn-exp1');
@@ -1059,6 +1131,8 @@
                 if (droppedMaterialId === expectedMaterial) {
                     targetWell.dataset[usedKey] = 'true'; // 해당 실험 완료로 표시
                     
+                    playWaterSound('drop'); // [NEW] 효과음 재생
+
                     /* [MODIFIED] 시각화 로직을 새 함수로 분리 */
                     showReaction(targetWell, droppedMaterialId);
                     
