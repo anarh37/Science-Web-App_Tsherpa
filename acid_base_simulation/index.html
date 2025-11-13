@@ -5,11 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>산성 용액과 염기성 용액의 성질</title>
     
-    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <!-- 구글 폰트 'Jua' 로드 --><link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Jua&display=swap" rel="stylesheet">
     
-    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Tailwind CSS 로드 --><script src="https://cdn.tailwindcss.com"></script>
     <style>
         /* [MODIFIED] body 정렬 및 비율 고정 대응 */
         body {
@@ -18,19 +18,17 @@
             color: #333;
             display: flex;
             justify-content: center;
-            align-items: center; /* [RE-ADDED] 중앙 정렬 */
+            align-items: center; 
             padding: 20px;
             min-height: 100vh;
-            user-select: none; /* 텍스트 선택 방지 */
-
-            /* [NEW] padding이 100vh/100vw를 넘어가지 않도록 보장 */
-            box-sizing: border-box; 
+            user-select: none; 
+            box-sizing: border-box; /* [NEW] */
         }
 
         .home-button {
             position: absolute;
             top: 25px;
-            left: 25px; /* 컨테이너 padding과 동일하게 고정 (빨간 선) */
+            left: 25px;
             font-family: 'Jua', sans-serif;
             font-size: 1.1rem;
             padding: 8px 15px;
@@ -49,14 +47,8 @@
 
         /* [MODIFIED] 고정 종횡비 적용 */
         .container {
-            /* [REMOVED] 고정된 max-width와 width: 100% 제거 */
-            /* width: 100%; */
-            /* max-width: 900px; */ 
-
             /* [NEW] 고정 종횡비 적용 (스크린샷 1150x858 비율) */
             aspect-ratio: 1150 / 858;
-
-            /* [NEW] body의 padding 안에서 가능한 최대 크기를 채웁니다. */
             max-width: 100%;
             max-height: 100%;
             /* ----------------------------- */
@@ -66,9 +58,9 @@
             box-shadow: 0 4px 12px rgba(0,0,0,0.05);
             padding: 25px;
             display: flex; 
-            flex-direction: column;
+            flex-direction: column; /* [MODIFIED] 세로 flex 활성화 */
             align-items: center;
-            position: relative; /* 홈 버튼 기준점 */
+            position: relative; 
             margin-top: 20px; 
             margin-bottom: 20px;
         }
@@ -88,17 +80,17 @@
             line-height: 1.2; 
             padding-bottom: 10px;
             margin-bottom: 20px; 
-            margin-top: 50px; /* 홈 버튼과 겹치지 않도록 */
+            margin-top: 50px;
+            flex-shrink: 0; /* [NEW] 타이틀이 줄어들지 않도록 설정 */
         }
         
-        /* [MODIFIED] max-width 제거 (부모 100% 따름) */
         .main-tabs {
             width: 100%;
-            /* max-width: 1100px; 제거 (부모 .container를 따름) */
             display: grid; 
             grid-template-columns: 1fr 1fr; 
             gap: 10px;
             margin-bottom: 20px;
+            flex-shrink: 0; /* [NEW] 탭이 줄어들지 않도록 설정 */
         }
         .main-tab-btn {
             flex: 1;
@@ -125,7 +117,6 @@
             opacity: 0.7;
         }
         
-        /* h2 스타일 정의 */
         h2 {
             color: #111;
             font-size: 1.8em; 
@@ -136,56 +127,57 @@
             justify-content: center;
             line-height: 1.2;
             min-width: 280px; 
+            flex-shrink: 0; /* [NEW] H2가 줄어들지 않도록 설정 */
         }
         
         .left-content-wrapper h2::before {
-             content: ''; /* 이모지 제거 */
+             content: ''; 
              margin-right: 0;
         }
         
-        /* [MODIFIED] max-width 제거 (부모 100% 따름) */
+        /* [MODIFIED] flex-grow: 1 추가 (세로 채우기) */
         .experiment-wrapper {
             display: flex;
             flex-direction: column;
             align-items: center; 
             width: 100%; 
-            /* max-width: 1100px; 제거 (부모 .container를 따름) */
+            flex-grow: 1; /* [NEW] 남은 세로 공간 모두 차지 */
+            overflow: hidden; /* [NEW] 넘칠 경우 대비 */
         }
 
+        /* [MODIFIED] grid-template-columns 및 flex-grow: 1 추가 (가로/세로 채우기) */
         .lab-bench {
             display: grid; 
-            grid-template-columns: 1fr 1fr; /* 50:50 비율 */
+            /* [MODIFIED] 1fr 1fr -> 1fr 420px */
+            grid-template-columns: 1fr 420px; /* 왼쪽(자동), 오른쪽(고정 420px) */
             gap: 10px; 
             margin-top: 0; 
             width: 100%;
+            flex-grow: 1; /* [NEW] experiment-wrapper의 남은 공간 모두 차지 */
+            overflow: hidden; /* [NEW] */
         }
 
         @media (max-width: 960px) { 
-            /* Mobile: ~ 960px */
-            /* 참고: aspect-ratio가 적용되면 미디어쿼리 스타일이 */
-            /* 의도와 다르게 동작할 수 있습니다. */
-            /* 비율 고정 시 이 부분은 무시될 수 있습니다. */
+            /* 모바일에서는 1열로 변경 (비율 고정시 무시될 수 있음) */
             .home-button {
                 top: 10px;
-                left: 10px; /* 모바일에서는 10px로 */
+                left: 10px;
                 font-size: 1.0rem;
                 padding: 5px 10px;
             }
             .container {
-                padding-top: 60px; /* 홈 버튼용 여백 */
-                width: 95%; /* 모바일에서는 95% 유지 */
-                /* max-width: 95%; [REMOVED] */
+                padding-top: 60px;
+                width: 95%; 
             }
             .main-title {
-                margin-top: 0; /* 모바일에서 타이틀 상단 여백 제거 */
+                margin-top: 0;
             }
             .lab-bench {
-                grid-template-columns: 1fr; 
+                grid-template-columns: 1fr; /* [MODIFIED] 모바일에선 1열 */
                 gap: 20px; 
                 align-items: center;
             }
         }
-
 
         /* 왼쪽 전체 영역 (제목과 박스 모두 포함) */
         .left-content-wrapper {
@@ -195,8 +187,10 @@
             align-items: center; 
             width: 100%; 
             box-sizing: border-box;
+            min-width: 0; /* [NEW] flex/grid 축소 오류 방지 */
         }
         
+        /* [MODIFIED] height: 400px 제거, flex-grow: 1 추가 */
         .instructions-box {
             border: 2px dashed #C8B6E2;
             background-color: #fafaff; 
@@ -207,19 +201,21 @@
             flex-direction: column;
             gap: 15px; 
             align-items: center;
-            height: 400px; 
+            /* height: 400px; [REMOVED] */
+            flex-grow: 1; /* [NEW] 남은 세로 공간 채우기 */
             box-sizing: border-box; 
             justify-content: space-between; 
+            min-height: 0; /* [NEW] flex 축소 오류 방지 */
         }
         
         .exp-controls {
             display: flex;
             width: 100%;
             border-radius: 8px;
-            overflow: hidden; /* 기본은 hidden */
+            overflow: hidden; 
             border: 1px solid #b0c4de;
+            flex-shrink: 0; /* [NEW] */
         }
-        /* 펄스 효과가 잘리지 않도록 함 */
         .exp-controls.pulsing {
             overflow: visible;
         }
@@ -246,6 +242,7 @@
             grid-template-columns: repeat(2, 1fr);
             gap: 15px;
             width: 100%; 
+            flex-shrink: 0; /* [NEW] */
         }
         
         .supply-item {
@@ -313,13 +310,14 @@
 
         /* 실험 진행 영역 (오른쪽) */
         .experiment-area {
-            flex-grow: 1; 
+            /* flex-grow: 1; [REMOVED] - 부모가 Grid이므로 불필요 */
             display: flex;
             flex-direction: column;
             align-items: center; 
             gap: 0; 
             box-sizing: border-box;
             width: 100%; 
+            min-width: 0; /* [NEW] flex/grid 축소 오류 방지 */
         }
         
         .experiment-area h2::before {
@@ -339,12 +337,13 @@
             transition: background-color 0.2s;
             width: 200px; 
             max-width: 80%; 
+            flex-shrink: 0; /* [NEW] */
         }
         #reset-button:hover {
             background-color: #dc2626; 
         }
 
-        /* 6홈판 전체 컨테이너 스타일 */
+        /* [MODIFIED] height: 400px 제거, flex-grow: 1 추가 */
         .well-plate-wrapper {
             position: relative;
             display: flex;
@@ -352,30 +351,33 @@
             align-items: center;
             width: 100%; 
             margin: 0 auto;
-            /* [MODIFIED] 홈판이 꽉 차도록 padding 조정 */
             padding: 15px; 
             background-color: #ffffff;
             border: 1px solid #e0e0e0; 
             border-radius: 10px;
             box-shadow: 0 4px 12px rgba(0,0,0,0.05); 
-            height: 400px; 
+            /* height: 400px; [REMOVED] */
+            flex-grow: 1; /* [NEW] 남은 세로 공간 채우기 */
             box-sizing: border-box;
-            justify-content: center; /* [NEW] 홈판 중앙 정렬 */
+            justify-content: center; 
+            min-height: 0; /* [NEW] */
         }
 
-        /* 6홈판 본체 */
+        /* 6홈판 본체 (너비/높이 고정 유지) */
         .well-plate {
             display: grid;
             grid-template-columns: repeat(2, 1fr); 
             grid-template-rows: repeat(2, 1fr); 
             gap: 8px; 
-            /* [MODIFIED] 너비 자동, 양쪽 라벨 공간 확보 */
+            /* [MODIFIED] 420px 부모 안에 꽉 차도록 재조정 */
             width: 260px; /* 130px * 2 + 8px gap (대략) */
-            margin: 0 80px; /* 80px 라벨 공간 */
+            margin: 0 80px; /* 80px 라벨 공간 (260+80+80 = 420px) */
             position: relative; 
+            /* [NEW] 세로 크기 고정 */
+            height: 368px; /* 180px * 2 + 8px gap (대략) */
         }
 
-        /* 각 홈(well) 컨테이너 */
+        /* [MODIFIED] 고정 크기 유지 */
         .well {
             position: relative; 
             width: 130px; 
@@ -398,7 +400,7 @@
             transform: scale(1.05);
         }
         
-        /* 각 홈의 재료 라벨 (2줄 표시) */
+        /* 각 홈의 재료 라벨 (고정 위치 유지) */
         .well-material-label {
             position: absolute;
             font-size: 0.9rem; 
@@ -426,7 +428,7 @@
             right: -80px; 
         }
 
-        /* 용액 원 */
+        /* 용액 원 (고정 크기 유지) */
         .well .solution {
             width: 90px; 
             height: 90px; 
@@ -445,7 +447,7 @@
             flex-shrink: 0; 
         }
 
-        /* 홈 내부 용액 라벨 */
+        /* 홈 내부 용액 라벨 (고정 크기 유지) */
         .well-solution-label {
             font-weight: bold;
             font-size: 1rem; 
@@ -495,7 +497,6 @@
             top: 50%; 
             left: 50%; 
             transform: translate(-50%, -50%); 
-            
             font-weight: bold;
             font-size: 1.2rem; 
             padding: 3px 6px;
@@ -511,174 +512,92 @@
             width: 80px; 
         }
 
-        /* 효과용 CSS */
+        /* --- (이하 동일) --- */
         @keyframes fadeIn {
             from { opacity: 0; }
             to { opacity: 1; }
         }
-        
         @keyframes cloudy {
           from { opacity: 0; transform: scale(0.8); }
           to { opacity: 0.85; transform: scale(1); } 
         }
-
         @keyframes bubbles {
             0% { transform: translateY(0); opacity: 0; }
             50% { opacity: 1; }
             100% { transform: translateY(-40px); opacity: 0; }
         }
-        
         .effect-container {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            border-radius: 50%;
-            overflow: hidden;
-            z-index: 4; 
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            border-radius: 50%; overflow: hidden; z-index: 4; 
         }
-
         .effect-container.cloudy {
             background-color: rgba(255, 255, 255, 0.85); 
             animation: cloudy 1s ease-in forwards;
             pointer-events: none; 
         }
-        
         .bubble {
-            position: absolute;
-            background-color: rgba(255, 255, 255, 0.9); 
+            position: absolute; background-color: rgba(255, 255, 255, 0.9); 
             border: 1px solid rgba(255, 255, 255, 0.4);
-            border-radius: 50%;
-            bottom: 5px;
-            opacity: 0;
-            animation: bubbles 2.5s infinite;
-            z-index: 5; 
+            border-radius: 50%; bottom: 5px; opacity: 0;
+            animation: bubbles 2.5s infinite; z-index: 5; 
         }
         .bubble.b1 { width: 5px; height: 5px; left: 20%; animation-delay: 0.5s; } 
         .bubble.b2 { width: 7px; height: 7px; left: 40%; animation-delay: 1s; } 
         .bubble.b3 { width: 4px; height: 4px; left: 65%; animation-delay: 0s; } 
         .bubble.b4 { width: 6px; height: 6px; left: 80%; animation-delay: 1.5s; } 
-
         .well-result.gas { color: #007bff; }
         .well-result.dissolve { color: #e67e22; }
         .well-result.no-change { color: #7f8c8d; }
         
-        /* 하단 결과 요약 - 정렬 문제 수정 */
         .instructions {
-            width: 100%;
-            max-width: 100%; /* 부모의 900px를 따르도록 */
-            margin-top: 25px;
-            padding: 20px;
-            background: #f9fafb;
-            border-top: 2px dashed #007bff;
-            border-radius: 8px;
+            width: 100%; max-width: 100%; margin-top: 25px; padding: 20px;
+            background: #f9fafb; border-top: 2px dashed #007bff; border-radius: 8px;
         }
-        
-        .instructions h3 {
-            margin-top: 0;
-            color: #4a90e2;
-            font-size: 1.5rem;
-        }
-        
-        .instructions ul {
-            padding-left: 20px;
-            margin: 0;
-            list-style: disc;
-            font-size: 1.1rem;
-        }
-        
-        .hidden {
-            display: none !important;
-        }
+        .instructions h3 { margin-top: 0; color: #4a90e2; font-size: 1.5rem; }
+        .instructions ul { padding-left: 20px; margin: 0; list-style: disc; font-size: 1.1rem; }
+        .hidden { display: none !important; }
 
         /* 퀴즈 스타일 */
         #summary-quiz {
-            border-top: 2px dashed #ffab00; 
-            background: #fffaf0;
+            border-top: 2px dashed #ffab00; background: #fffaf0;
         }
         .summary-label { 
-            padding: 8px 12px; 
-            background-color: white; 
-            border: 1px solid #ddd; 
-            border-radius: 20px; 
-            cursor: grab; 
-            font-size: 1rem; 
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05); 
-            transition: all 0.2s; 
+            padding: 8px 12px; background-color: white; border: 1px solid #ddd; 
+            border-radius: 20px; cursor: grab; font-size: 1rem; 
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05); transition: all 0.2s; 
         }
-        .summary-label.dragging { 
-            opacity: 0.5; 
-            cursor: grabbing; 
-            box-shadow: 0 4px 8px rgba(0,0,0,0.2); 
-        }
-        .summary-label.dropped { 
-            display: none; 
-        }
+        .summary-label.dragging { opacity: 0.5; cursor: grabbing; box-shadow: 0 4px 8px rgba(0,0,0,0.2); }
+        .summary-label.dropped { display: none; }
         .drop-zone { 
-            display: inline-block; 
-            min-width: 100px; 
-            height: 38px; 
-            border: 2px dashed #ccc; 
-            border-radius: 8px; 
-            background-color: #fafafa; 
-            margin: 0 5px; 
-            padding: 5px; 
-            text-align: center; 
-            vertical-align: middle; 
-            font-size: 1rem;
-            line-height: 1.5;
+            display: inline-block; min-width: 100px; height: 38px; 
+            border: 2px dashed #ccc; border-radius: 8px; background-color: #fafafa; 
+            margin: 0 5px; padding: 5px; text-align: center; vertical-align: middle; 
+            font-size: 1rem; line-height: 1.5;
         }
-        .drop-zone.drag-over { 
-            border-color: #007bff; 
-            background-color: #e6f2ff; 
-        }
+        .drop-zone.drag-over { border-color: #007bff; background-color: #e6f2ff; }
         .drop-zone.filled { 
-            border-style: solid; 
-            border-color: #4caf50; 
-            background-color: #f0fff4; 
-            color: #111; 
-            font-weight: bold; 
+            border-style: solid; border-color: #4caf50; background-color: #f0fff4; 
+            color: #111; font-weight: bold; 
         }
         .ghost-label { 
-            position: absolute; 
-            pointer-events: none; 
-            opacity: 0.8; 
-            z-index: 1000; 
-            transform: translate(-50%, -50%); 
-            padding: 8px 12px; 
-            background-color: white; 
-            border: 1px solid #ddd; 
-            border-radius: 20px; 
-            font-size: 1rem; 
+            position: absolute; pointer-events: none; opacity: 0.8; z-index: 1000; 
+            transform: translate(-50%, -50%); padding: 8px 12px; background-color: white; 
+            border: 1px solid #ddd; border-radius: 20px; font-size: 1rem; 
             box-shadow: 0 4px 8px rgba(0,0,0,0.2); 
         }
         
         /* 동적 가이드 CSS */
         .guide-text-box {
-            font-size: 1.1rem;
-            font-weight: bold;
-            color: #004085; 
-            padding: 10px 15px; 
-            background: #e0f2ff; 
-            border: 2px solid #a7d9ff; 
-            border-radius: 8px; 
-            height: 110px; 
-            width: 100%;
-            text-align: center; 
-            display: flex;
-            flex-direction: column; 
-            align-items: center;
-            justify-content: flex-start; 
-            padding-top: 15px; 
-            line-height: 1.3; 
-            word-break: keep-all; 
-            white-space: normal; 
+            font-size: 1.1rem; font-weight: bold; color: #004085; 
+            padding: 10px 15px; background: #e0f2ff; border: 2px solid #a7d9ff; 
+            border-radius: 8px; height: 110px; width: 100%; text-align: center; 
+            display: flex; flex-direction: column; align-items: center;
+            justify-content: flex-start; padding-top: 15px; line-height: 1.3; 
+            word-break: keep-all; white-space: normal; 
+            flex-shrink: 0; /* [NEW] */
         }
         .guide-text-box p {
-            font-weight: normal;
-            font-size: 1rem;
-            margin-top: 5px;
+            font-weight: normal; font-size: 1rem; margin-top: 5px;
         }
         
         /* Pulse 애니메이션 (색상별) */
@@ -688,24 +607,20 @@
             100% { box-shadow: 0 0 0 0 rgba(135, 206, 250, 0); }
         }
         .pulsing-lightblue { animation: pulse-lightblue 1.5s infinite; border-radius: 8px; } 
-        
         @keyframes pulse-pink {
             0% { box-shadow: 0 0 0 0 rgba(255, 192, 203, 0.9); }
             70% { box-shadow: 0 0 0 10px rgba(255, 192, 203, 0); }
             100% { box-shadow: 0 0 0 0 rgba(255, 192, 203, 0); }
         }
         .pulsing-pink { animation: pulse-pink 1.5s infinite; border-radius: 8px; }
-
-        /* 기본 펄스 (더 선명하게) */
         @keyframes pulse-blue {
             0% { box-shadow: 0 0 0 0 rgba(0, 123, 255, 0.9); } 
             70% { box-shadow: 0 0 0 10px rgba(0, 123, 255, 0); }
             100% { box-shadow: 0 0 0 0 rgba(0, 123, 255, 0); }
         }
-        /* 버튼 전용 펄스 클래스 */
         .exp-btn.pulsing-guide {
             animation: pulse-blue 1.5s infinite;
-            border-radius: 8px; /* 버튼 둥글기에 맞춤 */
+            border-radius: 8px; 
             box-shadow: 0 0 0 0 rgba(0, 123, 255, 0.9); 
         }
         .main-tab-btn.pulsing-guide {
@@ -718,6 +633,7 @@
 <body class="bg-gray-100">
 
     <div class="container my-5">
+        <!-- 홈 버튼 -->
         <a href="../index.html" class="home-button">🏠 과학 실험실 홈으로</a>
 
         <h1 class="main-title">
@@ -847,121 +763,84 @@
                     </li>
                 </ul>
             </div>
-
         </div>
 
     </div>
 
+    <!-- 스크립트는 이전과 동일합니다. -->
     <script>
-        /* [NEW] mp3 효과음 플레이어 */
         let waterPlayer;
-
-        /* [NEW] 효과음 재생 함수 (cabbage_simulation에서 복사) */
         function playWaterSound(type = 'drop') {
-            if (!waterPlayer) return; // waterPlayer가 로드되지 않았으면 중지
-
-            waterPlayer.currentTime = 0; // 재생 위치를 처음으로
-
+            if (!waterPlayer) return;
+            waterPlayer.currentTime = 0;
             if (type === 'drop') {
-                waterPlayer.volume = 0.3; // 0~1 사이 값 (작게)
-                waterPlayer.playbackRate = 1.5; // 재생 속도 (빠르게)
-                waterPlayer.play().catch(e => console.error("Audio play failed:", e)); // 재생 오류 처리
+                waterPlayer.volume = 0.3;
+                waterPlayer.playbackRate = 1.5;
+                waterPlayer.play().catch(e => console.error("Audio play failed:", e));
             } else if (type === 'neutral') {
-                waterPlayer.volume = 0.6; // 0~1 사이 값 (보통)
-                waterPlayer.playbackRate = 1.0; // 재생 속도 (보통)
-                waterPlayer.play().catch(e => console.error("Audio play failed:", e)); // 재생 오류 처리
+                waterPlayer.volume = 0.6;
+                waterPlayer.playbackRate = 1.0;
+                waterPlayer.play().catch(e => console.error("Audio play failed:", e));
             }
         }
-
         document.addEventListener('DOMContentLoaded', () => {
-
-            /* [NEW] mp3 효과음 플레이어 로드 */
             try {
-                // 'water.mp3' 파일이 이 html 파일과 같은 폴더에 있다고 가정합니다.
                 waterPlayer = new Audio('water.mp3');
                 waterPlayer.load(); 
             } catch (e) {
                 console.error("Audio 파일을 로드할 수 없습니다.", e);
-                waterPlayer = null; // 오류 발생 시 waterPlayer를 null로 설정
+                waterPlayer = null;
             }
-
-
-            /* --- 1. 주요 요소 --- */
-            /* [FIXED] 오류 수정을 위해 중복 선언 제거 */
             const btnExp1 = document.getElementById('btn-exp1');
             const btnExp2 = document.getElementById('btn-exp2');
             const resetButton = document.getElementById('reset-button');
-            const expControls = btnExp1.parentElement; /* 펄스 효과 제어용 부모 */
-            
+            const expControls = btnExp1.parentElement;
             const supplySet1 = document.getElementById('supply-set-1');
             const supplySet2 = document.getElementById('supply-set-2');
-            
             const plateTitle = document.getElementById('plate-title');
             const allWellMaterialLabels = document.querySelectorAll('.well-material-label'); 
             const draggables = document.querySelectorAll('.supply-item');
             const droppables = document.querySelectorAll('#main-plate .well'); 
-
-            let currentExperiment = 1; /* 1 또는 2만 사용 */
-
-            /* --- 탭 요소 --- */
+            let currentExperiment = 1;
             const mainTabExperiment = document.getElementById('main-tab-experiment');
             const mainTabSummary = document.getElementById('main-tab-summary');
             const experimentContent = document.getElementById('experiment-content');
             const summaryContent = document.getElementById('summary-content');
-            
-            /* --- 가이드 요소 --- */
             const guideText = document.getElementById('guide-text');
-
-            /* --- 2. 퀴즈 요소 --- */
             const quizContainer = document.getElementById('summary-quiz');
             const quizLabels = document.querySelectorAll('.summary-label');
             const quizDropZones = document.querySelectorAll('.drop-zone');
-            
             let correctQuizAnswers = 0;
             let draggedQuizLabel = null;
             let quizGhostElement = null;
-            
-            /* --- 3. 드래그 앤 드롭 로직 (실험 재료) --- */
             let draggedElement = null;
             let ghostElement = null;
-            let isTouchDragging = false; // 공통 터치 플래그
-            
-            /* (A) 마우스 드래그 (실험 재료) */
+            let isTouchDragging = false;
             draggables.forEach(item => {
                 item.addEventListener('dragstart', (e) => {
                     draggedElement = e.target.closest('.supply-item');
                     if (!draggedElement) return;
-                    
                     e.dataTransfer.setData('text/plain', draggedElement.id);
                     e.dataTransfer.setDragImage(new Image(), 0, 0); 
                     setTimeout(() => draggedElement.classList.add('dragging'), 0);
                 });
-
                 item.addEventListener('dragend', () => {
                     if (draggedElement) draggedElement.classList.remove('dragging');
                     draggedElement = null;
                 });
             });
-
-            /* (B) 터치 드래그 (실험 재료) */
             draggables.forEach(item => {
                 item.addEventListener('touchstart', (e) => {
-                    if (draggedQuizLabel) return; // 퀴즈 드래그 중이면 무시
+                    if (draggedQuizLabel) return;
                     draggedElement = e.target.closest('.supply-item');
                     if (!draggedElement) return;
-                    
                     isTouchDragging = true;
                     ghostElement = draggedElement.cloneNode(true);
                     ghostElement.classList.add('ghost-supply');
                     document.body.appendChild(ghostElement);
-                    
                     updateGhostPosition(e.touches[0], ghostElement);
                 }, { passive: false });
             });
-            
-            /* --- 4. 드래그 앤 드롭 로직 (퀴즈 라벨) --- */
-
-            /* (A) 마우스 드래그 (퀴즈 라벨) */
             quizLabels.forEach(label => {
                 label.addEventListener('dragstart', (e) => {
                     draggedQuizLabel = e.target;
@@ -973,77 +852,58 @@
                     draggedQuizLabel = null;
                 });
             });
-
-            /* (B) 터치 드래그 (퀴즈 라벨) */
             quizLabels.forEach(label => {
                 label.addEventListener('touchstart', (e) => {
-                    if (draggedElement) return; // 실험 드래그 중이면 무시
+                    if (draggedElement) return;
                     draggedQuizLabel = e.target;
-                    
                     isTouchDragging = true;
                     quizGhostElement = draggedQuizLabel.cloneNode(true);
                     quizGhostElement.classList.add('ghost-label');
                     document.body.appendChild(quizGhostElement);
-                    
                     updateGhostPosition(e.touches[0], quizGhostElement);
                 }, { passive: false });
             });
-
-            /* --- 5. 공통 드롭 존 로직 (마우스) --- */
-            
             document.addEventListener('dragover', (e) => {
                 e.preventDefault();
-                // 드래그 오버 피드백 모두 초기화
                 document.querySelectorAll('.drag-over').forEach(el => el.classList.remove('drag-over'));
-
-                if (draggedElement) { // 실험 재료 드래그 중
+                if (draggedElement) {
                     const dropTarget = e.target.closest('.well');
-                    /* [MODIFIED] 완료 여부 체크 로직 변경 */
                     const usedKey = 'set' + currentExperiment + 'Used';
                     if (dropTarget && dropTarget.dataset[usedKey] === 'false') {
                         dropTarget.classList.add('drag-over');
                     }
-                } else if (draggedQuizLabel) { // 퀴즈 라벨 드래그 중
+                } else if (draggedQuizLabel) {
                     const dropTarget = e.target.closest('.drop-zone');
                     if (dropTarget && !dropTarget.classList.contains('filled')) {
                         dropTarget.classList.add('drag-over');
                     }
                 }
             });
-
             document.addEventListener('drop', (e) => {
                 e.preventDefault();
                 document.querySelectorAll('.drag-over').forEach(el => el.classList.remove('drag-over'));
-                
-                if (draggedElement) { // 실험 재료 드롭
+                if (draggedElement) {
                     const dropTarget = e.target.closest('.well');
                     if (dropTarget) {
                         runExperimentDrop(dropTarget, draggedElement.id);
                     }
-                } else if (draggedQuizLabel) { // 퀴즈 라벨 드롭
+                } else if (draggedQuizLabel) {
                     const dropTarget = e.target.closest('.drop-zone');
                     if (dropTarget) {
                         runQuizDrop(dropTarget, draggedQuizLabel);
                     }
                 }
             });
-
-            /* --- 6. 공통 터치 이벤트 (이동, 종료) --- */
-            
             document.addEventListener('touchmove', (e) => {
                 if (!isTouchDragging) return;
                 e.preventDefault();
-                
                 const touch = e.touches[0];
                 let currentGhost = draggedElement ? ghostElement : quizGhostElement;
                 if (currentGhost) updateGhostPosition(touch, currentGhost);
-                
                 const elementUnderTouch = document.elementFromPoint(touch.clientX, touch.clientY);
                 document.querySelectorAll('.drag-over').forEach(el => el.classList.remove('drag-over'));
-
                 if (draggedElement) {
                     const dropTarget = elementUnderTouch ? elementUnderTouch.closest('.well') : null;
-                    /* [MODIFIED] 완료 여부 체크 로직 변경 */
                     const usedKey = 'set' + currentExperiment + 'Used';
                     if (dropTarget && dropTarget.dataset[usedKey] === 'false') {
                         dropTarget.classList.add('drag-over');
@@ -1055,16 +915,12 @@
                     }
                 }
             }, { passive: false });
-
             document.addEventListener('touchend', (e) => {
                 if (!isTouchDragging) return;
                 isTouchDragging = false;
-                
                 document.querySelectorAll('.drag-over').forEach(el => el.classList.remove('drag-over'));
-                
                 const touch = e.changedTouches[0];
                 const elementUnderTouch = document.elementFromPoint(touch.clientX, touch.clientY);
-
                 if (draggedElement) {
                     const dropTarget = elementUnderTouch ? elementUnderTouch.closest('.well') : null;
                     if (dropTarget) {
@@ -1073,7 +929,6 @@
                     if (ghostElement) document.body.removeChild(ghostElement);
                     ghostElement = null;
                     draggedElement = null;
-
                 } else if (draggedQuizLabel) {
                     const dropTarget = elementUnderTouch ? elementUnderTouch.closest('.drop-zone') : null;
                     if (dropTarget) {
@@ -1084,38 +939,23 @@
                     draggedQuizLabel = null;
                 }
             });
-            
             function updateGhostPosition(touch, ghostEl) {
                 if (!ghostEl) return;
                 ghostEl.style.left = `${touch.clientX}px`;
                 ghostEl.style.top = `${touch.clientY}px`;
             }
-
-
-            /* --- 7. 실험/퀴즈 실행 로직 --- */
-
-            /** [NEW] 반응 시각화 함수 (버그 수정용) */
             function showReaction(targetWell, materialId) {
                 const solutionDiv = targetWell.querySelector('.solution');
-                /* [BUG FIX] 이미 그려진 효과/결과가 있다면 지운다 (탭 전환 시 중복 방지) */
                 solutionDiv.innerHTML = ''; 
-
                 const solutionType = targetWell.dataset.solution;
                 const reaction = getReaction(materialId, solutionType);
-                
-                /* 1. 재료 시각화 */
                 const materialClassName = `mat_${materialId}`;
-                // if (!solutionDiv.querySelector(`.${materialClassName}`)) { // 버그 수정 위해 조건 제거
-                    const materialVisual = document.createElement('div');
-                    materialVisual.className = `material-in-well ${materialClassName}`;
-                    materialVisual.innerText = getMaterialDisplayName(materialId); 
-                    solutionDiv.appendChild(materialVisual);
-                // }
-
-                /* 2. 시각 효과 (기포, 흐려짐 등) */
+                const materialVisual = document.createElement('div');
+                materialVisual.className = `material-in-well ${materialClassName}`;
+                materialVisual.innerText = getMaterialDisplayName(materialId); 
+                solutionDiv.appendChild(materialVisual);
                 const effectContainer = document.createElement('div');
                 effectContainer.className = 'effect-container';
-
                 if (reaction.className === 'gas') {
                     for (let i = 1; i <= 4; i++) {
                         const bubble = document.createElement('span');
@@ -1127,52 +967,35 @@
                     effectContainer.classList.add('cloudy');
                     solutionDiv.appendChild(effectContainer);
                 }
-
-                /* 3. 결과 텍스트 (지연 표시) */
                 setTimeout(() => {
-                    /* [BUG FIX] 이미 결과가 있다면 추가하지 않음 (드롭 시 중복 방지) */
                     if (solutionDiv.querySelector('.well-result')) return;
-                    
                     const resultEl = document.createElement('div');
                     resultEl.className = `well-result ${reaction.className}`;
                     resultEl.innerHTML = reaction.text.replace(/\//g, '<br>');
                     solutionDiv.appendChild(resultEl); 
                 }, 500); 
             }
-
-            /** [MODIFIED] (F) 실험 드롭 실행 함수 - showReaction 호출 */
             function runExperimentDrop(targetWell, droppedMaterialId) {
                 const expectedMaterialKey = 'materialSet' + currentExperiment + 'Id';
                 const expectedMaterial = targetWell.dataset[expectedMaterialKey];
                 const usedKey = 'set' + currentExperiment + 'Used';
-                
                 if (targetWell.dataset[usedKey] === 'true') return; 
-
                 if (droppedMaterialId === expectedMaterial) {
-                    targetWell.dataset[usedKey] = 'true'; // 해당 실험 완료로 표시
-                    
-                    playWaterSound('drop'); // [NEW] 효과음 재생
-
-                    /* [MODIFIED] 시각화 로직을 새 함수로 분리 */
+                    targetWell.dataset[usedKey] = 'true';
+                    playWaterSound('drop');
                     showReaction(targetWell, droppedMaterialId);
-                    
-                    /* 완료 체크 */
                     checkCompletionStatus();
                 }
             }
-
-            /** 퀴즈 드롭 실행 함수 */
             function runQuizDrop(dropZone, label) {
                 if (dropZone.dataset.answer === label.dataset.answer && !dropZone.classList.contains('filled')) {
                     dropZone.innerText = label.innerText;
                     dropZone.classList.add('filled');
                     label.classList.add('dropped');
                     correctQuizAnswers++;
-                    checkCompletionStatus(); // 퀴즈 상태도 체크
+                    checkCompletionStatus();
                 }
             }
-
-            /** id "eggwhite" */
             function getMaterialDisplayName(id) {
                 switch (id) {
                     case 'eggshell': return '껍데기';
@@ -1182,8 +1005,6 @@
                     default: return id;
                 }
             }
-
-            /** id "eggwhite" */
             function getReaction(material, solution) {
                 switch (material) {
                     case 'eggshell':
@@ -1200,28 +1021,18 @@
                         return { text: '', className: '' };
                 }
             }
-            
-            /* --- 8. 상태 관리 --- */
-            
-            /** 펄스 효과 모두 제거 */
             function clearAllPulses() {
                 document.querySelectorAll('.pulsing-guide, .pulsing-lightblue, .pulsing-pink').forEach(el => { 
                     el.className = el.className.replace(/pulsing-\w+/g, '').replace('pulsing-guide', '');
                 });
-                /* 부모 펄스 클래스 제거 */
                 expControls.classList.remove('pulsing');
             }
-
-            /** updateGuide 함수 - 새 상태 로직 적용 */
             function updateGuide(guideState) {
                 clearAllPulses();
-                
-                /* 홈판 및 재료 반짝임 로직 */
                 let isEggshellNeeded = false;
                 let isMarbleNeeded = false;
                 let isEggWhiteNeeded = false;
                 let isChickenNeeded = false;
-
                 droppables.forEach(well => {
                     if (currentExperiment === 1 && well.dataset.set1Used === 'false') {
                         if (well.dataset.materialSet1Id === 'eggshell') {
@@ -1241,17 +1052,13 @@
                         }
                     }
                 });
-
-                // --- 재료 공급처(왼쪽) 반짝임 ---
                 if (currentExperiment === 1) {
                     if (isEggshellNeeded) document.getElementById('eggshell').classList.add('pulsing-lightblue');
                     if (isMarbleNeeded) document.getElementById('marble').classList.add('pulsing-pink');
-                } else { // currentExperiment === 2
+                } else {
                     if (isEggWhiteNeeded) document.getElementById('eggwhite').classList.add('pulsing-lightblue');
                     if (isChickenNeeded) document.getElementById('chicken').classList.add('pulsing-pink');
                 }
-
-                /* 가이드 텍스트 및 펄스 로직 */
                 switch (guideState) {
                     case 'INIT':
                         guideText.innerHTML = "<b>1. 실험 1 시작</b><p class'mt-1'>'실험 1' 재료(껍데기, 대리암)를<br>알맞은 홈에 끌어다 놓으세요.</p>";
@@ -1259,12 +1066,12 @@
                     case 'EXP1_DONE':
                         guideText.innerHTML = "<b>'실험 1' 완료!</b><p class='mt-1'>'실험 2' 버튼을 눌러<br>다음 실험을 진행하세요.</p>";
                         btnExp2.classList.add('pulsing-guide');
-                        expControls.classList.add('pulsing'); // 펄싱 부모 클래스 추가
+                        expControls.classList.add('pulsing');
                         break;
-                    case 'EXP2_MODE': // 실험 2 탭을 눌렀으나 아직 미완료
+                    case 'EXP2_MODE':
                          guideText.innerHTML = "<b>2. 실험 2 시작</b><p class='mt-1'>'실험 2' 재료(흰자, 닭가슴살)를<br>알맞은 홈에 끌어다 놓으세요.</p>";
                          break;
-                    case 'EXP2_DONE': // 실험 1은 안하고 2만 완료 (이론상 가능)
+                    case 'EXP2_DONE':
                         guideText.innerHTML = "<b>'실험 2' 완료!</b><p class='mt-1'>'실험 1' 버튼을 눌러<br>마저 진행하세요.</p>";
                         btnExp1.classList.add('pulsing-guide');
                         expControls.classList.add('pulsing');
@@ -1275,16 +1082,12 @@
                         mainTabSummary.classList.add('pulsing-guide');
                         break;
                     case 'ON_SUMMARY_TAB':
-                        /* 퀴즈 탭에서는 텍스트/펄스 없음. 펄스만 제거 */
                         break;
                 }
             }
-
-            /** 완료 체크 함수 - 새 상태 로직 적용 */
             function checkCompletionStatus() {
                 let exp1DoneCount = 0;
                 let exp2DoneCount = 0;
-
                 droppables.forEach(well => {
                     if (well.dataset.set1Used === 'true') {
                         exp1DoneCount++;
@@ -1293,93 +1096,64 @@
                         exp2DoneCount++;
                     }
                 });
-
                 const isExp1Done = exp1DoneCount === 4;
                 const isExp2Done = exp2DoneCount === 4;
                 const activeTab = document.querySelector('.main-tab-btn.active').id;
-
                 if (activeTab === 'main-tab-summary') {
                     updateGuide('ON_SUMMARY_TAB');
                     return;
                 }
-
                 if (isExp1Done && isExp2Done) {
                     updateGuide('ALL_DONE');
-                } else if (isExp1Done && currentExperiment === 1) { // 실험1 끝났고, 아직 실험1 탭일 때
+                } else if (isExp1Done && currentExperiment === 1) {
                     updateGuide('EXP1_DONE');
-                } else if (isExp2Done && currentExperiment === 2) { // 실험2 끝났고, 아직 실험2 탭일 때
+                } else if (isExp2Done && currentExperiment === 2) {
                    updateGuide('EXP2_DONE');
                 } else if (currentExperiment === 1) {
-                    updateGuide('INIT'); // 실험 1 진행 중
+                    updateGuide('INIT');
                 } else if (currentExperiment === 2) {
-                    updateGuide('EXP2_MODE'); // 실험 2 진행 중
+                    updateGuide('EXP2_MODE');
                 }
             }
-
-            /** 메인 탭 전환 함수 */
             function showMainTab(tabName) {
                 mainTabExperiment.classList.toggle('active', tabName === 'experiment');
                 mainTabSummary.classList.toggle('active', tabName === 'summary');
-                
                 experimentContent.classList.toggle('hidden', tabName !== 'experiment');
                 summaryContent.classList.toggle('hidden', tabName !== 'summary');
-                
-                checkCompletionStatus(); // 탭 전환 시 가이드 업데이트
+                checkCompletionStatus();
             }
-
-
-            /** [MODIFIED] (H) 실험 전환 함수 - 홈판 내용 다시 그리기 (버그 수정) */
             function switchExperiment(expNum) {
                 currentExperiment = expNum;
-                
                 btnExp1.classList.toggle('active', expNum === 1);
                 btnExp2.classList.toggle('active', expNum === 2);
-                
                 supplySet1.classList.toggle('hidden', expNum !== 1);
                 supplySet2.classList.toggle('hidden', expNum !== 2);
-                
                 plateTitle.innerText = (expNum === 1) ? '실험 1: 껍데기 & 대리암' : '실험 2: 달걀흰자 & 닭가슴살';
-                
-                // 새로운 재료 라벨 교체
                 allWellMaterialLabels.forEach(label => {
                     const labelKey = (expNum === 1) ? label.dataset.materialLabelSet1 : label.dataset.materialLabelSet2;
                     label.innerHTML = labelKey.replace(/\//g, '<br>');
                 });
-
-                /* [MODIFIED] 홈판 내용 다시 그리기 (버그 수정) */
                 droppables.forEach(well => {
-                    // 1. 일단 모두 지운다 (showReaction이 내부에서 지우도록 수정)
                     const solutionDiv = well.querySelector('.solution');
                     solutionDiv.innerHTML = ''; 
-
                     if (expNum === 1 && well.dataset.set1Used === 'true') {
-                        // 2. 실험 1 탭이면, 실험 1 결과만 다시 그린다
                         showReaction(well, well.dataset.materialSet1Id);
                     } else if (expNum === 2 && well.dataset.set2Used === 'true') {
-                        // 3. 실험 2 탭이면, 실험 2 결과만 다시 그린다
                         showReaction(well, well.dataset.materialSet2Id);
                     }
                 });
-                
-                checkCompletionStatus(); // 탭 전환 시 상태 체크 및 가이드 업데이트
+                checkCompletionStatus();
             }
-
-            /** (I) 홈판 초기화 함수 - 새 상태 로직 적용 */
             function resetPlate(isFullReset = false) { 
-                correctQuizAnswers = 0; // 퀴즈 카운터 리셋
-                
+                correctQuizAnswers = 0;
                 if (isFullReset) {
                     droppables.forEach(well => {
-                        /* 새 상태 속성 리셋 */
                         well.dataset.set1Used = 'false';
                         well.dataset.set2Used = 'false';
-                        
                         const solutionDiv = well.querySelector('.solution');
                         solutionDiv.innerHTML = '';
                     });
                 }
-
-                // 퀴즈 리셋
                 quizDropZones.forEach(zone => {
                     zone.classList.remove('filled');
                     zone.innerText = '';
@@ -1387,44 +1161,31 @@
                 quizLabels.forEach(label => {
                     label.classList.remove('dropped');
                 });
-                
-                // 탭 리셋
                 mainTabSummary.disabled = true;
                 showMainTab('experiment');
-                
                 if (isFullReset) {
                     currentExperiment = 1; 
                     btnExp1.classList.add('active'); 
                     btnExp2.classList.remove('active'); 
                     plateTitle.innerText = '실험 1: 껍데기 & 대리암';
-                    // 실험 1 라벨로 복원
                     allWellMaterialLabels.forEach(label => {
                          label.innerHTML = label.dataset.materialLabelSet1.replace(/\//g, '<br>');
                     });
-                    // 실험 2 재료 숨김
                     supplySet1.classList.remove('hidden');
                     supplySet2.classList.add('hidden');
-                    
-                    checkCompletionStatus(); // 초기 가이드 설정
+                    checkCompletionStatus();
                 }
             }
-
-            /* --- 9. 이벤트 리스너 연결 --- */
             btnExp1.addEventListener('click', () => switchExperiment(1));
             btnExp2.addEventListener('click', () => switchExperiment(2));
             resetButton.addEventListener('click', () => resetPlate(true));
-
-            // 메인 탭 리스너
             mainTabExperiment.addEventListener('click', () => showMainTab('experiment'));
             mainTabSummary.addEventListener('click', () => {
                 if (!mainTabSummary.disabled) {
                     showMainTab('summary');
                 }
             });
-            
-            // 초기 실행
             resetPlate(true); 
-
         });
     </script>
 
