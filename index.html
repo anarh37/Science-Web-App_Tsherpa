@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>산성 용액과 염기성 용액을 섞었을 때의 변</title>
+    <title>붉은 양배추 지시약 중화 반응 시뮬레이터</title>
     
     <!-- Jua 폰트 --><link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -503,11 +503,11 @@
             margin-top: 10px;
             color: #333;
             line-height: 1.4; 
-            height: 84px; /* [v30 수정] min-height -> height (고정 높이로 복원) */
+            height: 100px; /* [v31 수정] 84px -> 100px (최대 3-4줄 고정) */
             width: 100%; 
             box-sizing: border-box; 
             padding: 0; 
-            overflow: auto; /* [v30 수정] hidden -> auto (스크롤 활성화 복원) */
+            overflow: hidden; /* [v31 수정] auto -> hidden (스크롤바 제거) */
         }
         #ion-info b.ion-h { color: #e65a5f; }
         #ion-info b.ion-oh { color: #70a1b5; }
@@ -772,7 +772,7 @@
     <div class="container my-5">
 
         <h1 class="main-title"> 
-            산성 용액과 염기성 용액을 섞었을 때의 변화
+            붉은 양배추 지시약 중화 반응
         </h1>
 
         <div class="controls">
