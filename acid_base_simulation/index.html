@@ -26,7 +26,8 @@
 
         .container {
             width: 100%;
-            max-width: 1200px;
+            /* [수정] 메인 콘텐츠 너비를 좁혀 여백을 확보하고, 스크린샷에 맞춤 */
+            max-width: 660px; 
             background-color: #ffffff;
             border-radius: 10px;
             box-shadow: 0 4px 12px rgba(0,0,0,0.05);
@@ -53,12 +54,12 @@
             margin-bottom: 20px; 
         }
         
-        /* [MODIFIED] 메인 탭 스타일 - 50:50 비율 */
+        /* [수정] 메인 탭 스타일 - 50:50 비율 (max-width 제거) */
         .main-tabs {
             width: 100%;
-            max-width: 880px; 
+            /* max-width: 880px; -> .container의 max-width를 따르므로 제거 */
             display: grid; 
-            grid-template-columns: 1fr 1fr; /* [MODIFIED] 50:50 비율로 하단과 통일 */
+            grid-template-columns: 1fr 1fr; 
             gap: 10px;
             margin-bottom: 20px;
         }
@@ -111,13 +112,13 @@
             flex-direction: column;
             align-items: center; 
             width: 100%; 
-            max-width: 880px; /* 상단 탭과 max-width 통일 */
+            /* max-width: 880px; -> .container의 max-width를 따르므로 제거 */
         }
 
-        /* [MODIFIED] 전체 레이아웃 (데스크탑 2단) - 50:50 비율 */
+        /* [수정] 전체 레이아웃 (데스크탑 2단) - 50:50 비율 */
         .lab-bench {
             display: grid; 
-            grid-template-columns: 1fr 1fr; /* [MODIFIED] 50:50 비율로 재조정 */
+            grid-template-columns: 1fr 1fr; 
             gap: 10px; 
             margin-top: 0; 
             width: 100%;
@@ -187,6 +188,7 @@
         .exp-btn.active {
             background-color: #4a90e2;
             color: white;
+            border-color: #3a75b6;
         }
         .exp-btn:first-child { border-right: 1px solid #b0c4de; }
         
@@ -512,7 +514,7 @@
         /* 하단 결과 요약 - 정렬 문제 수정 */
         .instructions {
             width: 100%;
-            max-width: 100%; /* 부모의 880px를 따르도록 */
+            max-width: 100%; /* 부모의 660px를 따르도록 */
             margin-top: 25px;
             padding: 20px;
             background: #f9fafb;
@@ -1030,6 +1032,12 @@
                     quizGhostElement = null;
                     draggedQuizLabel = null;
                 }
+                
+                // [NEW] 퀴즈 완료 피드백 추가
+                if (document.querySelector('.main-tab-btn.active').id === 'main-tab-summary') {
+                    checkQuizCompletion();
+                }
+
             });
             
             function updateGhostPosition(touch, ghostEl) {
@@ -1110,6 +1118,22 @@
                     label.classList.add('dropped');
                     correctQuizAnswers++;
                     checkCompletionStatus(); // 퀴즈 상태도 체크
+                }
+            }
+            
+            /** [NEW] 퀴즈 완료 여부 체크 및 피드백 */
+            function checkQuizCompletion() {
+                if (document.querySelector('.main-tab-btn.active').id !== 'main-tab-summary') return;
+                if (correctQuizAnswers === quizDropZones.length) {
+                    guideText.innerHTML = "<b>🎉 퀴즈 정답입니다! 🎉</b><p class='mt-1'>모든 실험과 정리를 완료했습니다. 잘했어요!</p>";
+                    // [NEW] 퀴즈 완료 시 실험 탭으로 돌아가는 버튼 펄스 제거
+                    mainTabSummary.classList.remove('pulsing-guide');
+                    // 정답 피드백 후 5초 뒤 메시지 초기화 (선택 사항)
+                    setTimeout(() => {
+                         guideText.innerHTML = "<b>실험 및 정리 완료!</b><p class='mt-1'>다시 실험하려면 '처음부터 다시하기'를 누르세요.</p>";
+                    }, 5000);
+                } else if (correctQuizAnswers > 0) {
+                     guideText.innerHTML = `<b>${quizDropZones.length}개 중 ${correctQuizAnswers}개 정답!</b><p class='mt-1'>남은 빈칸에 알맞은 라벨을 채워보세요.</p>`;
                 }
             }
 
@@ -1216,7 +1240,7 @@
                         mainTabSummary.classList.add('pulsing-guide');
                         break;
                     case 'ON_SUMMARY_TAB':
-                        /* 퀴즈 탭에서는 텍스트/펄스 없음. 펄스만 제거 */
+                        checkQuizCompletion(); // 퀴즈 탭에서는 텍스트/펄스 없음. 퀴즈 상태만 체크
                         break;
                 }
             }
@@ -1339,7 +1363,7 @@
                     plateTitle.innerText = '실험 1: 껍데기 & 대리암';
                     // 실험 1 라벨로 복원
                     allWellMaterialLabels.forEach(label => {
-                         label.innerHTML = label.dataset.materialLabelSet1.replace(/\//g, '<br>');
+                           label.innerHTML = label.dataset.materialLabelSet1.replace(/\//g, '<br>');
                     });
                     // 실험 2 재료 숨김
                     supplySet1.classList.remove('hidden');
