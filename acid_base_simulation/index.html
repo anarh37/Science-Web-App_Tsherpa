@@ -44,7 +44,7 @@
             transform: translateY(-2px);
         }
 
-        /* [MODIFIED] max-width 1150px 유지, aspect-ratio 제거 */
+        /* max-width 1150px 유지 */
         .container {
             max-width: 1150px; 
             width: 100%;
@@ -136,7 +136,7 @@
             overflow: hidden; 
         }
 
-        /* [MODIFIED] 항상 1fr 1fr (대칭) 유지 */
+        /* 항상 1fr 1fr (대칭) 유지 */
         .lab-bench {
             display: grid; 
             grid-template-columns: 1fr 1fr;
@@ -146,8 +146,7 @@
             overflow: hidden; 
         }
 
-        /* [REMOVED] 960px 이하에서 1단으로 부수던 미디어 쿼리 삭제 */
-        /* @media (max-width: 960px) { ... } */
+        /* 반응형 1단 레이아웃 삭제 */
 
 
         /* 왼쪽 전체 영역 (제목과 박스 모두 포함) */
@@ -161,7 +160,7 @@
             min-width: 0; 
         }
         
-        /* [MODIFIED] height: 400px 고정 (대칭 유지) */
+        /* [MODIFIED] height: 550px로 증가 */
         .instructions-box {
             border: 2px dashed #C8B6E2;
             background-color: #fafaff; 
@@ -172,7 +171,7 @@
             flex-direction: column;
             gap: 15px; 
             align-items: center;
-            height: 400px; /* 고정 높이 */
+            height: 550px; /* [MODIFIED] 높이 증가 */
             box-sizing: border-box; 
             justify-content: space-between; 
             min-height: 0; 
@@ -287,7 +286,6 @@
             box-sizing: border-box;
             width: 100%; 
             min-width: 0; 
-            /* [REMOVED] min-width: 420px 제거 (대칭 유지) */
         }
         
         .experiment-area h2::before {
@@ -313,7 +311,7 @@
             background-color: #dc2626; 
         }
 
-        /* [MODIFIED] height: 400px 고정 (대칭 유지) */
+        /* [MODIFIED] height: 550px로 증가 */
         .well-plate-wrapper {
             position: relative;
             display: flex;
@@ -326,28 +324,29 @@
             border: 1px solid #e0e0e0; 
             border-radius: 10px;
             box-shadow: 0 4px 12px rgba(0,0,0,0.05); 
-            height: 400px; /* 고정 높이 */
+            height: 550px; /* [MODIFIED] 높이 증가 */
             box-sizing: border-box;
             justify-content: center; 
             min-height: 0; 
         }
 
-        /* 6홈판 본체 (너비/높이 고정 유지) */
+        /* [MODIFIED] 홈판 전체 크기 증가 */
         .well-plate {
             display: grid;
             grid-template-columns: repeat(2, 1fr); 
             grid-template-rows: repeat(2, 1fr); 
-            gap: 8px; 
-            width: 260px; 
-            margin: 0 80px; /* 80px 라벨 공간 (260+80+80 = 420px) */
+            gap: 10px; /* [MODIFIED] 8px -> 10px */
+            width: 370px; /* [MODIFIED] 260px -> 370px (180*2 + 10) */
+            margin: 0 100px; /* [MODIFIED] 80px -> 100px 라벨 공간 */
             position: relative; 
-            height: 368px; /* 180px * 2 + 8px gap (대략) */
+            height: 510px; /* [MODIFIED] 368px -> 510px (250*2 + 10) */
         }
 
+        /* [MODIFIED] 홈(well) 크기 증가 */
         .well {
             position: relative; 
-            width: 130px; 
-            height: 180px; 
+            width: 180px; /* [MODIFIED] 130px -> 180px */
+            height: 250px; /* [MODIFIED] 180px -> 250px */
             border: 1px solid #eee; 
             border-radius: 8px;
             background-color: #f9f9f9; 
@@ -366,9 +365,10 @@
             transform: scale(1.05);
         }
         
+        /* [MODIFIED] 라벨 크기 및 위치 조정 */
         .well-material-label {
             position: absolute;
-            font-size: 0.9rem; 
+            font-size: 1rem; /* [MODIFIED] 0.9rem -> 1rem */
             font-weight: bold;
             color: #555;
             background-color: #e6ffe6; 
@@ -378,23 +378,25 @@
             white-space: normal; 
             text-align: center; 
             z-index: 1; 
-            width: 80px; 
-            top: 50px; 
+            width: 100px; /* [MODIFIED] 80px -> 100px */
+            top: 50%; /* [MODIFIED] 50px -> 50% (중앙정렬) */
+            transform: translateY(-50%); /* [NEW] 중앙정렬 */
             height: 80px; 
             display: flex;
             align-items: center;
             justify-content: center;
         }
         .well-material-label.left {
-            left: -80px; 
+            left: -100px; /* [MODIFIED] -80px -> -100px */
         }
         .well-material-label.right {
-            right: -80px; 
+            right: -100px; /* [MODIFIED] -80px -> -100px */
         }
 
+        /* [MODIFIED] 용액 원 크기 증가 */
         .well .solution {
-            width: 90px; 
-            height: 90px; 
+            width: 130px; /* [MODIFIED] 90px -> 130px */
+            height: 130px; /* [MODIFIED] 90px -> 130px */
             margin: 0; 
             border: 1px solid #d0d0d0; 
             border-radius: 50%;
@@ -410,9 +412,10 @@
             flex-shrink: 0; 
         }
 
+        /* [MODIFIED] 홈 내부 라벨 위치/크기 조정 */
         .well-solution-label {
             font-weight: bold;
-            font-size: 1rem; 
+            font-size: 1.1rem; /* [MODIFIED] 1rem -> 1.1rem */
             color: #333;
             text-align: center;
             word-break: keep-all;
@@ -428,20 +431,20 @@
         }
         .well-solution-label.top {
             top: 0; 
-            height: 45px; 
+            height: 60px; /* [MODIFIED] 45px -> 60px */
         }
         .well-solution-label.bottom {
             bottom: 0;
-            height: 45px; 
+            height: 60px; /* [MODIFIED] 45px -> 60px */
         }
         
         .material-in-well {
-            width: 70px; 
-            height: 70px; 
+            width: 100px; /* [MODIFIED] 70px -> 100px */
+            height: 100px; /* [MODIFIED] 70px -> 100px */
             background-color: #e0e6ed;
             border: 1px solid #c0c8d4;
             border-radius: 6px;
-            font-size: 11px; 
+            font-size: 1rem; /* [MODIFIED] 11px -> 1rem */
             color: #555;
             text-align: center;
             padding: 2px;
@@ -454,13 +457,14 @@
             transform: translate(-50%, -50%);
         }
         
+        /* [MODIFIED] 결과 텍스트 크기 증가 */
         .well-result {
             position: absolute; 
             top: 50%; 
             left: 50%; 
             transform: translate(-50%, -50%); 
             font-weight: bold;
-            font-size: 1.2rem; 
+            font-size: 1.4rem; /* [MODIFIED] 1.2rem -> 1.4rem */
             padding: 3px 6px;
             background-color: rgba(255, 255, 255, 0.9);
             border-radius: 4px;
@@ -471,7 +475,7 @@
             word-break: keep-all;
             text-align: center;
             line-height: 1.2; 
-            width: 80px; 
+            width: 100px; /* [MODIFIED] 80px -> 100px */
         }
 
         /* --- (이하 동일) --- */
