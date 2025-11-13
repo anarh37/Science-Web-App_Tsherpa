@@ -40,7 +40,7 @@
         /* 메인 타이틀 */
         .main-title {
             text-align: center;
-            font-size: 3.5rem; 
+            font-size: 3.8rem; /* [사용자 요청] 3.5rem -> 3.8rem */ 
             font-weight: bold;
             color: #6666FF; 
             text-shadow: 
@@ -77,7 +77,7 @@
         }
         .controls button {
             font-family: 'Jua', sans-serif; 
-            font-size: 1.1rem; 
+            font-size: 1.2rem; /* [사용자 요청] 1.1rem -> 1.2rem */ 
             padding: 10px 15px;
             margin: 0; 
             border: 2px solid;
@@ -86,27 +86,30 @@
             background-color: white;
             transition: all 0.3s;
             flex-grow: 1; 
-            max-width: 30%; 
+            /* [사용자 요청] max-width: 30% -> none 변경 (버튼 너비 확장) */
+            max-width: none; 
         }
         .controls button.exp1 { border-color: #d9534f; color: #d9534f; }
-        .controls button.exp2 { border-color: #a8b56f; color: #a8b56f; }
+        /* [사용자 요청] exp2 버튼 색상 (연두->노랑) */
+        .controls button.exp2 { border-color: #E6DB65; color: #E6DB65; }
         .controls button.reset { border-color: #777; color: #777; }
         
         .controls button.exp1.active { background-color: #d9534f; color: white; }
-        .controls button.exp2.active { background-color: #a8b56f; color: white; }
+        /* [사용자 요청] exp2 active 버튼 색상 (연두->노랑) */
+        .controls button.exp2.active { background-color: #E6DB65; color: white; }
         .controls button:hover { transform: translateY(-2px); }
 
         /* h2 (섹션 제목) */
         h2 {
             color: #111;
-            font-size: 1.8em; 
+            font-size: 2.0em; /* [사용자 요청] 1.8em -> 2.0em */ 
             font-weight: bold; 
             margin-bottom: 15px; 
             display: flex;
             align-items: center;
             justify-content: center;
             line-height: 1.2;
-            min-width: 280px; 
+            width: 100%; /* [사용자 요청] min-width: 280px -> width: 100% 로 변경 (제목 가운데 정렬) */
         }
         
         h2::before {
@@ -211,30 +214,30 @@
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
         
-        /* 점적병 시각적 오브젝트 (이미지로 변경) */
+        /* 점적병 시각적 오브젝트 */
         .dropper-visual {
-            width: 110px; /* 70px -> 110px */
-            height: 110px; /* 70px -> 110px */
-            /* border: 1px solid #c0c0c0; */ /* 제거 */
-            /* background-color: #f0f0f0; */ /* 제거 */
+            width: 110px; /* [v29 수정] 130px -> 110px */ 
+            height: 110px; /* [v29 수정] 130px -> 110px */
+            /* border: 1px solid #c0c0c0; */ /* 이미지 사용을 위해 테두리 제거 */
+            /* background-color: #f0f0f0; */ /* 이미지 사용을 위해 배경 제거 */
             display: flex;
             justify-content: center;
             align-items: center; 
             border-radius: 6px;
-            /* box-shadow: 0 1px 3px rgba(0,0,0,0.1); */ /* 제거 */
+            /* box-shadow: 0 1px 3px rgba(0,0,0,0.1); */ /* 이미지 사용을 위해 그림자 제거 */
             box-sizing: border-box;
-            /* font-size: 0.9em; */ /* 제거 */
-            /* padding: 3px; */ /* 제거 */
-            /* line-height: 1.2; */ /* 제거 */
-            /* white-space: normal; */ /* 제거 */
-            /* word-break: keep-all; */ /* 제거 */
+            /* font-size: 0.9em; */ /* 텍스트 제거 */
+            /* padding: 3px; */ /* 패딩 제거 */
+            /* line-height: 1.2; */
+            /* white-space: normal; */ 
+            /* word-break: keep-all; */ 
             position: relative; 
-            /* padding-top: 15px; */ /* 제거 */
+            /* padding-top: 15px; */ /* 텍스트 제거 */
         }
         
         .dropper-bottle .dropper-visual::before {
-             /* CSS 뚜껑 제거 */
-            display: none;
+            /* CSS 뚜껑 제거 */
+            display: none; 
             /* content: ''; width: 20px; height: 30px;
             background-color: #88c0f0;
             border-radius: 5px 5px 0 0;
@@ -391,18 +394,20 @@
         }
         
         /* [v24] '안내' 박스 (높이 고정, 폰트/줄간격 수정) */
+        /* [사용자 요청] 높이 auto로 변경, padding 상하 조정 */
+        /* [v28 수정] 폰트 크기 및 최소 높이 증가 */
         #instructions {
-            font-size: 1.1rem; /* [v24] 글자 크기 축소 */
+            font-size: 1.2rem; /* 1.1rem -> 1.2rem */
             font-weight: bold; 
             color: #004085; 
-            padding: 20px; 
+            padding: 15px 20px; 
             background: #e0f2ff; 
             border: 2px solid #a7d9ff; 
             border-radius: 8px; 
-            height: 150px; /* [v24] 210px -> 150px 로 고정 높이 변경 */
+            height: auto; 
+            min-height: 130px; /* 110px -> 130px */
             margin-top: -5px; 
             text-align: left; 
-            padding-left: 20px;
             line-height: 1.3; 
             box-shadow: 0 2px 8px rgba(0,0,0,0.1);
             word-break: keep-all; 
@@ -417,18 +422,25 @@
             box-shadow: 0 2px 8px rgba(0,0,0,0.1);
             border: 2px solid #005a9c;
             flex-grow: 1; 
+            /* [v31 추가] 이온 관찰하기 박스 위쪽으로 올리고 가운데 정렬 */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start; /* 위쪽 정렬 */
         }
         .microscope-view h2 { 
-             margin-bottom: 10px; 
+            margin-bottom: 5px; 
+            margin-top: 0; 
+            text-align: center; 
         }
         .microscope-view h2::before { 
             content: '🔬';
         }
 
-        /* [v24] 이온 비커 크기 수정 (변경 없음) */
+        /* [v28 수정] 이온 비커 최소 높이 대폭 증가 */
         #ion-beaker {
             width: 100%;
-            min-height: 120px; 
+            min-height: 120px; /* [v30 수정] 150px -> 120px (초기 코드로 복원) */ 
             background-color: #eaeaea;
             border: 3px solid #777;
             border-radius: 5px;
@@ -488,22 +500,20 @@
             background-color: #70a1b5; 
         }
         
-        /* [v24] 이온 설명 텍스트 (높이 고정 추가) */
+        /* [v28 수정] 이온 설명 텍스트 폰트/높이 수정 */
         #ion-info {
-            font-size: 1.0rem; /* [v24] 폰트 크기 유지 */
+            font-size: 1.1rem; /* 1.0rem -> 1.1rem */
             font-weight: normal; 
-            text-align: center;
+            text-align: left; 
             margin-top: 10px;
             color: #333;
             line-height: 1.4; 
-            min-height: 60px; 
-            display: flex; 
-            flex-direction: column; 
-            justify-content: center; 
-            align-items: center; 
-            /* [v24] width: 100% 추가하여 부모 너비에 맞춤 */
+            height: auto; /* [v32 수정] 84px -> auto (스크롤 제거) */
+            /* [v31 수정] 패딩 추가하여 비커 너비에 맞춰 줄바꿈 */
             width: 100%; 
-            box-sizing: border-box; /* [v24] padding 포함하여 너비 계산 */
+            box-sizing: border-box; 
+            padding: 0 5px; /* 양쪽 패딩 추가 */
+            overflow: visible; /* [v32 수정] auto -> visible (스크롤 제거) */
         }
         #ion-info b.ion-h { color: #e65a5f; }
         #ion-info b.ion-oh { color: #70a1b5; }
@@ -518,16 +528,18 @@
             box-sizing: border-box;
             position: relative; 
         }
+        /* [v28 수정] 색깔 변화표 제목/라벨 폰트 크기 증가 */
         .color-chart h3 { 
             margin-top: 0; 
             text-align: center; 
-            font-size: 1.4rem; 
+            font-size: 1.5rem; /* 1.4rem -> 1.5rem */
             font-weight: normal; 
         }
+        /* [v28 수정] 색깔 변화표 그래디언트 높이 증가 */
         .color-gradient {
             display: flex;
             width: 100%;
-            height: 30px;
+            height: 30px; /* [v29 수정] 45px -> 30px (여백 감소) */
             border-radius: 5px;
             overflow: hidden;
             border: 1px solid #ccc;
@@ -541,19 +553,22 @@
         .chart-labels {
             display: flex;
             justify-content: space-between;
-            font-size: 1rem; 
+            font-size: 1.1rem; /* 1rem -> 1.1rem */
             margin-top: 5px;
         }
         
-        /* 흑백 마커 */
+        /* [v28 수정] 마커 위치 조정 */
         #chart-ticker {
             position: absolute;
-            top: 40px; 
+            top: 32px; /* [v29 수정] 40px -> 32px (그래디언트 바 높이따라) */
             left: 50%; 
-            width: 20px;
-            height: 20px;
-            background-color: #333;
-            border-radius: 3px;
+            width: 0; 
+            height: 0; 
+            background-color: transparent; 
+            border-radius: 0; 
+            border-left: 10px solid transparent; 
+            border-right: 10px solid transparent; 
+            border-top: 15px solid #4a90e2; 
             transform: translateX(-50%);
             transition: left 0.5s ease, opacity 0.3s;
             opacity: 0;
@@ -562,14 +577,7 @@
             z-index: 20;
         }
         #chart-ticker::after {
-            content: '';
-            position: absolute;
-            bottom: -7px;
-            left: 50%;
-            transform: translateX(-50%) rotate(45deg);
-            width: 14px;
-            height: 14px;
-            background-color: #333;
+            display: none;
         }
         #chart-ticker.show {
             opacity: 1;
@@ -581,7 +589,7 @@
             display: none; 
             background: #fff8e1;
             border: 1px solid #ffe082;
-            padding: 15px 25px; 
+            padding: 10px 25px; 
             border-radius: 10px;
             width: 100%;
             max-width: 1100px; 
@@ -648,8 +656,9 @@
             cursor: default;
         }
         
+        /* [사용자 요청] 정답 확인 버튼 숨기기 */
         #summary-check-btn {
-            display: block;
+            display: none;
             margin: 15px auto 5px auto; 
             font-size: 1.2rem; 
             padding: 8px 20px;
@@ -660,18 +669,22 @@
             color: #777;
             font-weight: normal; 
             transition: all 0.2s;
+            /* [v31 추가] 주아체 폰트 적용 */
+            font-family: 'Jua', sans-serif;
         }
         #summary-check-btn:hover {
             background-color: #777;
             color: white;
         }
         
+        /* [사용자 요청] 피드백 메시지 숨기기 */
         .summary-feedback {
             text-align: center;
             font-weight: normal; 
             margin-top: 10px; 
             font-size: 1.2rem; 
             height: 20px; 
+            display: none;
         }
         .summary-feedback.correct { color: #155724; }
         .summary-feedback.incorrect { color: #d9534f; }
@@ -706,7 +719,7 @@
              border-radius: 5px;
         }
 
-        /* 터치 드래그용 고스트 (이미지로 변경) */
+        /* 터치 드래그용 고스트 */
         .ghost-dropper {
             position: absolute;
             pointer-events: none;
@@ -725,23 +738,24 @@
             border-radius: 8px;
             background: #fff;
             box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-            width: 120px; /* 150px -> 120px (110px + padding) */
+            width: 120px; /* [v29 수정] 140px -> 120px (패딩 고려) */
         }
         .ghost-dropper .dropper-visual { 
-            width: 110px; /* 70px -> 110px */ 
-            height: 110px; /* 70px -> 110px */
-            /* border: 1px solid #c0c0c0; */ /* 제거 */
-            /* background-color: #f0f0f0; */ /* 제거 */
+            width: 110px; /* [v29 수정] 130px -> 110px */ 
+            height: 110px; /* [v29 수정] 130px -> 110px */ 
+            /* [v27 수정] 이미지 사용을 위해 불필요한 스타일 제거 */
+            /* border: 1px solid #c0c0c0; */ 
+            /* background-color: #f0f0f0; */
             display: flex;
             justify-content: center;
             align-items: center; 
             border-radius: 6px;
-            /* box-shadow: 0 1px 3px rgba(0,0,0,0.1); */ /* 제거 */
+            /* box-shadow: 0 1px 3px rgba(0,0,0,0.1); */
             position: relative; 
-            /* padding-top: 15px; */ /* 제거 */
+            /* padding-top: 15px; */
         }
         .ghost-dropper .dropper-visual::before {
-             /* CSS 뚜껑 제거 */
+             /* [v27 수정] CSS 뚜껑 제거 */
              display: none;
              /* content: ''; width: 20px; height: 30px;
             background-color: #88c0f0;
@@ -782,22 +796,19 @@
                     
                     <div class="dropper-bottle" id="hcl-dropper" draggable="true">
                         <div class="dropper-visual">
-                            <!-- 묽은<br>염산 -->
-                            <img src="hcl-dropper.png" alt="묽은 염산">
+                            <!-- 묽은<br>염산 --><img src="hcl-dropper.png" alt="묽은 염산">
                         </div>
                         <span>묽은 염산</span>
                     </div>
                     <div class="dropper-bottle" id="naoh-dropper" draggable="true">
                         <div class="dropper-visual">
-                            <!-- 묽은<br>수산화<br>나트륨 -->
-                            <img src="naoh-dropper.png" alt="묽은 수산화나트륨">
+                            <!-- 묽은<br>수산화<br>나트륨 --><img src="naoh-dropper.png" alt="묽은 수산화나트륨">
                         </div>
                         <span>묽은 수산화나트륨</span>
                     </div>
                     <div class="dropper-bottle" id="indicator-dropper" draggable="true">
-                        <div class="dropper-visual" style="border-color: #c96cb8;">
-                            <!-- 양배추<br>지시약 -->
-                            <img src="indicator-dropper.png" alt="양배추 지시약">
+                        <div class="dropper-visual">
+                            <!-- 양배추<br>지시약 --><img src="indicator-dropper.png" alt="양배추 지시약">
                         </div>
                         <span>양배추 지시약</span>
                     </div>
@@ -806,7 +817,7 @@
             </div>
 
             <div class="experiment-mat"> 
-                <h2 id="plate-title">용액 섞기 판</h2> 
+                <h2 id="plate-title">용액 섞기 판 ①</h2> 
                 
                 <div class="plate-content-wrapper"> 
                     <div class="well-plate" style="width: 100%; padding: 20px 25px; gap: 25px;"> 
@@ -879,23 +890,22 @@
                              <span class="choice">약</span> / <span class="choice">강</span>
                         </span>해진다.</p>
                 </div>
-                <button id="summary-check-btn">정답 확인</button>
+                <!-- [사용자 요청] 버튼과 피드백은 CSS로 숨김 --><button id="summary-check-btn">정답 확인</button>
                 <p id="summary-feedback" class="summary-feedback"></p>
             </div>
         </div>
 
     </div> 
 
-    <!-- [v32] 효과음 오디오 태그 추가 -->
-    <audio id="drop-sound" src="water.mp3" preload="auto"></audio>
-
     <script>
+        // [사용자 요청] 강염기 색상 연두색 -> 노란색(#E6DB65) 변경
         const EXP1_COLORS = {
-            HEX: ['#e65a5f', '#c96cb8', '#aa7fc0', '#8c8cc4', '#70a1b5', '#80b085', '#adb86f'],
+            HEX: ['#e65a5f', '#c96cb8', '#aa7fc0', '#8c8cc4', '#70a1b5', '#80b085', '#E6DB65'],
             NAMES: ['붉은색', '자주색', '보라색', '푸른 보라', '청록색', '초록색', '노란색']
         };
+        // [사용자 요청] 강염기 색상 연두색 -> 노란색(#E6DB65) 변경
         const EXP2_COLORS = {
-            HEX: ['#adb86f', '#80b085', '#70a1b5', '#8c8cc4', '#aa7fc0', '#c96cb8', '#e65a5f'],
+            HEX: ['#E6DB65', '#80b085', '#70a1b5', '#8c8cc4', '#aa7fc0', '#c96cb8', '#e65a5f'],
             NAMES: ['노란색', '초록색', '청록색', '푸른 보라', '보라색', '자주색', '붉은색']
         };
         const COLOR_EMPTY = '#FFFFFF';
@@ -910,7 +920,6 @@
 
         let wells, droppers, exp1Button, exp2Button, resetButton, instructions, labelsContainer, labelsContainerInit, plateTitle, summaryBox, summaryContent, gradientBar, ionBeaker, ionInfo, summaryCheckBtn, summaryFeedback;
         let chartTicker; 
-        let dropSound; /* [v32] 효과음 변수 추가 */
 
         const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
@@ -940,25 +949,50 @@
             if (!ionBeaker) return;
             ionBeaker.innerHTML = ''; 
             
-            for (let i = 0; i < h_count; i++) ionBeaker.appendChild(createIon('h-ion', 'H+'));
-            for (let i = 0; i < oh_count; i++) ionBeaker.appendChild(createIon('oh-ion', 'OH-'));
-            for (let i = 0; i < water_count; i++) ionBeaker.appendChild(createIon('water', ''));
+            let h_ions_remaining = h_count;
+            let oh_ions_remaining = oh_count;
+            let water_created = water_count;
+
+            // [사용자 요청] 중화 반응을 시각적으로 먼저 계산
+            let neutralized = Math.min(h_ions_remaining, oh_ions_remaining);
+            water_created += neutralized;
+            h_ions_remaining -= neutralized;
+            oh_ions_remaining -= neutralized;
+
+            for (let i = 0; i < h_ions_remaining; i++) ionBeaker.appendChild(createIon('h-ion', 'H+'));
+            for (let i = 0; i < oh_ions_remaining; i++) ionBeaker.appendChild(createIon('oh-ion', 'OH-'));
+            for (let i = 0; i < water_created; i++) ionBeaker.appendChild(createIon('water', ''));
             
             let infoText = "";
-            if (h_count > 0) {
-                infoText += `산성을 만드는 <b class="ion-h">붉은 알갱이</b>가 ${h_count}개 남았어요.`;
-            } else if (oh_count > 0) {
-                infoText += `염기성을 만드는 <b class="ion-oh">푸른 알갱이</b>가 ${oh_count}개 남았어요.`;
-            } else if (water_count > 0) {
-                infoText = "알갱이들이 모두 짝을 만났어요! (중성)";
-            } else {
+            let solutionType = "";
+
+            if (h_ions_remaining > 0) { // 산성
+                infoText += `산성을 만드는 <b class="ion-h">붉은 알갱이</b>가 ${h_ions_remaining}개 남았어요.`;
+                solutionType = "산성";
+            } else if (oh_ions_remaining > 0) { // 염기성
+                infoText += `염기성을 만드는 <b class="ion-oh">푸른 알갱이</b>가 ${oh_ions_remaining}개 남았어요.`;
+                solutionType = "염기성";
+            } else if (water_created > 0) { // 중성
+                infoText = "알갱이들이 모두 짝을 만났어요!";
+                solutionType = "중성";
+            } else { // 초기 상태 등
                 infoText = "관찰할 홈을 클릭하세요.";
+                if(ionInfo) ionInfo.innerHTML = infoText;
+                return; // 텍스트가 더이상 추가되지 않도록 여기서 종료
             }
 
-            if (water_count > 0 && (h_count > 0 || oh_count > 0)) {
-                 infoText += `<br>알갱이 ${water_count}쌍이 <b class="ion-water">짝을 만났어요! (물)</b>`;
-            } else if (water_count > 0) {
-                 infoText += `<br><b class="ion-water">짝을 만난 알갱이</b>가 ${water_count}쌍 있어요.`;
+            if (solutionType === "산성") { // [v31 수정] 구체적인 설명 추가
+                 infoText += `<br>➡️ 산성`; // [v32 수정] pH 정보 삭제
+            } else if (solutionType === "염기성") { // [v31 수정] 구체적인 설명 추가
+                 infoText += `<br>➡️ 염기성`; // [v32 수정] pH 정보 삭제
+            } else if (solutionType === "중성") { // [v31 수정] 구체적인 설명 추가
+                 infoText += `<br>➡️ 중성`; // [v32 수정] pH 정보 삭제
+            }
+
+            if (water_created > 0 && (h_ions_remaining > 0 || oh_ions_remaining > 0)) {
+                 infoText += `<br><b class="ion-water">짝을 만난 알갱이</b>가 ${water_created}쌍 있어요.`;
+            } else if (water_created > 0 && h_ions_remaining === 0 && oh_ions_remaining === 0) {
+                 infoText += `<br><b class="ion-water">짝을 만난 알갱이</b>가 ${water_created}쌍 있어요.`;
             }
             
             if(ionInfo) ionInfo.innerHTML = infoText;
@@ -1007,19 +1041,17 @@
                     if (state.base === 'hcl') {
                         chartLevel = titration_amount; 
                         color = EXP1_COLORS.HEX[chartLevel];
+                        // [사용자 요청] updateWellVisuals의 이온 계산 수정
+                        water = Math.min(base_amount, titration_amount);
+                        h_ions = Math.max(0, base_amount - titration_amount);
+                        oh_ions = Math.max(0, titration_amount - base_amount);
                     } else { 
                         chartLevel = 6 - titration_amount; 
                         color = EXP2_COLORS.HEX[titration_amount]; 
-                    }
-                    
-                    if (state.base === 'hcl') { 
-                        water = base_amount;
-                        h_ions = 0;
-                        oh_ions = titration_amount - base_amount;
-                    } else { 
-                        water = base_amount;
-                        oh_ions = 0;
-                        h_ions = titration_amount - base_amount;
+                        // [사용자 요청] updateWellVisuals의 이온 계산 수정
+                        water = Math.min(base_amount, titration_amount);
+                        oh_ions = Math.max(0, base_amount - titration_amount);
+                        h_ions = Math.max(0, titration_amount - base_amount);
                     }
                 }
             }
@@ -1082,8 +1114,10 @@
                     });
                     break;
                 case 'ALL_DONE':
-                    instructions.innerHTML = "<b>실험 완료!</b><br><br>하단의 [실험 결과 정리]에서<br>[정답 확인]을 눌러보세요.";
-                    summaryCheckBtn.classList.add('pulsing-guide');
+                     // [사용자 요청] 정답 확인 버튼 제거로 가이드 텍스트 변경
+                    instructions.innerHTML = "<b>실험 완료!</b><br><br>하단의 [실험 결과 정리]를<br>확인하고 퀴즈를 풀어보세요.";
+                    // summaryCheckBtn.classList.add('pulsing-guide'); // 버튼이 숨겨졌으므로 제거
+                    summaryBox.classList.add('pulsing-guide'); // 대신 요약 박스를 강조
                     break;
             }
         }
@@ -1128,6 +1162,7 @@
                 }
                 
                 instructions.textContent = infoText;
+                // [사용자 요청] 애니메이션 중 renderIons 호출 시 h_ions, oh_ions만 전달
                 renderIons(h_ions, oh_ions, water); 
                 await sleep(600); 
             }
@@ -1184,7 +1219,6 @@
                     state.indicator = true;
                     updateWellVisuals(index, true); 
                     updateGuide('INDICATOR_DROPPED');
-                    if (dropSound) dropSound.play(); /* [v32] 효과음 재생 */
                 }
             } 
             else if ((currentExperiment === 1 && toolType === 'naoh') || (currentExperiment === 2 && toolType === 'hcl')) {
@@ -1198,8 +1232,6 @@
                     return;
                 }
                 
-                if (dropSound) dropSound.play(); /* [v32] 효과음 재생 */
-                
                 await animateNeutralization(index);
             } 
             else {
@@ -1207,7 +1239,7 @@
             }
         }
         
-        // --- [v23] 실험 설정 함수 ---
+        // [v23] 실험 설정 함수
         function setupExperiment(expNum) {
             currentExperiment = expNum;
             summaryBox.classList.remove('show'); 
@@ -1332,50 +1364,55 @@
             const clickedChoice = e.target.closest('.choice');
             if (!clickedChoice) return;
             
-            if (clickedChoice.classList.contains('correct') || clickedChoice.classList.contains('incorrect')) {
-                return; 
-            }
-            
+            // [사용자 요청] 정답 확인 버튼이 없으므로, 클릭 즉시 정답/오답 표시
             const wrapper = clickedChoice.closest('.choice-wrapper');
-            wrapper.querySelectorAll('.choice').forEach(c => c.classList.remove('selected'));
-            clickedChoice.classList.add('selected');
+            const isCorrect = (clickedChoice.textContent === wrapper.dataset.answer);
+
+            wrapper.querySelectorAll('.choice').forEach(c => c.classList.remove('selected', 'correct', 'incorrect'));
+            
+            if (isCorrect) {
+                clickedChoice.classList.add('correct');
+            } else {
+                clickedChoice.classList.add('incorrect');
+            }
         }
 
+        // [사용자 요청] 정답 확인 버튼이 없어졌으므로 이 함수는 사용되지 않음
         function checkSummaryAnswers() {
-            const visibleSummary = (currentExperiment === 1) ? 
-                document.getElementById('summary-exp1') : 
-                document.getElementById('summary-exp2');
+            // const visibleSummary = (currentExperiment === 1) ? 
+            //      document.getElementById('summary-exp1') : 
+            //      document.getElementById('summary-exp2');
             
-            if (!visibleSummary) return;
+            // if (!visibleSummary) return;
 
-            const wrappers = visibleSummary.querySelectorAll('.choice-wrapper');
-            let allCorrect = true;
+            // const wrappers = visibleSummary.querySelectorAll('.choice-wrapper');
+            // let allCorrect = true;
             
-            wrappers.forEach(wrapper => {
-                const selected = wrapper.querySelector('.choice.selected');
-                wrapper.querySelectorAll('.choice').forEach(c => c.classList.remove('correct', 'incorrect'));
+            // wrappers.forEach(wrapper => {
+            //     const selected = wrapper.querySelector('.choice.selected');
+            //     wrapper.querySelectorAll('.choice').forEach(c => c.classList.remove('correct', 'incorrect'));
 
-                if (!selected) { 
-                    allCorrect = false;
-                } else {
-                    const isCorrect = (selected.textContent === wrapper.dataset.answer);
-                    if (isCorrect) {
-                        selected.classList.add('correct');
-                    } else {
-                        selected.classList.add('incorrect');
-                        allCorrect = false;
-                    }
-                }
-            });
+            //     if (!selected) { 
+            //         allCorrect = false;
+            //     } else {
+            //         const isCorrect = (selected.textContent === wrapper.dataset.answer);
+            //         if (isCorrect) {
+            //             selected.classList.add('correct');
+            //         } else {
+            //             selected.classList.add('incorrect');
+            //             allCorrect = false;
+            //         }
+            //     }
+            // });
 
-            summaryFeedback.classList.remove('correct', 'incorrect');
-            if (allCorrect) {
-                summaryFeedback.textContent = "정답입니다! 완벽해요!";
-                summaryFeedback.classList.add('correct');
-            } else {
-                summaryFeedback.textContent = "아쉽네요. 틀린 부분을 다시 확인해 보세요.";
-                summaryFeedback.classList.add('incorrect');
-            }
+            // summaryFeedback.classList.remove('correct', 'incorrect');
+            // if (allCorrect) {
+            //     summaryFeedback.textContent = "정답입니다! 완벽해요!";
+            //     summaryFeedback.classList.add('correct');
+            // } else {
+            //     summaryFeedback.textContent = "아쉽네요. 틀린 부분을 다시 확인해 보세요.";
+            //     summaryFeedback.classList.add('incorrect');
+            // }
         }
         
         function resetSummaryToggles(summaryDiv) {
@@ -1456,7 +1493,9 @@
             ghostElement.appendChild(span); 
             document.body.appendChild(ghostElement);
             
-            updateGhostPosition(e.touches[0]);
+            /* [v25 수정] e.touches[0] -> e.changedTouches[0]
+               (iOS에서 touchstart시 touches가 비어있는 이슈 대응) */
+            updateGhostPosition(e.changedTouches[0] || e.touches[0]);
         }
 
         function handleTouchMove(e) {
@@ -1531,15 +1570,6 @@
             chartTicker = document.getElementById('chart-ticker'); 
             summaryCheckBtn = document.getElementById('summary-check-btn'); 
             summaryFeedback = document.getElementById('summary-feedback'); 
-            dropSound = document.getElementById('drop-sound'); /* [v32] 효과음 할당 */
-
-            /* [v32] 오디오 로드 에러 핸들링 (옵션) */
-            if(dropSound) {
-                dropSound.addEventListener('error', () => {
-                    console.warn('효과음(water.mp3)을 불러오는 데 실패했습니다. 파일 경로를 확인하세요.');
-                    dropSound = null; // 에러 발생 시 더 이상 재생 시도 안 함
-                });
-            }
 
             // --- 이벤트 리스너 연결 ---
             exp1Button.addEventListener('click', () => setupExperiment(1));
@@ -1576,7 +1606,8 @@
             document.addEventListener('touchend', handleTouchEnd);
 
             // 5. 인터랙티브 정답 리스너
-            summaryCheckBtn.addEventListener('click', checkSummaryAnswers);
+             // [사용자 요청] 정답 확인 버튼 클릭 리스너 제거
+            // summaryCheckBtn.addEventListener('click', checkSummaryAnswers);
             summaryContent.addEventListener('click', (e) => {
                 if (e.target.classList.contains('choice')) {
                     handleChoiceClick(e);
@@ -1592,7 +1623,3 @@
     </script>
 </body>
 </html>
-
-
-
-
