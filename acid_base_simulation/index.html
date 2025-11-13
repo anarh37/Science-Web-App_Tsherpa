@@ -5,13 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>산성 용액과 염기성 용액의 성질</title>
     
-    <!-- 구글 폰트 'Jua' 로드 --><link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Jua&display=swap" rel="stylesheet">
     
-    <!-- Tailwind CSS 로드 --><script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        /* [MODIFIED] body 정렬 수정 (중앙 정렬로 복귀) */
+        /* [MODIFIED] body 정렬 및 비율 고정 대응 */
         body {
             font-family: 'Jua', sans-serif;
             background-color: #f0f4f8; 
@@ -22,6 +22,9 @@
             padding: 20px;
             min-height: 100vh;
             user-select: none; /* 텍스트 선택 방지 */
+
+            /* [NEW] padding이 100vh/100vw를 넘어가지 않도록 보장 */
+            box-sizing: border-box; 
         }
 
         .home-button {
@@ -44,10 +47,20 @@
             transform: translateY(-2px);
         }
 
-        /* [MODIFIED] max-width 900px로 고정 (비율 깨짐 방지) */
+        /* [MODIFIED] 고정 종횡비 적용 */
         .container {
-            width: 100%; /* 항상 100%를 채우되 */
-            max-width: 900px; /* 1100px -> 900px */
+            /* [REMOVED] 고정된 max-width와 width: 100% 제거 */
+            /* width: 100%; */
+            /* max-width: 900px; */ 
+
+            /* [NEW] 고정 종횡비 적용 (스크린샷 1150x858 비율) */
+            aspect-ratio: 1150 / 858;
+
+            /* [NEW] body의 padding 안에서 가능한 최대 크기를 채웁니다. */
+            max-width: 100%;
+            max-height: 100%;
+            /* ----------------------------- */
+            
             background-color: #ffffff;
             border-radius: 10px;
             box-shadow: 0 4px 12px rgba(0,0,0,0.05);
@@ -149,6 +162,9 @@
 
         @media (max-width: 960px) { 
             /* Mobile: ~ 960px */
+            /* 참고: aspect-ratio가 적용되면 미디어쿼리 스타일이 */
+            /* 의도와 다르게 동작할 수 있습니다. */
+            /* 비율 고정 시 이 부분은 무시될 수 있습니다. */
             .home-button {
                 top: 10px;
                 left: 10px; /* 모바일에서는 10px로 */
@@ -158,7 +174,7 @@
             .container {
                 padding-top: 60px; /* 홈 버튼용 여백 */
                 width: 95%; /* 모바일에서는 95% 유지 */
-                max-width: 95%; /* [NEW] 모바일에서는 900px 고정 해제 */
+                /* max-width: 95%; [REMOVED] */
             }
             .main-title {
                 margin-top: 0; /* 모바일에서 타이틀 상단 여백 제거 */
@@ -702,7 +718,6 @@
 <body class="bg-gray-100">
 
     <div class="container my-5">
-        <!-- [NEW] 홈 버튼 -->
         <a href="../index.html" class="home-button">🏠 과학 실험실 홈으로</a>
 
         <h1 class="main-title">
@@ -738,7 +753,6 @@
                         </div>
 
                         <div id="supply-set-2" class="supply-area hidden">
-                            <!-- id="egg-white" -> "eggwhite" -->
                             <div class="supply-item" id="eggwhite" draggable="true">
                                 <div class="material-img" id="egg-white-img">삶은<br>메추리알<br>흰자</div>
                                 <div class="material-name">삶은 메추리알 흰자</div>
@@ -749,7 +763,6 @@
                             </div>
                         </div>
                         
-                        <!-- 동적 가이드 박스 -->
                         <div id="guide-text" class="guide-text-box">
                             여기에 안내 문구가 표시됩니다.
                         </div>
@@ -766,7 +779,6 @@
                         
                         <div class="well-plate" id="main-plate">
                             
-                            <!-- data-set1-used, data-set2-used 속성 추가, ID 변경 -->
                             <div class="well well-top-label" 
                                 data-solution="hcl" 
                                 data-material-set1-id="eggshell" data-material-set2-id="eggwhite" 
@@ -1296,7 +1308,7 @@
                 } else if (isExp1Done && currentExperiment === 1) { // 실험1 끝났고, 아직 실험1 탭일 때
                     updateGuide('EXP1_DONE');
                 } else if (isExp2Done && currentExperiment === 2) { // 실험2 끝났고, 아직 실험2 탭일 때
-                     updateGuide('EXP2_DONE');
+                   updateGuide('EXP2_DONE');
                 } else if (currentExperiment === 1) {
                     updateGuide('INIT'); // 실험 1 진행 중
                 } else if (currentExperiment === 2) {
