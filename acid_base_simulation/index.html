@@ -47,8 +47,8 @@
         /* [MODIFIED] max-width 700px로 고정 및 min-width 추가 */
         .container {
             width: 100%; 
-            max-width: 700px; /* 900px -> 700px */
-            min-width: 700px; /* [NEW] 레이아웃 고정을 위한 최소 너비 */
+            max-width: 700px; /* 700px로 고정 */
+            min-width: 700px; /* 레이아웃 고정을 위한 최소 너비 */
             background-color: #ffffff;
             border-radius: 10px;
             box-shadow: 0 4px 12px rgba(0,0,0,0.05);
@@ -147,13 +147,6 @@
         }
 
         /* [REMOVED] 반응형 미디어 쿼리 삭제 (레이아웃 고정) */
-        /* @media (max-width: 960px) { 
-            .home-button { ... }
-            .container { ... }
-            .main-title { ... }
-            .lab-bench { ... }
-        }
-        */
 
 
         /* 왼쪽 전체 영역 (제목과 박스 모두 포함) */
@@ -332,20 +325,22 @@
         }
 
         /* 6홈판 본체 */
+        /* [MODIFIED] 700px 너비에 맞게 margin 수정 */
         .well-plate {
             display: grid;
             grid-template-columns: repeat(2, 1fr); 
             grid-template-rows: repeat(2, 1fr); 
             gap: 8px; 
-            width: 260px; /* 130px * 2 + 8px gap (대략) */
-            margin: 0 80px; /* 80px 라벨 공간 */
+            width: auto; /* 260px -> auto */
+            margin: 0 40px; /* 80px -> 40px 라벨 공간 */
             position: relative; 
         }
 
         /* 각 홈(well) 컨테이너 */
+        /* [MODIFIED] 700px 너비에 맞게 width 수정 */
         .well {
             position: relative; 
-            width: 130px; 
+            width: 116px; /* 130px -> 116px */
             height: 180px; 
             border: 1px solid #eee; 
             border-radius: 8px;
@@ -365,7 +360,7 @@
             transform: scale(1.05);
         }
         
-        /* 각 홈의 재료 라벨 (2줄 표시) */
+        /* [MODIFIED] 라벨 너비 및 위치 수정 */
         .well-material-label {
             position: absolute;
             font-size: 0.9rem; 
@@ -378,7 +373,7 @@
             white-space: normal; 
             text-align: center; 
             z-index: 1; 
-            width: 80px; 
+            width: 40px; /* 80px -> 40px */
             
             top: 50px; 
             height: 80px; 
@@ -387,16 +382,17 @@
             justify-content: center;
         }
         .well-material-label.left {
-            left: -80px; 
+            left: -40px; /* -80px -> -40px */
         }
         .well-material-label.right {
-            right: -80px; 
+            right: -40px; /* -80px -> -40px */
         }
 
         /* 용액 원 */
+        /* [MODIFIED] 700px 너비에 맞게 크기 수정 */
         .well .solution {
-            width: 90px; 
-            height: 90px; 
+            width: 80px; /* 90px -> 80px */
+            height: 80px; /* 90px -> 80px */
             margin: 0; 
             border: 1px solid #d0d0d0; 
             border-radius: 50%;
@@ -439,12 +435,12 @@
         }
         
         .material-in-well {
-            width: 70px; 
-            height: 70px; 
+            width: 60px; /* 70px -> 60px */
+            height: 60px; /* 70px -> 60px */
             background-color: #e0e6ed;
             border: 1px solid #c0c8d4;
             border-radius: 6px;
-            font-size: 11px; 
+            font-size: 10px; /* 11px -> 10px */
             color: #555;
             text-align: center;
             padding: 2px;
@@ -464,7 +460,7 @@
             transform: translate(-50%, -50%); 
             
             font-weight: bold;
-            font-size: 1.2rem; 
+            font-size: 1.1rem; /* 1.2rem -> 1.1rem */
             padding: 3px 6px;
             background-color: rgba(255, 255, 255, 0.9);
             border-radius: 4px;
@@ -475,7 +471,7 @@
             word-break: keep-all;
             text-align: center;
             line-height: 1.2; 
-            width: 80px; 
+            width: 70px; /* 80px -> 70px */
         }
 
         /* 효과용 CSS */
