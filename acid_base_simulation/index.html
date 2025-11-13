@@ -5,11 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>산성 용액과 염기성 용액의 성질</title>
     
-    <!-- 구글 폰트 'Jua' 로드 --><link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Jua&display=swap" rel="stylesheet">
     
-    <!-- Tailwind CSS 로드 --><script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
     <style>
         /* 'Jua' 폰트 기본 적용 */
         body {
@@ -43,7 +43,7 @@
             font-weight: bold;
             color: #6666FF; 
             text-shadow: 
-                -2px -2px 0 #fff,  
+                -2px -2px 0 #fff, 
                  2px -2px 0 #fff,
                 -2px  2px 0 #fff,
                  2px  2px 0 #fff,
@@ -232,6 +232,16 @@
             line-height: 1.2;
             white-space: normal; 
             word-break: keep-all; 
+        }
+        
+        /* --- [코드 추가] ---
+           이미지가 부모(.material-img) 박스에 
+           맞게 표시되도록 하는 CSS입니다. */
+        .material-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain; /* 이미지가 잘리지 않게 'contain' 사용 */
+            border-radius: 6px; /* 부모의 둥근 모서리와 맞춤 */
         }
         
         .material-name {
@@ -463,8 +473,8 @@
         }
         
         @keyframes cloudy {
-          from { opacity: 0; transform: scale(0.8); }
-          to { opacity: 0.85; transform: scale(1); } 
+           from { opacity: 0; transform: scale(0.8); }
+           to { opacity: 0.85; transform: scale(1); } 
         }
 
         @keyframes bubbles {
@@ -656,7 +666,7 @@
         .main-tab-btn.pulsing-guide {
              animation: pulse-blue 1.5s infinite;
             border-radius: 10px;
-        }
+         }
 
     </style>
 </head>
@@ -686,28 +696,34 @@
 
                         <div id="supply-set-1" class="supply-area">
                             <div class="supply-item" id="eggshell" draggable="true">
-                                <div class="material-img" id="eggshell-img">메추리알<br>껍데기</div>
+                                <div class="material-img" id="eggshell-img">
+                                    <img src="quail egg.png" alt="메추리알 껍데기">
+                                </div>
                                 <div class="material-name">메추리알 껍데기</div>
                             </div>
                             <div class="supply-item" id="marble" draggable="true">
-                                <div class="material-img" id="marble-img">대리암 조각</div>
+                                <div class="material-img" id="marble-img">
+                                    <img src="Marble.png" alt="대리암 조각">
+                                </div>
                                 <div class="material-name">대리암 조각</div>
                             </div>
                         </div>
 
                         <div id="supply-set-2" class="supply-area hidden">
-                            <!-- id="egg-white" -> "eggwhite" -->
                             <div class="supply-item" id="eggwhite" draggable="true">
-                                <div class="material-img" id="egg-white-img">삶은<br>메추리알<br>흰자</div>
+                                <div class="material-img" id="egg-white-img">
+                                    <img src="egg.png" alt="삶은 메추리알 흰자">
+                                </div>
                                 <div class="material-name">삶은 메추리알 흰자</div>
                             </div>
                             <div class="supply-item" id="chicken" draggable="true">
-                                <div class="material-img" id="chicken-img">삶은<br>닭 가슴살</div>
+                                <div class="material-img" id="chicken-img">
+                                    <img src="Chicken meat.png" alt="삶은 닭 가슴살">
+                                </div>
                                 <div class="material-name">삶은 닭 가슴살</div>
                             </div>
                         </div>
                         
-                        <!-- 동적 가이드 박스 -->
                         <div id="guide-text" class="guide-text-box">
                             여기에 안내 문구가 표시됩니다.
                         </div>
@@ -724,7 +740,6 @@
                         
                         <div class="well-plate" id="main-plate">
                             
-                            <!-- data-set1-used, data-set2-used 속성 추가, ID 변경 -->
                             <div class="well well-top-label" 
                                 data-solution="hcl" 
                                 data-material-set1-id="eggshell" data-material-set2-id="eggwhite" 
@@ -1052,7 +1067,22 @@
                 if (!solutionDiv.querySelector(`.${materialClassName}`)) {
                     const materialVisual = document.createElement('div');
                     materialVisual.className = `material-in-well ${materialClassName}`;
+                    
+                    // [코드 수정] <img> 태그 사용 시 innerText 대신 시각적 요소(이미지) 추가
+                    // 단, 여기서는 홈판에 들어간 '후'의 모습이므로, 
+                    // 이미지를 쓰는 대신 기존의 텍스트 방식이나 간단한 묘사를 유지하는 것이 
+                    // JavaScript 로직상 더 간단할 수 있습니다.
+                    // (만약 이미지를 넣으려면, JS로 img 태그를 생성해야 함)
+                    // 여기서는 기존 로직(getMaterialDisplayName)을 유지합니다.
                     materialVisual.innerText = getMaterialDisplayName(materialId); 
+                    
+                    // 만약 여기도 이미지로 넣고 싶다면, 위 3줄 대신 아래 코드를 사용하세요.
+                    // (단, .material-in-well CSS에 img 관련 스타일 추가 필요)
+                    // const img = document.createElement('img');
+                    // img.src = document.getElementById(materialId).querySelector('.material-img img').src;
+                    // img.alt = getMaterialDisplayName(materialId);
+                    // materialVisual.appendChild(img);
+                    
                     solutionDiv.appendChild(materialVisual);
                 }
 
@@ -1249,7 +1279,7 @@
                 } else if (isExp1Done && currentExperiment === 1) { // 실험1 끝났고, 아직 실험1 탭일 때
                     updateGuide('EXP1_DONE');
                 } else if (isExp2Done && currentExperiment === 2) { // 실험2 끝났고, 아직 실험2 탭일 때
-                     updateGuide('EXP2_DONE');
+                    updateGuide('EXP2_DONE');
                 } else if (currentExperiment === 1) {
                     updateGuide('INIT'); // 실험 1 진행 중
                 } else if (currentExperiment === 2) {
