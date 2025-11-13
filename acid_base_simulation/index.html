@@ -11,14 +11,14 @@
     
     <!-- Tailwind CSS 로드 --><script src="https://cdn.tailwindcss.com"></script>
     <style>
-        /* [MODIFIED] body 정렬 수정 (중앙 정렬로 복귀) */
+        /* body 중앙 정렬 */
         body {
             font-family: 'Jua', sans-serif;
             background-color: #f0f4f8; 
             color: #333;
             display: flex;
             justify-content: center;
-            align-items: center; /* [RE-ADDED] 중앙 정렬 */
+            align-items: center; 
             padding: 20px;
             min-height: 100vh;
             user-select: none; /* 텍스트 선택 방지 */
@@ -27,7 +27,7 @@
         .home-button {
             position: absolute;
             top: 25px;
-            left: 25px; /* 컨테이너 padding과 동일하게 고정 (빨간 선) */
+            left: 25px; /* 컨테이너 padding과 동일하게 고정 */
             font-family: 'Jua', sans-serif;
             font-size: 1.1rem;
             padding: 8px 15px;
@@ -44,10 +44,11 @@
             transform: translateY(-2px);
         }
 
-        /* [MODIFIED] max-width 900px로 고정 (비율 깨짐 방지) */
+        /* [MODIFIED] max-width 700px로 고정 및 min-width 추가 */
         .container {
-            width: 100%; /* 항상 100%를 채우되 */
-            max-width: 900px; /* 1100px -> 900px */
+            width: 100%; 
+            max-width: 700px; /* 900px -> 700px */
+            min-width: 700px; /* [NEW] 레이아웃 고정을 위한 최소 너비 */
             background-color: #ffffff;
             border-radius: 10px;
             box-shadow: 0 4px 12px rgba(0,0,0,0.05);
@@ -78,10 +79,9 @@
             margin-top: 50px; /* 홈 버튼과 겹치지 않도록 */
         }
         
-        /* [MODIFIED] max-width 제거 (부모 100% 따름) */
+        /* 부모 .container를 따름 */
         .main-tabs {
             width: 100%;
-            /* max-width: 1100px; 제거 (부모 .container를 따름) */
             display: grid; 
             grid-template-columns: 1fr 1fr; 
             gap: 10px;
@@ -130,13 +130,12 @@
              margin-right: 0;
         }
         
-        /* [MODIFIED] max-width 제거 (부모 100% 따름) */
+        /* 부모 .container를 따름 */
         .experiment-wrapper {
             display: flex;
             flex-direction: column;
             align-items: center; 
             width: 100%; 
-            /* max-width: 1100px; 제거 (부모 .container를 따름) */
         }
 
         .lab-bench {
@@ -147,28 +146,14 @@
             width: 100%;
         }
 
-        @media (max-width: 960px) { 
-            /* Mobile: ~ 960px */
-            .home-button {
-                top: 10px;
-                left: 10px; /* 모바일에서는 10px로 */
-                font-size: 1.0rem;
-                padding: 5px 10px;
-            }
-            .container {
-                padding-top: 60px; /* 홈 버튼용 여백 */
-                width: 95%; /* 모바일에서는 95% 유지 */
-                max-width: 95%; /* [NEW] 모바일에서는 900px 고정 해제 */
-            }
-            .main-title {
-                margin-top: 0; /* 모바일에서 타이틀 상단 여백 제거 */
-            }
-            .lab-bench {
-                grid-template-columns: 1fr; 
-                gap: 20px; 
-                align-items: center;
-            }
+        /* [REMOVED] 반응형 미디어 쿼리 삭제 (레이아웃 고정) */
+        /* @media (max-width: 960px) { 
+            .home-button { ... }
+            .container { ... }
+            .main-title { ... }
+            .lab-bench { ... }
         }
+        */
 
 
         /* 왼쪽 전체 영역 (제목과 박스 모두 포함) */
@@ -336,7 +321,6 @@
             align-items: center;
             width: 100%; 
             margin: 0 auto;
-            /* [MODIFIED] 홈판이 꽉 차도록 padding 조정 */
             padding: 15px; 
             background-color: #ffffff;
             border: 1px solid #e0e0e0; 
@@ -344,7 +328,7 @@
             box-shadow: 0 4px 12px rgba(0,0,0,0.05); 
             height: 400px; 
             box-sizing: border-box;
-            justify-content: center; /* [NEW] 홈판 중앙 정렬 */
+            justify-content: center; 
         }
 
         /* 6홈판 본체 */
@@ -353,7 +337,6 @@
             grid-template-columns: repeat(2, 1fr); 
             grid-template-rows: repeat(2, 1fr); 
             gap: 8px; 
-            /* [MODIFIED] 너비 자동, 양쪽 라벨 공간 확보 */
             width: 260px; /* 130px * 2 + 8px gap (대략) */
             margin: 0 80px; /* 80px 라벨 공간 */
             position: relative; 
@@ -551,7 +534,7 @@
         /* 하단 결과 요약 - 정렬 문제 수정 */
         .instructions {
             width: 100%;
-            max-width: 100%; /* 부모의 900px를 따르도록 */
+            max-width: 100%; /* 부모의 700px를 따르도록 */
             margin-top: 25px;
             padding: 20px;
             background: #f9fafb;
