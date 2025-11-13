@@ -886,6 +886,9 @@
 
     </div> 
 
+    <!-- [v32] 효과음 오디오 태그 추가 -->
+    <audio id="drop-sound" src="water.mp3" preload="auto"></audio>
+
     <script>
         const EXP1_COLORS = {
             HEX: ['#e65a5f', '#c96cb8', '#aa7fc0', '#8c8cc4', '#70a1b5', '#80b085', '#adb86f'],
@@ -907,6 +910,7 @@
 
         let wells, droppers, exp1Button, exp2Button, resetButton, instructions, labelsContainer, labelsContainerInit, plateTitle, summaryBox, summaryContent, gradientBar, ionBeaker, ionInfo, summaryCheckBtn, summaryFeedback;
         let chartTicker; 
+        let dropSound; /* [v32] 효과음 변수 추가 */
 
         const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
@@ -1180,6 +1184,7 @@
                     state.indicator = true;
                     updateWellVisuals(index, true); 
                     updateGuide('INDICATOR_DROPPED');
+                    if (dropSound) dropSound.play(); /* [v32] 효과음 재생 */
                 }
             } 
             else if ((currentExperiment === 1 && toolType === 'naoh') || (currentExperiment === 2 && toolType === 'hcl')) {
@@ -1192,6 +1197,8 @@
                     instructions.innerHTML = "이미 반응이 완료되었습니다.";
                     return;
                 }
+                
+                if (dropSound) dropSound.play(); /* [v32] 효과음 재생 */
                 
                 await animateNeutralization(index);
             } 
@@ -1524,6 +1531,15 @@
             chartTicker = document.getElementById('chart-ticker'); 
             summaryCheckBtn = document.getElementById('summary-check-btn'); 
             summaryFeedback = document.getElementById('summary-feedback'); 
+            dropSound = document.getElementById('drop-sound'); /* [v32] 효과음 할당 */
+
+            /* [v32] 오디오 로드 에러 핸들링 (옵션) */
+            if(dropSound) {
+                dropSound.addEventListener('error', () => {
+                    console.warn('효과음(water.mp3)을 불러오는 데 실패했습니다. 파일 경로를 확인하세요.');
+                    dropSound = null; // 에러 발생 시 더 이상 재생 시도 안 함
+                });
+            }
 
             // --- 이벤트 리스너 연결 ---
             exp1Button.addEventListener('click', () => setupExperiment(1));
