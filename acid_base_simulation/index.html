@@ -5,11 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>산성 용액과 염기성 용액의 성질</title>
     
-    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <!-- 구글 폰트 'Jua' 로드 --><link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Jua&display=swap" rel="stylesheet">
     
-    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Tailwind CSS 로드 --><script src="https://cdn.tailwindcss.com"></script>
     <style>
         /* 'Jua' 폰트 기본 적용 */
         body {
@@ -53,12 +53,11 @@
             margin-bottom: 20px; 
         }
         
-        /* [MODIFIED] 메인 탭 스타일 - 50:50 비율 */
         .main-tabs {
             width: 100%;
             max-width: 880px; 
             display: grid; 
-            grid-template-columns: 1fr 1fr; /* [MODIFIED] 50:50 비율로 하단과 통일 */
+            grid-template-columns: 1fr 1fr;
             gap: 10px;
             margin-bottom: 20px;
         }
@@ -87,7 +86,6 @@
             opacity: 0.7;
         }
         
-        /* h2 스타일 정의 */
         h2 {
             color: #111;
             font-size: 1.8em; 
@@ -101,42 +99,37 @@
         }
         
         .left-content-wrapper h2::before {
-             content: ''; /* 이모지 제거 */
+             content: '';
              margin-right: 0;
         }
         
-        /* 실험 영역 전체를 감싸는 래퍼 */
         .experiment-wrapper {
             display: flex;
             flex-direction: column;
             align-items: center; 
             width: 100%; 
-            max-width: 880px; /* 상단 탭과 max-width 통일 */
+            max-width: 880px;
         }
 
-        /* [MODIFIED] 전체 레이아웃 (데스크탑 2단) - 50:50 비율 */
         .lab-bench {
             display: grid; 
-            grid-template-columns: 1fr 1fr; /* [MODIFIED] 50:50 비율로 재조정 */
+            grid-template-columns: 1fr 1fr;
             gap: 10px; 
             margin-top: 0; 
             width: 100%;
         }
 
         @media (max-width: 960px) { 
-            /* 모바일에서는 다시 1단으로 */
             .lab-bench {
                 grid-template-columns: 1fr; 
                 gap: 20px; 
                 align-items: center;
             }
-            /* 모바일에서는 탭 비율 1:1 유지 */
             .main-tabs {
                 grid-template-columns: 1fr 1fr;
             }
         }
 
-        /* 왼쪽 전체 영역 (제목과 박스 모두 포함) */
         .left-content-wrapper {
             flex-shrink: 0; 
             display: flex;
@@ -156,7 +149,7 @@
             flex-direction: column;
             gap: 15px; 
             align-items: center;
-            height: 400px; 
+            height: 400px; /* 이 높이는 고정 */
             box-sizing: border-box; 
             justify-content: space-between; 
         }
@@ -165,10 +158,9 @@
             display: flex;
             width: 100%;
             border-radius: 8px;
-            overflow: hidden; /* 기본은 hidden */
+            overflow: hidden;
             border: 1px solid #b0c4de;
         }
-        /* 펄스 효과가 잘리지 않도록 함 */
         .exp-controls.pulsing {
             overflow: visible;
         }
@@ -216,9 +208,11 @@
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
         
+        /* --- [CSS 수정됨 1/5] ---
+           이미지 박스 크기를 70px -> 110px로 키움 */
         .material-img {
-            width: 70px; 
-            height: 70px; 
+            width: 110px; 
+            height: 110px; 
             border: 1px solid #c0c0c0; 
             background-color: #f0f0f0;
             display: flex;
@@ -227,21 +221,14 @@
             border-radius: 6px;
             box-shadow: 0 1px 3px rgba(0,0,0,0.1);
             box-sizing: border-box;
-            font-size: 0.9em; 
             padding: 3px; 
-            line-height: 1.2;
-            white-space: normal; 
-            word-break: keep-all; 
         }
         
-        /* --- [코드 추가] ---
-           이미지가 부모(.material-img) 박스에 
-           맞게 표시되도록 하는 CSS입니다. */
         .material-img img {
             width: 100%;
             height: 100%;
             object-fit: contain; /* 이미지가 잘리지 않게 'contain' 사용 */
-            border-radius: 6px; /* 부모의 둥근 모서리와 맞춤 */
+            border-radius: 6px;
         }
         
         .material-name {
@@ -250,6 +237,8 @@
             text-align: center; 
         }
         
+        /* --- [CSS 수정됨 2/5] ---
+           고스트 이미지 크기를 130px -> 150px로 키움 */
         .ghost-supply {
             position: absolute;
             pointer-events: none;
@@ -267,10 +256,9 @@
             border-radius: 8px;
             background: #fff;
             box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-            width: 130px; 
+            width: 150px; /* 이미지 크기에 맞게 너비 조정 */
         }
 
-        /* 실험 진행 영역 (오른쪽) */
         .experiment-area {
             flex-grow: 1; 
             display: flex;
@@ -303,7 +291,6 @@
             background-color: #dc2626; 
         }
 
-        /* 6홈판 전체 컨테이너 스타일 */
         .well-plate-wrapper {
             position: relative;
             display: flex;
@@ -320,7 +307,6 @@
             box-sizing: border-box;
         }
 
-        /* 6홈판 본체 */
         .well-plate {
             display: grid;
             grid-template-columns: repeat(2, 1fr); 
@@ -330,7 +316,6 @@
             position: relative; 
         }
 
-        /* 각 홈(well) 컨테이너 */
         .well {
             position: relative; 
             width: 130px; 
@@ -353,7 +338,6 @@
             transform: scale(1.05);
         }
         
-        /* 각 홈의 재료 라벨 (2줄 표시) */
         .well-material-label {
             position: absolute;
             font-size: 0.9rem; 
@@ -381,7 +365,6 @@
             right: -80px; 
         }
 
-        /* 용액 원 */
         .well .solution {
             width: 90px; 
             height: 90px; 
@@ -400,7 +383,6 @@
             flex-shrink: 0; 
         }
 
-        /* 홈 내부 용액 라벨 */
         .well-solution-label {
             font-weight: bold;
             font-size: 1rem; 
@@ -426,23 +408,31 @@
             height: 45px; 
         }
         
+        /* --- [CSS 수정됨 3/5] ---
+           홈판 속 재료 크기를 70px -> 80px로 키움 */
         .material-in-well {
-            width: 70px; 
-            height: 70px; 
-            background-color: #e0e6ed;
-            border: 1px solid #c0c8d4;
-            border-radius: 6px;
-            font-size: 11px; 
-            color: #555;
-            text-align: center;
-            padding: 2px;
-            line-height: 1.1;
+            width: 80px; 
+            height: 80px; 
+            /* background-color, border 등은 JS가 이미지를 넣으면 불필요해짐 */
             animation: fadeIn 0.3s;
             z-index: 1; 
             position: absolute; 
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
+            /* [CSS 신규 4/5] 홈판 속 이미지 스타일 */
+            display: flex; /* 이미지 중앙 정렬용 */
+            align-items: center; /* 이미지 중앙 정렬용 */
+            justify-content: center; /* 이미지 중앙 정렬용 */
+        }
+
+        /* --- [CSS 신규 5/5] ---
+           홈판에 드롭된 이미지 스타일 정의 */
+        .material-in-well img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            border-radius: 6px;
         }
         
         .well-result {
@@ -466,7 +456,6 @@
             width: 80px; 
         }
 
-        /* 효과용 CSS */
         @keyframes fadeIn {
             from { opacity: 0; }
             to { opacity: 1; }
@@ -519,10 +508,9 @@
         .well-result.dissolve { color: #e67e22; }
         .well-result.no-change { color: #7f8c8d; }
         
-        /* 하단 결과 요약 - 정렬 문제 수정 */
         .instructions {
             width: 100%;
-            max-width: 100%; /* 부모의 880px를 따르도록 */
+            max-width: 100%;
             margin-top: 25px;
             padding: 20px;
             background: #f9fafb;
@@ -609,26 +597,27 @@
             box-shadow: 0 4px 8px rgba(0,0,0,0.2); 
         }
         
-        /* 동적 가이드 CSS */
+        /* --- [CSS 수정됨 5/5] ---
+           파란 가이드 박스 높이를 110px -> 80px로 줄임 */
         .guide-text-box {
             font-size: 1.1rem;
             font-weight: bold;
             color: #004085; 
-            padding: 10px 15px; 
+            padding: 10px 15px; /* 내부 패딩 조절 */
             background: #e0f2ff; 
             border: 2px solid #a7d9ff; 
             border-radius: 8px; 
-            height: 110px; 
+            height: 80px; /* 높이 축소 */
             width: 100%;
             text-align: center; 
             display: flex;
             flex-direction: column; 
             align-items: center;
-            justify-content: flex-start; 
-            padding-top: 15px; 
+            justify-content: center; /* 수직 중앙 정렬 */
             line-height: 1.3; 
             word-break: keep-all; 
             white-space: normal; 
+            padding-top: 10px; /* 상단 패딩 리셋 */
         }
         .guide-text-box p {
             font-weight: normal;
@@ -636,7 +625,6 @@
             margin-top: 5px;
         }
         
-        /* Pulse 애니메이션 (색상별) */
         @keyframes pulse-lightblue {
             0% { box-shadow: 0 0 0 0 rgba(135, 206, 250, 0.9); }
             70% { box-shadow: 0 0 0 10px rgba(135, 206, 250, 0); }
@@ -651,16 +639,14 @@
         }
         .pulsing-pink { animation: pulse-pink 1.5s infinite; border-radius: 8px; }
 
-        /* 기본 펄스 (더 선명하게) */
         @keyframes pulse-blue {
             0% { box-shadow: 0 0 0 0 rgba(0, 123, 255, 0.9); } 
             70% { box-shadow: 0 0 0 10px rgba(0, 123, 255, 0); }
             100% { box-shadow: 0 0 0 0 rgba(0, 123, 255, 0); }
         }
-        /* 버튼 전용 펄스 클래스 */
         .exp-btn.pulsing-guide {
             animation: pulse-blue 1.5s infinite;
-            border-radius: 8px; /* 버튼 둥글기에 맞춤 */
+            border-radius: 8px;
             box-shadow: 0 0 0 0 rgba(0, 123, 255, 0.9); 
         }
         .main-tab-btn.pulsing-guide {
@@ -694,10 +680,13 @@
                             <button id="btn-exp2" class="exp-btn">실험 2</button>
                         </div>
 
+                        <!-- --- [HTML 수정됨] --- -->
+                        <!-- 깃허브의 새 파일명 (quail-egg.png, Chicken-meat.png) 으로 수정 -->
+
                         <div id="supply-set-1" class="supply-area">
                             <div class="supply-item" id="eggshell" draggable="true">
                                 <div class="material-img" id="eggshell-img">
-                                    <img src="quail egg.png" alt="메추리알 껍데기">
+                                    <img src="quail-egg.png" alt="메추리알 껍데기">
                                 </div>
                                 <div class="material-name">메추리알 껍데기</div>
                             </div>
@@ -718,11 +707,13 @@
                             </div>
                             <div class="supply-item" id="chicken" draggable="true">
                                 <div class="material-img" id="chicken-img">
-                                    <img src="Chicken meat.png" alt="삶은 닭 가슴살">
+                                    <img src="Chicken-meat.png" alt="삶은 닭 가슴살">
                                 </div>
                                 <div class="material-name">삶은 닭 가슴살</div>
                             </div>
                         </div>
+                        
+                        <!-- --- [수정 끝] --- -->
                         
                         <div id="guide-text" class="guide-text-box">
                             여기에 안내 문구가 표시됩니다.
@@ -814,46 +805,37 @@
     </div>
 
     <script>
-        /* [NEW] mp3 효과음 플레이어 */
         let waterPlayer;
 
-        /* [NEW] 효과음 재생 함수 (cabbage_simulation에서 복사) */
         function playWaterSound(type = 'drop') {
-            if (!waterPlayer) return; // waterPlayer가 로드되지 않았으면 중지
-
-            // [v28] Audio() 객체는 start()가 아닌 play()를 사용해야 합니다.
-            // 또한, 매번 재생하려면 시간을 0으로 되돌려야 합니다.
-            waterPlayer.currentTime = 0; // 재생 위치를 처음으로
-
+            if (!waterPlayer) return;
+            waterPlayer.currentTime = 0;
             if (type === 'drop') {
-                waterPlayer.volume = 0.3; // 0~1 사이 값 (작게)
-                waterPlayer.playbackRate = 1.5; // 재생 속도 (빠르게)
+                waterPlayer.volume = 0.3;
+                waterPlayer.playbackRate = 1.5;
                 waterPlayer.play().catch(e => console.error("효과음 재생 실패:", e));
             } else if (type === 'neutral') {
-                waterPlayer.volume = 0.6; // 0~1 사이 값 (보통)
-                waterPlayer.playbackRate = 1.0; // 재생 속도 (보통)
+                waterPlayer.volume = 0.6;
+                waterPlayer.playbackRate = 1.0;
                 waterPlayer.play().catch(e => console.error("효과음 재생 실패:", e));
             }
         }
 
         document.addEventListener('DOMContentLoaded', () => {
 
-            /* [NEW] mp3 효과음 플레이어 로드 */
             try {
-                // 'water.mp3' 파일이 이 html 파일과 같은 폴더에 있다고 가정합니다.
                 waterPlayer = new Audio('water.mp3');
                 waterPlayer.load(); 
             } catch (e) {
                 console.error("Audio 파일을 로드할 수 없습니다.", e);
-                waterPlayer = null; // 오류 발생 시 waterPlayer를 null로 설정
+                waterPlayer = null;
             }
-
 
             /* --- 1. 주요 요소 --- */
             const btnExp1 = document.getElementById('btn-exp1');
             const btnExp2 = document.getElementById('btn-exp2');
             const resetButton = document.getElementById('reset-button');
-            const expControls = btnExp1.parentElement; /* 펄스 효과 제어용 부모 */
+            const expControls = btnExp1.parentElement;
             
             const supplySet1 = document.getElementById('supply-set-1');
             const supplySet2 = document.getElementById('supply-set-2');
@@ -863,7 +845,7 @@
             const draggables = document.querySelectorAll('.supply-item');
             const droppables = document.querySelectorAll('#main-plate .well'); 
 
-            let currentExperiment = 1; /* 1 또는 2만 사용 */
+            let currentExperiment = 1;
 
             /* --- 탭 요소 --- */
             const mainTabExperiment = document.getElementById('main-tab-experiment');
@@ -875,7 +857,6 @@
             const guideText = document.getElementById('guide-text');
 
             /* --- 2. 퀴즈 요소 --- */
-            const quizContainer = document.getElementById('summary-quiz');
             const quizLabels = document.querySelectorAll('.summary-label');
             const quizDropZones = document.querySelectorAll('.drop-zone');
             
@@ -886,14 +867,13 @@
             /* --- 3. 드래그 앤 드롭 로직 (실험 재료) --- */
             let draggedElement = null;
             let ghostElement = null;
-            let isTouchDragging = false; // 공통 터치 플래그
+            let isTouchDragging = false;
             
             /* (A) 마우스 드래그 (실험 재료) */
             draggables.forEach(item => {
                 item.addEventListener('dragstart', (e) => {
                     draggedElement = e.target.closest('.supply-item');
                     if (!draggedElement) return;
-                    
                     e.dataTransfer.setData('text/plain', draggedElement.id);
                     e.dataTransfer.setDragImage(new Image(), 0, 0); 
                     setTimeout(() => draggedElement.classList.add('dragging'), 0);
@@ -908,7 +888,7 @@
             /* (B) 터치 드래그 (실험 재료) */
             draggables.forEach(item => {
                 item.addEventListener('touchstart', (e) => {
-                    if (draggedQuizLabel) return; // 퀴즈 드래그 중이면 무시
+                    if (draggedQuizLabel) return;
                     draggedElement = e.target.closest('.supply-item');
                     if (!draggedElement) return;
                     
@@ -916,14 +896,11 @@
                     ghostElement = draggedElement.cloneNode(true);
                     ghostElement.classList.add('ghost-supply');
                     document.body.appendChild(ghostElement);
-                    
                     updateGhostPosition(e.touches[0], ghostElement);
                 }, { passive: false });
             });
             
             /* --- 4. 드래그 앤 드롭 로직 (퀴즈 라벨) --- */
-
-            /* (A) 마우스 드래그 (퀴즈 라벨) */
             quizLabels.forEach(label => {
                 label.addEventListener('dragstart', (e) => {
                     draggedQuizLabel = e.target;
@@ -935,37 +912,30 @@
                     draggedQuizLabel = null;
                 });
             });
-
-            /* (B) 터치 드래그 (퀴즈 라벨) */
             quizLabels.forEach(label => {
                 label.addEventListener('touchstart', (e) => {
-                    if (draggedElement) return; // 실험 드래그 중이면 무시
+                    if (draggedElement) return;
                     draggedQuizLabel = e.target;
-                    
                     isTouchDragging = true;
                     quizGhostElement = draggedQuizLabel.cloneNode(true);
                     quizGhostElement.classList.add('ghost-label');
                     document.body.appendChild(quizGhostElement);
-                    
                     updateGhostPosition(e.touches[0], quizGhostElement);
                 }, { passive: false });
             });
 
             /* --- 5. 공통 드롭 존 로직 (마우스) --- */
-            
             document.addEventListener('dragover', (e) => {
                 e.preventDefault();
-                // 드래그 오버 피드백 모두 초기화
                 document.querySelectorAll('.drag-over').forEach(el => el.classList.remove('drag-over'));
 
-                if (draggedElement) { // 실험 재료 드래그 중
+                if (draggedElement) {
                     const dropTarget = e.target.closest('.well');
-                    /* [MODIFIED] 완료 여부 체크 로직 변경 */
                     const usedKey = 'set' + currentExperiment + 'Used';
                     if (dropTarget && dropTarget.dataset[usedKey] === 'false') {
                         dropTarget.classList.add('drag-over');
                     }
-                } else if (draggedQuizLabel) { // 퀴즈 라벨 드래그 중
+                } else if (draggedQuizLabel) {
                     const dropTarget = e.target.closest('.drop-zone');
                     if (dropTarget && !dropTarget.classList.contains('filled')) {
                         dropTarget.classList.add('drag-over');
@@ -977,12 +947,12 @@
                 e.preventDefault();
                 document.querySelectorAll('.drag-over').forEach(el => el.classList.remove('drag-over'));
                 
-                if (draggedElement) { // 실험 재료 드롭
+                if (draggedElement) {
                     const dropTarget = e.target.closest('.well');
                     if (dropTarget) {
                         runExperimentDrop(dropTarget, draggedElement.id);
                     }
-                } else if (draggedQuizLabel) { // 퀴즈 라벨 드롭
+                } else if (draggedQuizLabel) {
                     const dropTarget = e.target.closest('.drop-zone');
                     if (dropTarget) {
                         runQuizDrop(dropTarget, draggedQuizLabel);
@@ -991,7 +961,6 @@
             });
 
             /* --- 6. 공통 터치 이벤트 (이동, 종료) --- */
-            
             document.addEventListener('touchmove', (e) => {
                 if (!isTouchDragging) return;
                 e.preventDefault();
@@ -1005,7 +974,6 @@
 
                 if (draggedElement) {
                     const dropTarget = elementUnderTouch ? elementUnderTouch.closest('.well') : null;
-                    /* [MODIFIED] 완료 여부 체크 로직 변경 */
                     const usedKey = 'set' + currentExperiment + 'Used';
                     if (dropTarget && dropTarget.dataset[usedKey] === 'false') {
                         dropTarget.classList.add('drag-over');
@@ -1035,7 +1003,6 @@
                     if (ghostElement) document.body.removeChild(ghostElement);
                     ghostElement = null;
                     draggedElement = null;
-
                 } else if (draggedQuizLabel) {
                     const dropTarget = elementUnderTouch ? elementUnderTouch.closest('.drop-zone') : null;
                     if (dropTarget) {
@@ -1056,32 +1023,42 @@
 
             /* --- 7. 실험/퀴즈 실행 로직 --- */
 
-            /** [NEW] 반응 시각화 함수 (버그 수정용) */
+            /** [JS 수정됨]
+             * showReaction 함수 수정
+             * 이제 텍스트 대신 원본 이미지의 src를 가져와 <img> 태그를 생성합니다.
+             */
             function showReaction(targetWell, materialId) {
                 const solutionDiv = targetWell.querySelector('.solution');
                 const solutionType = targetWell.dataset.solution;
                 const reaction = getReaction(materialId, solutionType);
                 
-                /* 1. 재료 시각화 */
+                /* 1. 재료 시각화 (이미지로 변경) */
                 const materialClassName = `mat_${materialId}`;
                 if (!solutionDiv.querySelector(`.${materialClassName}`)) {
+                    
                     const materialVisual = document.createElement('div');
                     materialVisual.className = `material-in-well ${materialClassName}`;
                     
-                    // [코드 수정] <img> 태그 사용 시 innerText 대신 시각적 요소(이미지) 추가
-                    // 단, 여기서는 홈판에 들어간 '후'의 모습이므로, 
-                    // 이미지를 쓰는 대신 기존의 텍스트 방식이나 간단한 묘사를 유지하는 것이 
-                    // JavaScript 로직상 더 간단할 수 있습니다.
-                    // (만약 이미지를 넣으려면, JS로 img 태그를 생성해야 함)
-                    // 여기서는 기존 로직(getMaterialDisplayName)을 유지합니다.
-                    materialVisual.innerText = getMaterialDisplayName(materialId); 
-                    
-                    // 만약 여기도 이미지로 넣고 싶다면, 위 3줄 대신 아래 코드를 사용하세요.
-                    // (단, .material-in-well CSS에 img 관련 스타일 추가 필요)
-                    // const img = document.createElement('img');
-                    // img.src = document.getElementById(materialId).querySelector('.material-img img').src;
-                    // img.alt = getMaterialDisplayName(materialId);
-                    // materialVisual.appendChild(img);
+                    // 원본 준비물에서 이미지 src 찾기
+                    const originalSupplyItem = document.getElementById(materialId);
+                    let imgSrc = "";
+                    if (originalSupplyItem) {
+                        const originalImg = originalSupplyItem.querySelector('.material-img img');
+                        if (originalImg) {
+                            imgSrc = originalImg.src; // 원본 이미지의 URL (예: .../quail-egg.png)
+                        }
+                    }
+
+                    if (imgSrc) {
+                        // <img> 태그 생성
+                        const img = document.createElement('img');
+                        img.src = imgSrc;
+                        img.alt = getMaterialDisplayName(materialId);
+                        materialVisual.appendChild(img);
+                    } else {
+                        // 이미지를 못찾을 경우 텍스트로 대체
+                        materialVisual.innerText = getMaterialDisplayName(materialId);
+                    }
                     
                     solutionDiv.appendChild(materialVisual);
                 }
@@ -1110,8 +1087,9 @@
                     solutionDiv.appendChild(resultEl); 
                 }, 500); 
             }
+            /* --- [JS 수정 끝] --- */
 
-            /** [MODIFIED] (F) 실험 드롭 실행 함수 - showReaction 호출 */
+
             function runExperimentDrop(targetWell, droppedMaterialId) {
                 const expectedMaterialKey = 'materialSet' + currentExperiment + 'Id';
                 const expectedMaterial = targetWell.dataset[expectedMaterialKey];
@@ -1120,30 +1098,23 @@
                 if (targetWell.dataset[usedKey] === 'true') return; 
 
                 if (droppedMaterialId === expectedMaterial) {
-                    targetWell.dataset[usedKey] = 'true'; // 해당 실험 완료로 표시
-                    
-                    playWaterSound('drop'); // [NEW] 효과음 재생
-
-                    /* [MODIFIED] 시각화 로직을 새 함수로 분리 */
+                    targetWell.dataset[usedKey] = 'true';
+                    playWaterSound('drop');
                     showReaction(targetWell, droppedMaterialId);
-                    
-                    /* 완료 체크 */
                     checkCompletionStatus();
                 }
             }
 
-            /** 퀴즈 드롭 실행 함수 */
             function runQuizDrop(dropZone, label) {
                 if (dropZone.dataset.answer === label.dataset.answer && !dropZone.classList.contains('filled')) {
                     dropZone.innerText = label.innerText;
                     dropZone.classList.add('filled');
                     label.classList.add('dropped');
                     correctQuizAnswers++;
-                    checkCompletionStatus(); // 퀴즈 상태도 체크
+                    checkCompletionStatus();
                 }
             }
 
-            /** id "eggwhite" */
             function getMaterialDisplayName(id) {
                 switch (id) {
                     case 'eggshell': return '껍데기';
@@ -1154,7 +1125,6 @@
                 }
             }
 
-            /** id "eggwhite" */
             function getReaction(material, solution) {
                 switch (material) {
                     case 'eggshell':
@@ -1174,20 +1144,16 @@
             
             /* --- 8. 상태 관리 --- */
             
-            /** 펄스 효과 모두 제거 */
             function clearAllPulses() {
                 document.querySelectorAll('.pulsing-guide, .pulsing-lightblue, .pulsing-pink').forEach(el => { 
                     el.className = el.className.replace(/pulsing-\w+/g, '').replace('pulsing-guide', '');
                 });
-                /* 부모 펄스 클래스 제거 */
                 expControls.classList.remove('pulsing');
             }
 
-            /** updateGuide 함수 - 새 상태 로직 적용 */
             function updateGuide(guideState) {
                 clearAllPulses();
                 
-                /* 홈판 및 재료 반짝임 로직 */
                 let isEggshellNeeded = false;
                 let isMarbleNeeded = false;
                 let isEggWhiteNeeded = false;
@@ -1213,29 +1179,27 @@
                     }
                 });
 
-                // --- 재료 공급처(왼쪽) 반짝임 ---
                 if (currentExperiment === 1) {
                     if (isEggshellNeeded) document.getElementById('eggshell').classList.add('pulsing-lightblue');
                     if (isMarbleNeeded) document.getElementById('marble').classList.add('pulsing-pink');
-                } else { // currentExperiment === 2
+                } else {
                     if (isEggWhiteNeeded) document.getElementById('eggwhite').classList.add('pulsing-lightblue');
                     if (isChickenNeeded) document.getElementById('chicken').classList.add('pulsing-pink');
                 }
 
-                /* 가이드 텍스트 및 펄스 로직 */
                 switch (guideState) {
                     case 'INIT':
-                        guideText.innerHTML = "<b>1. 실험 1 시작</b><p class='mt-1'>'실험 1' 재료(껍데기, 대리암)를<br>알맞은 홈에 끌어다 놓으세요.</p>";
+                        guideText.innerHTML = "<b>1. 실험 1 시작</b><p class='mt-1'>'실험 1' 재료를<br>알맞은 홈에 끌어다 놓으세요.</p>";
                         break;
                     case 'EXP1_DONE':
                         guideText.innerHTML = "<b>'실험 1' 완료!</b><p class='mt-1'>'실험 2' 버튼을 눌러<br>다음 실험을 진행하세요.</p>";
                         btnExp2.classList.add('pulsing-guide');
-                        expControls.classList.add('pulsing'); // 펄싱 부모 클래스 추가
+                        expControls.classList.add('pulsing');
                         break;
-                    case 'EXP2_MODE': // 실험 2 탭을 눌렀으나 아직 미완료
-                         guideText.innerHTML = "<b>2. 실험 2 시작</b><p class='mt-1'>'실험 2' 재료(흰자, 닭가슴살)를<br>알맞은 홈에 끌어다 놓으세요.</p>";
+                    case 'EXP2_MODE':
+                         guideText.innerHTML = "<b>2. 실험 2 시작</b><p class='mt-1'>'실험 2' 재료를<br>알맞은 홈에 끌어다 놓으세요.</p>";
                          break;
-                    case 'EXP2_DONE': // 실험 1은 안하고 2만 완료 (이론상 가능)
+                    case 'EXP2_DONE':
                         guideText.innerHTML = "<b>'실험 2' 완료!</b><p class='mt-1'>'실험 1' 버튼을 눌러<br>마저 진행하세요.</p>";
                         btnExp1.classList.add('pulsing-guide');
                         expControls.classList.add('pulsing');
@@ -1246,23 +1210,17 @@
                         mainTabSummary.classList.add('pulsing-guide');
                         break;
                     case 'ON_SUMMARY_TAB':
-                        /* 퀴즈 탭에서는 텍스트/펄스 없음. 펄스만 제거 */
                         break;
                 }
             }
 
-            /** 완료 체크 함수 - 새 상태 로직 적용 */
             function checkCompletionStatus() {
                 let exp1DoneCount = 0;
                 let exp2DoneCount = 0;
 
                 droppables.forEach(well => {
-                    if (well.dataset.set1Used === 'true') {
-                        exp1DoneCount++;
-                    }
-                    if (well.dataset.set2Used === 'true') {
-                        exp2DoneCount++;
-                    }
+                    if (well.dataset.set1Used === 'true') exp1DoneCount++;
+                    if (well.dataset.set2Used === 'true') exp2DoneCount++;
                 });
 
                 const isExp1Done = exp1DoneCount === 4;
@@ -1273,83 +1231,59 @@
                     updateGuide('ON_SUMMARY_TAB');
                     return;
                 }
-
-                if (isExp1Done && isExp2Done) {
-                    updateGuide('ALL_DONE');
-                } else if (isExp1Done && currentExperiment === 1) { // 실험1 끝났고, 아직 실험1 탭일 때
-                    updateGuide('EXP1_DONE');
-                } else if (isExp2Done && currentExperiment === 2) { // 실험2 끝났고, 아직 실험2 탭일 때
-                    updateGuide('EXP2_DONE');
-                } else if (currentExperiment === 1) {
-                    updateGuide('INIT'); // 실험 1 진행 중
-                } else if (currentExperiment === 2) {
-                    updateGuide('EXP2_MODE'); // 실험 2 진행 중
-                }
+                if (isExp1Done && isExp2Done) updateGuide('ALL_DONE');
+                else if (isExp1Done && currentExperiment === 1) updateGuide('EXP1_DONE');
+                else if (isExp2Done && currentExperiment === 2) updateGuide('EXP2_DONE');
+                else if (currentExperiment === 1) updateGuide('INIT');
+                else if (currentExperiment === 2) updateGuide('EXP2_MODE');
             }
 
-            /** 메인 탭 전환 함수 */
             function showMainTab(tabName) {
                 mainTabExperiment.classList.toggle('active', tabName === 'experiment');
                 mainTabSummary.classList.toggle('active', tabName === 'summary');
-                
                 experimentContent.classList.toggle('hidden', tabName !== 'experiment');
                 summaryContent.classList.toggle('hidden', tabName !== 'summary');
-                
-                checkCompletionStatus(); // 탭 전환 시 가이드 업데이트
+                checkCompletionStatus();
             }
 
-
-            /** [MODIFIED] (H) 실험 전환 함수 - 홈판 내용 다시 그리기 (버그 수정) */
             function switchExperiment(expNum) {
                 currentExperiment = expNum;
-                
                 btnExp1.classList.toggle('active', expNum === 1);
                 btnExp2.classList.toggle('active', expNum === 2);
-                
                 supplySet1.classList.toggle('hidden', expNum !== 1);
                 supplySet2.classList.toggle('hidden', expNum !== 2);
-                
                 plateTitle.innerText = (expNum === 1) ? '실험 1: 껍데기 & 대리암' : '실험 2: 달걀흰자 & 닭가슴살';
                 
-                // 새로운 재료 라벨 교체
                 allWellMaterialLabels.forEach(label => {
                     const labelKey = (expNum === 1) ? label.dataset.materialLabelSet1 : label.dataset.materialLabelSet2;
                     label.innerHTML = labelKey.replace(/\//g, '<br>');
                 });
 
-                /* [MODIFIED] 홈판 내용 다시 그리기 (버그 수정) */
                 droppables.forEach(well => {
                     const solutionDiv = well.querySelector('.solution');
-                    solutionDiv.innerHTML = ''; // 1. 일단 모두 지운다
-
+                    solutionDiv.innerHTML = ''; // 1. 모두 지우기
                     if (expNum === 1 && well.dataset.set1Used === 'true') {
-                        // 2. 실험 1 탭이면, 실험 1 결과만 다시 그린다
-                        showReaction(well, well.dataset.materialSet1Id);
+                        showReaction(well, well.dataset.materialSet1Id); // 2. 실험 1 결과 그리기
                     } else if (expNum === 2 && well.dataset.set2Used === 'true') {
-                        // 3. 실험 2 탭이면, 실험 2 결과만 다시 그린다
-                        showReaction(well, well.dataset.materialSet2Id);
+                        showReaction(well, well.dataset.materialSet2Id); // 3. 실험 2 결과 그리기
                     }
                 });
                 
-                checkCompletionStatus(); // 탭 전환 시 상태 체크 및 가이드 업데이트
+                checkCompletionStatus();
             }
 
-            /** (I) 홈판 초기화 함수 - 새 상태 로직 적용 */
             function resetPlate(isFullReset = false) { 
-                correctQuizAnswers = 0; // 퀴즈 카운터 리셋
+                correctQuizAnswers = 0;
                 
                 if (isFullReset) {
                     droppables.forEach(well => {
-                        /* 새 상태 속성 리셋 */
                         well.dataset.set1Used = 'false';
                         well.dataset.set2Used = 'false';
-                        
                         const solutionDiv = well.querySelector('.solution');
                         solutionDiv.innerHTML = '';
                     });
                 }
 
-                // 퀴즈 리셋
                 quizDropZones.forEach(zone => {
                     zone.classList.remove('filled');
                     zone.innerText = '';
@@ -1358,7 +1292,6 @@
                     label.classList.remove('dropped');
                 });
                 
-                // 탭 리셋
                 mainTabSummary.disabled = true;
                 showMainTab('experiment');
                 
@@ -1367,15 +1300,12 @@
                     btnExp1.classList.add('active'); 
                     btnExp2.classList.remove('active'); 
                     plateTitle.innerText = '실험 1: 껍데기 & 대리암';
-                    // 실험 1 라벨로 복원
                     allWellMaterialLabels.forEach(label => {
                          label.innerHTML = label.dataset.materialLabelSet1.replace(/\//g, '<br>');
                     });
-                    // 실험 2 재료 숨김
                     supplySet1.classList.remove('hidden');
                     supplySet2.classList.add('hidden');
-                    
-                    checkCompletionStatus(); // 초기 가이드 설정
+                    checkCompletionStatus();
                 }
             }
 
@@ -1384,7 +1314,6 @@
             btnExp2.addEventListener('click', () => switchExperiment(2));
             resetButton.addEventListener('click', () => resetPlate(true));
 
-            // 메인 탭 리스너
             mainTabExperiment.addEventListener('click', () => showMainTab('experiment'));
             mainTabSummary.addEventListener('click', () => {
                 if (!mainTabSummary.disabled) {
@@ -1392,11 +1321,9 @@
                 }
             });
             
-            // 초기 실행
             resetPlate(true); 
 
         });
     </script>
-
 </body>
 </html>
