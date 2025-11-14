@@ -1,0 +1,918 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>붉은 양배추 지시약 실험</title>
+    
+    <!-- 구글 폰트 'Jua' 로드 --><link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Jua&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS 로드 --><script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* 'Jua' 폰트 기본 적용 */
+        body {
+            font-family: 'Jua', sans-serif;
+            background-color: #f0f4f8; 
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            min-height: 100vh;
+            user-select: none; /* 텍스트 선택 방지 */
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            padding: 25px;
+            display: flex; 
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* '리트머스' 앱의 제목 스타일 */
+        .main-title {
+            text-align: center;
+            font-size: 3.5rem; 
+            font-weight: bold;
+            color: #6666FF; 
+            text-shadow: 
+                -2px -2px 0 #fff,  
+                 2px -2px 0 #fff,
+                -2px  2px 0 #fff,
+                 2px  2px 0 #fff,
+                 4px 4px 0 rgba(0,0,0,0.3); 
+            line-height: 1.2; 
+            padding-bottom: 10px;
+            margin-bottom: 20px; 
+        }
+
+        /* [수정] h2 스타일 정의 */
+        h2 {
+            color: #111;
+            font-size: 1.8em; 
+            font-weight: bold; 
+            margin-bottom: 15px; 
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            line-height: 1.2;
+            min-width: 280px; 
+        }
+        
+        h2::before {
+            margin-right: 8px;
+            font-size: 1.2em;
+        }
+        
+        /* [수정] h3 (결과 박스 내) 스타일 정의 */
+        h3 {
+             color: #111;
+             font-size: 1.4rem;
+        }
+
+
+        /* [수정] 실험 영역 전체를 감싸는 래퍼 */
+        .experiment-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center; 
+            width: 100%; 
+            max-width: 721px; 
+        }
+
+
+        /* 전체 레이아웃 (간격 문제 해결) */
+        .lab-bench {
+            display: flex;
+            flex-direction: column; 
+            gap: 20px; /* 모바일 세로 간격 */
+            margin-top: 0; 
+            align-items: center; 
+            width: 100%;
+        }
+
+        @media (min-width: 768px) {
+            .lab-bench {
+                flex-direction: row; 
+                align-items: flex-start; 
+                gap: 25px; 
+                width: auto; 
+            }
+        }
+
+        /* [NEW] 왼쪽 전체 영역 (제목과 박스 모두 포함) */
+        .left-content-wrapper {
+            flex-shrink: 0; 
+            display: flex;
+            flex-direction: column;
+            align-items: center; 
+            width: 320px; 
+            box-sizing: border-box;
+        }
+        
+        /* '사용 방법' 제목 스타일 */
+        .left-content-wrapper h2::before {
+            content: '✨'; 
+        }
+
+        /* 연보라색 점선 테두리 박스 (내용물만 포함) */
+        .instructions-box {
+            border: 2px dashed #C8B6E2;
+            background-color: #fafaff; 
+            padding: 15px; 
+            border-radius: 10px;
+            width: 100%; 
+            display: flex;
+            flex-direction: column;
+            gap: 5px; 
+            align-items: center;
+            height: 298px; 
+            box-sizing: border-box; 
+        }
+        
+        /* '사용 방법' 설명 텍스트 */
+        .instructions-box p {
+            text-align: center; /* [수정] left -> center */
+            font-size: 1.1rem;
+            color: #333;
+            width: 100%; 
+            padding-left: 0px; 
+            line-height: 1.4;
+            margin-bottom: 5px; 
+        }
+        
+        /* 붉은 양배추 지시약 도구 영역 */
+        .tool-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center; 
+            text-align: center;
+            font-size: 1rem;
+            color: #333;
+            width: 100%; 
+            margin-top: 5px; 
+            margin-bottom: 5px; 
+        }
+         .tool-item p {
+            margin-top: 8px; 
+            line-height: 1.2;
+            text-align: center; 
+         }
+
+        /* 드래그 가능한 도구 스타일 (크기 조정) */
+        .tool {
+            width: 80px; 
+            height: 80px; 
+            border: 1px solid #c0c0c0; 
+            background-color: #f0f0f0;
+            cursor: grab;
+            transition: all 0.2s;
+            display: flex;
+            justify-content: center;
+            align-items: center; 
+            border-radius: 6px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            box-sizing: border-box;
+        }
+        .tool.dragging {
+            cursor: grabbing;
+            opacity: 0.5;
+            transform: scale(1.1);
+        }
+        /* SVG 아이콘 크기 조정 */
+        .tool svg {
+            width: 48px; 
+            height: 60px; 
+        }
+
+        /* 터치 드래그 시 복제되는 유령 요소 (지시약용) */
+        .ghost-tool {
+            position: absolute;
+            pointer-events: none;
+            opacity: 0.7;
+            z-index: 1000;
+            transform: translate(-50%, -50%); 
+            width: 80px; 
+            height: 80px; 
+            border: 1px solid #c0c0c0; 
+            background-color: #f0f0f0;
+            display: flex;
+            justify-content: center;
+            align-items: center; 
+            border-radius: 6px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        .ghost-tool svg {
+            width: 48px;
+            height: 60px;
+        }
+
+        /* [NEW] 실험 진행 영역 (오른쪽) */
+        .experiment-area {
+            flex-grow: 1; 
+            display: flex;
+            flex-direction: column;
+            align-items: center; 
+            gap: 0; 
+            box-sizing: border-box;
+        }
+
+        /* 리셋 버튼 위치 조정 */
+        #reset-button {
+            background-color: #ef4444; 
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            cursor: pointer;
+            transition: background-color 0.2s;
+            margin-top: auto; 
+            align-self: center; 
+            width: 200px; 
+            max-width: 80%; 
+        }
+        #reset-button:hover {
+            background-color: #dc2626; 
+        }
+
+        /* '리트머스' 앱의 6홈판 스타일 */
+        .well-plate {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr); 
+            grid-template-rows: repeat(2, 1fr); 
+            gap: 8px; 
+            background-color: #ffffff;
+            border: 1px solid #e0e0e0; 
+            border-radius: 10px;
+            padding: 15px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05); 
+            width: fit-content; 
+            margin: 0 auto; 
+            height: 298px; 
+            box-sizing: border-box; 
+        }
+
+        /* 각 홈(well) 컨테이너 (드롭 타겟) */
+        .well {
+            position: relative; 
+            width: 110px; 
+            height: 130px; 
+            border: 1px solid #eee; 
+            border-radius: 8px;
+            background-color: #f9f9f9; 
+            display: flex;
+            flex-direction: column; 
+            align-items: center;
+            padding: 8px 5px 5px 5px; 
+            box-sizing: border-box; 
+        }
+
+        /* 용액 원 (겹침 문제 해결) */
+        .well .solution {
+            width: 70px; 
+            height: 70px; 
+            margin: 0 auto; 
+            border: 1px solid #d0d0d0; 
+            border-radius: 50%;
+            background-color: #f0f8ff; 
+            transition: background-color 0.3s ease;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            position: relative; 
+            box-shadow: 0 0 5px rgba(0,0,0,0.05) inset;
+            flex-shrink: 0; 
+        }
+        
+        /* 라벨 (겹침 문제 해결) */
+        .well .label {
+            position: static; 
+            width: 100%; 
+            font-size: 0.9em; 
+            font-weight: bold;
+            color: #555;
+            text-align: center; 
+            line-height: 1.2;
+            padding: 0 2px;
+            box-sizing: border-box;
+            flex-grow: 1; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+        }
+        
+        /* 지시약이 떨어진 상태 (색상 변함) */
+        .solution[data-colored="true"] {
+             background-color: var(--solution-color);
+        }
+
+        /* '리트머스' 앱의 실험 세트 제목 */
+         .experiment-set {
+            display: flex; 
+            flex-direction: column;
+            align-items: center;
+            width: 100%; 
+         }
+        
+        .experiment-set h2::before {
+            content: '🧪'; 
+        }
+
+        /* [수정] 결과 영역 */
+        #results-area {
+            display: none; 
+            margin-top: 25px;
+            padding: 20px;
+            border-top: 2px dashed #007bff;
+            background: #f7fbff;
+            width: 100%; 
+            box-sizing: border-box;
+        }
+        #results-area.show {
+            display: block; 
+        }
+
+        .result-box {
+            display: flex;
+            flex-direction: column; 
+            gap: 20px;
+        }
+
+        @media (min-width: 640px) {
+            .result-box {
+                flex-direction: row; 
+                justify-content: space-between;
+            }
+        }
+        
+        /* [수정] 드롭 존 스타일 확장 */
+        .result-group {
+            flex-basis: 48%; 
+            padding: 15px;
+            border-radius: 8px;
+            transition: background-color 0.2s; /* [NEW] 드래그 오버 피드백용 */
+        }
+        .result-group.acid {
+            background-color: #fff0f0;
+            border: 1px solid #e53935;
+        }
+        .result-group.base {
+            background-color: #f0fff4;
+            border: 1px solid #4caf50;
+        }
+        /* [NEW] 드래그 올렸을 때 피드백 (박스 전체) */
+        .result-group.drag-over {
+            background-color: #e0e0e0;
+        }
+        .result-group h3 {
+            margin-top: 0;
+            font-size: 1.4rem;
+            pointer-events: none; /* [NEW] 드롭 이벤트가 박스로 전달되도록 */
+        }
+        
+        /* [NEW] 드롭 존 스타일 */
+        .result-group ul {
+            padding-left: 0;
+            list-style-type: none;
+            margin-top: 10px;
+            min-height: 100px; /* 드롭할 수 있는 최소 높이 */
+            border: 2px dashed #ccc;
+            border-radius: 5px;
+            padding: 10px;
+            pointer-events: none; /* [NEW] 드롭 이벤트가 박스로 전달되도록 */
+        }
+        
+        /* [NEW] 드롭된 리스트 아이템 */
+        .result-group ul li {
+            background-color: white;
+            padding: 8px 12px;
+            border-radius: 5px;
+            margin-bottom: 5px;
+            font-size: 1.1rem;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+            pointer-events: none; /* [NEW] 드롭 이벤트가 박스로 전달되도록 */
+        }
+
+        /* [NEW] 분류할 용액 (이름표) 섹션 */
+        #label-pool-container {
+            display: none; /* 초기에는 숨김 */
+            margin-top: 20px;
+            width: 100%;
+        }
+        #label-pool-container h3 {
+            font-size: 1.4rem;
+            text-align: center;
+            margin-bottom: 15px;
+        }
+        .label-pool {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+            padding: 15px;
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            border: 1px solid #eee;
+        }
+        
+        /* [NEW] 드래그할 이름표 스타일 */
+        .solution-label {
+            padding: 10px 15px;
+            background-color: white;
+            border: 1px solid #ddd;
+            border-radius: 20px;
+            cursor: grab;
+            font-size: 1.1rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            transition: all 0.2s;
+        }
+        
+        /* [NEW] 드래그 중인 이름표 스타일 */
+        .solution-label.dragging {
+            opacity: 0.5;
+            cursor: grabbing;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+        
+        /* [NEW] 터치 드래그 시 복제되는 유령 요소 (이름표용) */
+        .ghost-label {
+            position: absolute;
+            pointer-events: none;
+            opacity: 0.8;
+            z-index: 1000;
+            transform: translate(-50%, -50%);
+            padding: 10px 15px;
+            background-color: white;
+            border: 1px solid #ddd;
+            border-radius: 20px;
+            font-size: 1.1rem;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+        
+        /* [NEW] 분류 완료 시 숨기기 (JavaScript로 제어) */
+        .solution-label.classified {
+            display: none;
+        }
+
+
+        /* [수정] '알게 된 점' 박스 (초기 숨김) */
+        #knowledge-point {
+            display: none; 
+            margin-top: 20px;
+        }
+        #knowledge-point.show {
+            display: block;
+        }
+        
+    </style>
+</head>
+<body class="bg-gray-100">
+
+    <div class="container my-5">
+        <h1 class="main-title">
+            붉은 양배추 지시약 실험
+        </h1>
+        
+        <div class="experiment-wrapper">
+            <div class="lab-bench">
+                
+                
+
+<div class="left-content-wrapper">
+                    
+
+<h2 class="text-3xl font-bold mb-4 flex items-center justify-center min-w-[280px]">사용 방법</h2>
+                    
+                    
+
+<div class="instructions-box">
+                        <p>
+                            - 아래의 '붉은 양배추 지시약'을 끌어 <br>6홈판에 놓아 보세요.
+                        </p>
+                        
+                        
+
+<div class="tool-item">
+                            <div class="tool" id="tool-cabbage-indicator" draggable="true">
+                                
+
+<svg width="36" height="48" viewBox="0 0 24 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <title>붉은 양배추 지시약</title>
+                                    <path d="M18 13.5C18 17.6421 15.3137 21 12 21C8.68629 21 6 17.6421 6 13.5C6 9.35786 8.68629 6 12 6C15.3137 6 18 9.35786 18 13.5Z" fill="#e0cffc" stroke="#777" stroke-width="1.5"/>
+                                    <path d="M12 21V25M12 25H9M12 25H15" stroke="#777" stroke-width="1.5" stroke-linecap="round"/>
+                                    <path d="M12 17L12 12" stroke="#d1b3f2" stroke-width="1.5" stroke-linecap="round"/>
+                                    <path d="M10.5 6C10.5 4.17157 11.1716 3.5 12 3.5C12.8284 3.5 13.5 4.17157 13.5 6V7H10.5V6Z" fill="#D0D0D0" stroke="#777" stroke-width="1.5"/>
+                                    <path d="M10.5 4C10.5 3.17157 11.1716 2.5 12 2.5C12.8284 2.5 13.5 3.17157 13.5 4V5H10.5V4Z" fill="#999" stroke="#777" stroke-width="1"/>
+                                </svg>
+                            </div>
+                            <p>붉은 양배추<br>지시약</p>
+                        </div>
+                        
+                        
+
+<button id="reset-button">처음부터 다시하기</button> 
+                    </div>
+                </div>
+
+                
+
+<div class="experiment-area">
+                    
+                    <div class="experiment-set">
+                        
+
+<h2 class="text-3xl font-bold mb-4 flex items-center justify-center min-w-[280px]">붉은 양배추 지시약 실험</h2>
+                        <div class="well-plate" id="cabbage-plate">
+                            
+                            <div class="well" data-solution="vinegar" data-type="acid">
+                                <div class="solution"></div>
+                                <div class="label">식초</div>
+                            </div>
+                            <div class="well" data-solution="carbonated" data-type="acid">
+                                <div class="solution"></div>
+                                <div class="label">탄산수</div>
+                            </div>
+                            <div class="well" data-solution="limewater" data-type="base">
+                                <div class="solution"></div>
+                                <div class="label">석회수</div>
+                            </div>
+                            <div class="well" data-solution="hcl" data-type="acid">
+                                <div class="solution"></div>
+                                <div class="label">묽은 염산</div>
+                            </div>
+                            <div class="well" data-solution="cleaner" data-type="base">
+                                <div class="solution"></div>
+                                <div class="label">유리 세정제</div>
+                            </div>
+                            <div class="well" data-solution="naoh" data-type="base">
+                                <div class="solution"></div>
+                                <div class="label">묽은 수산화<br>나트륨 용액</div>
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            
+
+<div id="results-area">
+                
+
+<h2 class="text-3xl font-bold mb-4">🔬 실험 결과 분류</h2>
+                <div class="result-box">
+                    <div class="result-group acid" data-zone="acid">
+                        <h3 class="font-semibold mb-2">붉은색 계열 (산성 용액)</h3>
+                        
+
+<ul id="acid-list"></ul>
+                    </div>
+                    <div class="result-group base" data-zone="base">
+                        <h3 class="font-semibold mb-2">푸른/녹/노란색 계열 (염기성 용액)</h3>
+                        
+
+<ul id="base-list"></ul>
+                    </div>
+                </div>
+
+                
+
+<div id="label-pool-container">
+                    <h3 class="font-semibold mb-3 text-center">👇 아래의 이름표를 끌어 분류해 보세요.</h3>
+                    <div class="label-pool">
+                        <div class="solution-label" id="label-vinegar" draggable="true" data-type="acid">식초</div>
+                        <div class="solution-label" id="label-carbonated" draggable="true" data-type="acid">탄산수</div>
+                        <div class="solution-label" id="label-limewater" draggable="true" data-type="base">석회수</div>
+                        <div class="solution-label" id="label-hcl" draggable="true" data-type="acid">묽은 염산</div>
+                        <div class="solution-label" id="label-cleaner" draggable="true" data-type="base">유리 세정제</div>
+                        <div class="solution-label" id="label-naoh" draggable="true" data-type="base">묽은 수산화 나트륨</div>
+                    </div>
+                </div>
+                
+                
+
+<p id="knowledge-point" class="mt-4 p-4 bg-blue-50 border border-blue-200 rounded-md">
+                    <b>알게 된 점:</b> 붉은 양배추 지시약은 산성 용액을 만나면 붉은색 계열로, 염기성 용액을 만나면 푸른색, 녹색, 노란색 계열로 변합니다.
+                    이 결과는 리트머스 종이나 페놀프탈레인 용액으로 분류한 결과와 일치합니다.
+                </p>
+            </div>
+        </div> 
+
+</div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+
+            const solutions = {
+                'vinegar': { name: '식초', color: '#F06292', type: 'acid' }, // 분홍색
+                'carbonated': { name: '탄산수', color: '#CE93D8', type: 'acid' }, // 연보라색
+                'hcl': { name: '묽은 염산', color: '#E53935', type: 'acid' }, // 붉은색
+                'limewater': { name: '석회수', color: '#DCE775', type: 'base' }, // 연두색
+                'cleaner': { name: '유리 세정제', color: '#4CAF50', type: 'base' }, // 녹색
+                'naoh': { name: '묽은 수산화 나트륨', color: '#FFEE58', type: 'base' } // 노란색
+            };
+
+            // === 1. 지시약 드래그 관련 요소 ===
+            const indicatorTool = document.getElementById('tool-cabbage-indicator');
+            const wells = document.querySelectorAll('.well');
+            let indicatorColoredCount = 0;
+
+            // === 2. 이름표 분류 드래그 관련 요소 ===
+            const solutionLabels = document.querySelectorAll('.solution-label');
+            const dropZones = document.querySelectorAll('.result-group'); // [수정] 드롭 존을 .result-group으로 변경
+            const resultsArea = document.getElementById('results-area');
+            const labelPoolContainer = document.getElementById('label-pool-container');
+            const knowledgePoint = document.getElementById('knowledge-point');
+            const acidList = document.getElementById('acid-list'); 
+            const baseList = document.getElementById('base-list'); 
+            let classifiedCount = 0;
+            
+            // === 3. 공통 요소 ===
+            const resetButton = document.getElementById('reset-button');
+            
+            // --- 공통 드래그 변수 ---
+            let draggedElement = null;
+            let draggedType = null;
+            let isTouchDragging = false;
+            let ghostElement = null;
+
+
+            // ===========================================
+            // === 1. 지시약 드래그 앤 드롭 (기존 로직) ===
+            // ===========================================
+
+            // 1-1. 마우스 드래그 (지시약)
+            indicatorTool.addEventListener('dragstart', (e) => {
+                const target = e.target.closest('.tool');
+                if (!target) return;
+                
+                draggedElement = target;
+                draggedType = 'indicator'; // 타입 구분
+                target.classList.add('dragging');
+                e.dataTransfer.setDragImage(new Image(), 0, 0); 
+                e.dataTransfer.setData('text/plain', target.id);
+            });
+
+            indicatorTool.addEventListener('dragend', (e) => {
+                if (draggedElement) draggedElement.classList.remove('dragging');
+                draggedElement = null;
+                draggedType = null;
+            });
+
+            // 1-2. 터치 드래그 (지시약)
+            indicatorTool.addEventListener('touchstart', (e) => {
+                const target = e.target.closest('.tool');
+                if (!target) return;
+                
+                draggedElement = target;
+                draggedType = 'indicator';
+                isTouchDragging = true;
+                
+                ghostElement = target.cloneNode(true);
+                ghostElement.classList.add('ghost-tool');
+                const originalSvg = target.querySelector('svg');
+                if (originalSvg) ghostElement.innerHTML = originalSvg.outerHTML;
+                document.body.appendChild(ghostElement);
+                
+                updateGhostPosition(e.touches[0], ghostElement);
+            }, { passive: false });
+
+
+            // 1-3. 지시약 드롭 실행 (공통 로직)
+            function runIndicatorDrop(targetElement) {
+                const targetWell = targetElement.closest('.well');
+                if (!targetWell) return; 
+
+                const solutionDiv = targetWell.querySelector('.solution');
+                if (!solutionDiv || solutionDiv.dataset.colored) return; 
+
+                const solutionId = targetWell.dataset.solution;
+                const solutionData = solutions[solutionId];
+
+                if (solutionData) {
+                    solutionDiv.style.setProperty('--solution-color', solutionData.color);
+                    solutionDiv.dataset.colored = 'true'; 
+                    indicatorColoredCount++;
+                }
+
+                if (indicatorColoredCount === wells.length) {
+                    showClassificationArea(); 
+                }
+            }
+            
+            // =================================================
+            // === 2. 이름표 분류 드래그 앤 드롭 (새 로직) ===
+            // =================================================
+
+            // 2-1. 마우스 드래그 (이름표)
+            solutionLabels.forEach(label => {
+                label.addEventListener('dragstart', (e) => {
+                    draggedElement = e.target;
+                    draggedType = 'label'; // 타입 구분
+                    e.target.classList.add('dragging');
+                    e.dataTransfer.setData('text/plain', e.target.id);
+                    e.dataTransfer.setData('data-type', e.target.dataset.type);
+                });
+
+                label.addEventListener('dragend', (e) => {
+                    e.target.classList.remove('dragging');
+                    draggedElement = null;
+                    draggedType = null;
+                });
+            });
+            
+            // 2-2. 터치 드래그 (이름표)
+            solutionLabels.forEach(label => {
+                label.addEventListener('touchstart', (e) => {
+                    e.stopPropagation(); // 지시약 터치와 구분
+                    draggedElement = e.target.closest('.solution-label');
+                    if (!draggedElement) return;
+
+                    draggedType = 'label';
+                    isTouchDragging = true;
+
+                    ghostElement = draggedElement.cloneNode(true);
+                    ghostElement.classList.add('ghost-label');
+                    document.body.appendChild(ghostElement);
+                    
+                    updateGhostPosition(e.touches[0], ghostElement);
+                }, { passive: false });
+            });
+
+
+            // 2-3. 이름표 드롭 실행 (공통 로직)
+            function runClassificationDrop(dropGroup, draggedEl) { // [수정] dropZone -> dropGroup
+                if (!draggedEl) return;
+                
+                const draggedDataType = draggedEl.dataset.type;
+                const dropZoneType = dropGroup.dataset.zone; // [수정] .result-group에서 data-zone 가져오기
+                const listElement = dropGroup.querySelector('ul'); // [NEW] 실제 리스트(ul) 찾기
+
+                // [정답/오답 확인]
+                if (draggedDataType === dropZoneType) {
+                    // 정답
+                    const li = document.createElement('li');
+                    li.textContent = draggedEl.textContent;
+                    listElement.appendChild(li); // [수정] li를 ul에 추가
+                    
+                    draggedEl.style.display = 'none'; // 원본 이름표 숨기기
+                    draggedEl.classList.add('classified'); // 초기화용 클래스
+                    
+                    classifiedCount++;
+                    
+                    // [분류 완료 확인]
+                    if (classifiedCount === solutionLabels.length) {
+                        knowledgePoint.classList.add('show');
+                        labelPoolContainer.style.display = 'none'; // 이름표 풀 숨기기
+                    }
+                } else {
+                    // 오답 (아무것도 안함, 튕겨나간 효과)
+                }
+            }
+
+
+            // =================================================
+            // === 3. 공통 드롭 이벤트 핸들러 (마우스/터치) ===
+            // =================================================
+
+            // 3-1. 공통 드롭 존 (마우스)
+            document.addEventListener('dragover', (e) => {
+                e.preventDefault(); 
+                const dropTarget = e.target.closest('.well, .result-group'); // [수정] .result-group으로 변경
+                
+                // 기존 .drag-over 모두 제거
+                document.querySelectorAll('.drag-over').forEach(el => el.classList.remove('drag-over'));
+                
+                if (dropTarget) {
+                    if (draggedType === 'indicator' && dropTarget.classList.contains('well')) {
+                        // 지시약 드롭존 (동작 없음)
+                    } else if (draggedType === 'label' && dropTarget.classList.contains('result-group')) {
+                        dropTarget.classList.add('drag-over'); // [수정] .result-group에 drag-over 적용
+                    }
+                }
+            });
+
+            document.addEventListener('drop', (e) => {
+                e.preventDefault();
+                document.querySelectorAll('.drag-over').forEach(el => el.classList.remove('drag-over'));
+
+                const dropTarget = e.target;
+                
+                if (draggedType === 'indicator') {
+                    runIndicatorDrop(dropTarget);
+                } else if (draggedType === 'label') {
+                    const dropZone = dropTarget.closest('.result-group'); // [수정] .result-group 찾기
+                    if (dropZone) {
+                        runClassificationDrop(dropZone, draggedElement);
+                    }
+                }
+            });
+
+            // 3-2. 공통 터치 이동/종료
+            document.addEventListener('touchmove', (e) => {
+                if (!isTouchDragging || !ghostElement) return;
+                e.preventDefault(); 
+                
+                const touch = e.touches[0];
+                updateGhostPosition(touch, ghostElement);
+                
+                // 드래그 오버 피드백 (터치용)
+                const elementUnderTouch = document.elementFromPoint(touch.clientX, touch.clientY);
+                document.querySelectorAll('.drag-over').forEach(el => el.classList.remove('drag-over'));
+                
+                if (draggedType === 'label') {
+                    const dropZone = elementUnderTouch ? elementUnderTouch.closest('.result-group') : null; // [수정] .result-group 찾기
+                    if (dropZone) {
+                        dropZone.classList.add('drag-over'); // [수정] .result-group에 drag-over 적용
+                    }
+                }
+                
+            }, { passive: false });
+
+            document.addEventListener('touchend', (e) => {
+                if (!isTouchDragging) return;
+                isTouchDragging = false;
+                
+                document.querySelectorAll('.drag-over').forEach(el => el.classList.remove('drag-over'));
+
+                const touch = e.changedTouches[0];
+                const dropTarget = document.elementFromPoint(touch.clientX, touch.clientY);
+                
+                if (ghostElement) document.body.removeChild(ghostElement);
+                ghostElement = null;
+
+                if (dropTarget) {
+                    if (draggedType === 'indicator') {
+                        runIndicatorDrop(dropTarget);
+                    } else if (draggedType === 'label') {
+                        const dropZone = dropTarget.closest('.result-group'); // [수정] .result-group 찾기
+                        if (dropZone) {
+                            runClassificationDrop(dropZone, draggedElement);
+                        }
+                    }
+                }
+                
+                draggedElement = null;
+                draggedType = null;
+            });
+
+            // 3-3. 유령 요소 위치 업데이트 (공통)
+            function updateGhostPosition(touch, ghostEl) {
+                if (!ghostEl) return;
+                ghostEl.style.left = `${touch.clientX}px`;
+                ghostEl.style.top = `${touch.clientY}px`;
+            }
+
+
+            // ================================
+            // === 4. 상태 관리 함수 (수정) ===
+            // ================================
+            
+            // [수정] 4-1. 분류 영역 표시 함수
+            function showClassificationArea() {
+                resultsArea.classList.add('show'); 
+                labelPoolContainer.style.display = 'block'; // 이름표 풀 보이기
+                knowledgePoint.classList.remove('show'); // '알게 된 점'은 숨기기
+            }
+
+            // [수정] 4-2. 다시하기 버튼 이벤트
+            resetButton.addEventListener('click', () => {
+                // 1. 지시약 실험 리셋
+                indicatorColoredCount = 0;
+                wells.forEach(well => {
+                    const solutionDiv = well.querySelector('.solution');
+                    solutionDiv.style.removeProperty('--solution-color');
+                    delete solutionDiv.dataset.colored;
+                    solutionDiv.style.backgroundColor = ''; 
+                });
+
+                // 2. 분류 실험 리셋
+                classifiedCount = 0;
+                resultsArea.classList.remove('show');
+                labelPoolContainer.style.display = 'none';
+                knowledgePoint.classList.remove('show');
+                
+                acidList.innerHTML = '';
+                baseList.innerHTML = '';
+                
+                solutionLabels.forEach(label => {
+                    label.style.display = 'inline-flex'; // 숨겼던 이름표 다시 보이기
+                    label.classList.remove('classified');
+                });
+            });
+            
+        });
+    </script>
+</body>
+</html>
