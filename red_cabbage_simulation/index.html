@@ -168,8 +168,8 @@
 
         /* 드래그 가능한 도구 스타일 (크기 조정) */
         .tool {
-            width: 80px; 
-            height: 80px; 
+            width: 100px; /* [수정] 80px -> 100px */
+            height: 100px; /* [수정] 80px -> 100px */
             border: 1px solid #c0c0c0; 
             background-color: #f0f0f0;
             cursor: grab;
@@ -189,8 +189,8 @@
         
         /* [수정] SVG -> img 아이콘 크기 조정 */
         .tool img {
-            width: 64px; 
-            height: 64px; 
+            width: 80px; /* [수정] 64px -> 80px */
+            height: 80px; /* [수정] 64px -> 80px */
             object-fit: contain;
         }
 
@@ -201,8 +201,8 @@
             opacity: 0.7;
             z-index: 1000;
             transform: translate(-50%, -50%); 
-            width: 80px; 
-            height: 80px; 
+            width: 100px; /* [수정] 80px -> 100px */
+            height: 100px; /* [수정] 80px -> 100px */
             border: 1px solid #c0c0c0; 
             background-color: #f0f0f0;
             display: flex;
@@ -213,8 +213,8 @@
         }
         /* [수정] SVG -> img 아이콘 크기 조정 */
         .ghost-tool img {
-            width: 64px;
-            height: 64px;
+            width: 80px; /* [수정] 64px -> 80px */
+            height: 80px; /* [수정] 64px -> 80px */
             object-fit: contain;
         }
 
@@ -399,85 +399,85 @@
         }
         
         /* 드롭된 리스트 아이템 */
-        .result-group ul li {
-            background-color: white;
-            padding: 8px 12px;
-            border-radius: 5px;
-            margin-bottom: 5px;
-            font-size: 1.1rem;
-            box-shadow: 0 1px 2px rgba(0,0,0,0.1);
-            pointer-events: none; /* 드롭 이벤트가 박스로 전달되도록 */
-        }
-
-        /* 분류할 용액 (이름표) 섹션 */
-        #label-pool-container {
-            display: none; /* 초기에는 숨김 */
-            margin-top: 20px;
-            width: 100%;
-        }
-        #label-pool-container h3 {
-            font-size: 1.4rem;
-            text-align: center;
-            margin-bottom: 15px;
-        }
-        .label-pool {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            justify-content: center;
-            padding: 15px;
-            background-color: #f9f9f9;
-            border-radius: 8px;
-            border: 1px solid #eee;
-        }
-        
-        /* 드래그할 이름표 스타일 */
-        .solution-label {
-            padding: 10px 15px;
-            background-color: white;
-            border: 1px solid #ddd;
-            border-radius: 20px;
-            cursor: grab;
-            font-size: 1.1rem;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-            transition: all 0.2s;
-        }
-        
-        /* 드래그 중인 이름표 스타일 */
-        .solution-label.dragging {
-            opacity: 0.5;
-            cursor: grabbing;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-        }
-        
-        /* 터치 드래그 시 복제되는 유령 요소 (이름표용) */
-        .ghost-label {
-            position: absolute;
-            pointer-events: none;
-            opacity: 0.8;
-            z-index: 1000;
-            transform: translate(-50%, -50%);
-            padding: 10px 15px;
-            background-color: white;
-            border: 1px solid #ddd;
-            border-radius: 20px;
-            font-size: 1.1rem;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-        }
-        
-        /* 분류 완료 시 숨기기 (JavaScript로 제어) */
-        .solution-label.classified {
-            display: none;
-        }
-
-
-        /* '알게 된 점' 박스 (초기 숨김) */
-        #knowledge-point {
+        /* [수정] '알게 된 점' 박스 (초기 숨김) -> 퀴즈로 대체 */
+        #knowledge-quiz {
             display: none; 
             margin-top: 20px;
         }
-        #knowledge-point.show {
+        #knowledge-quiz.show {
             display: block;
+        }
+        /* [NEW] '알게 된 점' 퀴즈 스타일 */
+        #knowledge-quiz h3 {
+             font-size: 1.4rem;
+             color: #004085; /* 강조색 */
+             text-align: center;
+        }
+        #quiz-label-pool {
+             min-height: 50px; /* 꿀렁임 방지 */
+        }
+        .quiz-label { 
+            padding: 8px 12px; 
+            background-color: white; 
+            border: 1px solid #ddd; 
+            border-radius: 20px; 
+            cursor: grab; 
+            font-size: 1rem; 
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05); 
+            transition: all 0.2s; 
+        }
+        .quiz-label.dragging { 
+            opacity: 0.5; 
+            cursor: grabbing; 
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2); 
+        }
+        .quiz-label.dropped { 
+            display: none; 
+        }
+        .quiz-drop-zone { 
+            display: inline-block; 
+            min-width: 120px; 
+            height: 38px; 
+            border: 2px dashed #ccc; 
+            border-radius: 8px; 
+            background-color: #fafafa; 
+            margin: 0 5px; 
+            padding: 5px; 
+            text-align: center; 
+            vertical-align: middle; 
+            font-size: 1rem;
+            line-height: 1.5;
+            transition: all 0.2s;
+        }
+        .quiz-drop-zone.drag-over { 
+            border-color: #007bff; 
+            background-color: #e6f2ff; 
+        }
+        .quiz-drop-zone.filled { 
+            border-style: solid; 
+            border-color: #4caf50; 
+            background-color: #f0fff4; 
+            color: #111; 
+            font-weight: bold; 
+        }
+        .ghost-quiz-label { 
+            position: absolute; 
+            pointer-events: none; 
+            opacity: 0.8; 
+            z-index: 1000; 
+            transform: translate(-50%, -50%); 
+            padding: 8px 12px; 
+            background-color: white; 
+            border: 1px solid #ddd; 
+            border-radius: 20px; 
+            font-size: 1rem; 
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2); 
+        }
+        #quiz-complete-message {
+             display: none; /* JS로 제어 */
+        }
+        #quiz-complete-message.show {
+             display: block;
         }
 
         /* [NEW] 참고 코드에서 가져온 반짝임 효과 */
@@ -521,7 +521,7 @@
                             <div class="tool" id="tool-cabbage-indicator" draggable="true">
                                 <img src="indicator-dropper.png" alt="붉은 양배추 지시약">
                             </div>
-                            <p>붉은 양배추<br>지시약</p>
+                            <p>붉은 양배추 지시약</p> <!-- [수정] <br> 제거, 한 줄로 표시 -->
                         </div>
                         
                         <button id="reset-button">처음부터 다시하기</button> 
@@ -590,11 +590,39 @@
                     </div>
                 </div>
                 
-                <!-- 알게 된 점 (초기 숨김) -->
-                <p id="knowledge-point" class="mt-4 p-4 bg-blue-50 border border-blue-200 rounded-md">
-                    <b>알게 된 점:</b> 붉은 양배추 지시약은 산성 용액을 만나면 붉은색 계열로, 염기성 용액을 만나면 푸른색, 녹색, 노란색 계열로 변합니다.
-                    이 결과는 리트머스 종이나 페놀프탈레인 용액으로 분류한 결과와 일치합니다.
-                </p>
+                <!-- [수정] '알게 된 점'을 퀴즈로 변경 -->
+                <div id="knowledge-quiz" class="mt-4 p-4 bg-blue-50 border border-blue-200 rounded-md">
+                    <h3 class="font-semibold mb-3 text-lg text-blue-800">⭐ 알게 된 점 (퀴즈)</h3>
+                    
+                    <!-- 드래그할 보기들 -->
+                    <div id="quiz-label-pool" class="flex flex-wrap gap-3 justify-center p-3 bg-gray-100 rounded-lg border border-gray-300 mb-4">
+                        <div class="quiz-label" draggable="true" data-answer="acid">산성 용액</div>
+                        <div class="quiz-label" draggable="true" data-answer="base">염기성 용액</div>
+                        <div class="quiz-label" draggable="true" data-answer="red">붉은색 계열</div>
+                        <div class="quiz-label" draggable="true" data-answer="blue-green">푸른/녹/노란색 계열</div>
+                    </div>
+        
+                    <!-- 퀴즈 문장 -->
+                    <ul class="space-y-2" style="font-size: 1.1rem; line-height: 2.5;">
+                        <li>
+                            1. 붉은 양배추 지시약은
+                            <span class="quiz-drop-zone" data-answer="acid"></span>
+                            (을)를 만나면 
+                            <span class="quiz-drop-zone" data-answer="red"></span>
+                            (으)로 변합니다.
+                        </li>
+                        <li>
+                            2. 붉은 양배추 지시약은
+                            <span class="quiz-drop-zone" data-answer="base"></span>
+                            (을)를 만나면 
+                            <span class="quiz-drop-zone" data-answer="blue-green"></span>
+                            (으)로 변합니다.
+                        </li>
+                    </ul>
+                    <p id="quiz-complete-message" class="mt-4 text-center font-bold text-lg text-green-600">
+                        🎉 정답입니다! 완벽하게 이해했네요!
+                    </p>
+                </div>
             </div>
         </div> 
 
@@ -644,7 +672,16 @@
             const dropZones = document.querySelectorAll('.result-group');
             const resultsArea = document.getElementById('results-area');
             const labelPoolContainer = document.getElementById('label-pool-container');
-            const knowledgePoint = document.getElementById('knowledge-point');
+            
+            // [수정] 퀴즈 요소 추가
+            const knowledgeQuiz = document.getElementById('knowledge-quiz');
+            const quizLabels = document.querySelectorAll('.quiz-label');
+            const quizDropZones = document.querySelectorAll('.quiz-drop-zone');
+            const quizCompleteMessage = document.getElementById('quiz-complete-message');
+            let correctQuizAnswers = 0;
+            let draggedQuizLabel = null;
+            let quizGhostElement = null;
+
             const acidList = document.getElementById('acid-list'); 
             const baseList = document.getElementById('base-list'); 
             let classifiedCount = 0;
@@ -666,22 +703,17 @@
                 if (indicatorColoredCount < wells.length) {
                     indicatorTool.classList.add('pulsing-guide');
                 } else {
-                    indicatorTool.classList.remove('pulsing-guide');
+                    solutionLabels.forEach(label => label.classList.remove('pulsing-guide'));
                 }
 
-                // 2. 이름표 반짝임 제어 (분류 영역이 보일 때만)
-                if (resultsArea.classList.contains('show') && classifiedCount < solutionLabels.length) {
-                    solutionLabels.forEach(label => {
-                        // 분류되지 않은(숨겨지지 않은) 이름표만 반짝임
-                        if (!label.classList.contains('classified')) {
-                            label.classList.add('pulsing-guide');
-                        } else {
-                            label.classList.remove('pulsing-guide');
-                        }
+                // 3. [NEW] 퀴즈 이름표
+                if (knowledgeQuiz.classList.contains('show') && correctQuizAnswers < quizDropZones.length) {
+                    quizLabels.forEach(label => {
+                        if (!label.classList.contains('dropped')) label.classList.add('pulsing-guide');
+                        else label.classList.remove('pulsing-guide');
                     });
                 } else {
-                    // 분류 영역이 안보이거나, 다 분류했으면 반짝임 모두 제거
-                    solutionLabels.forEach(label => label.classList.remove('pulsing-guide'));
+                    quizLabels.forEach(label => label.classList.remove('pulsing-guide'));
                 }
             }
 
@@ -829,36 +861,89 @@
                     
                     // [분류 완료 확인]
                     if (classifiedCount === solutionLabels.length) {
-                        knowledgePoint.classList.add('show');
+                        knowledgeQuiz.classList.add('show'); // [수정] knowledgePoint -> knowledgeQuiz
                         labelPoolContainer.style.display = 'none'; // 이름표 풀 숨기기
+                        checkPulseState(); // [NEW] 퀴즈 라벨 반짝이게
                     }
                 } else {
                     // 오답 (아무것도 안함, 튕겨나간 효과)
                 }
             }
 
+            // [NEW] 퀴즈 드롭 실행 함수
+            function runQuizDrop(dropZone, label) {
+                if (dropZone.dataset.answer === label.dataset.answer && !dropZone.classList.contains('filled')) {
+                    dropZone.innerText = label.innerText;
+                    dropZone.classList.add('filled');
+                    label.classList.add('dropped'); // CSS에서 .dropped { display: none; }
+                    label.classList.remove('pulsing-guide');
+                    correctQuizAnswers++;
+                    
+                    // [NEW] 퀴즈 완료 확인
+                    if (correctQuizAnswers === quizDropZones.length) {
+                        quizCompleteMessage.classList.add('show');
+                    }
+                }
+            }
+
 
             // =================================================
-            // === 3. 공통 드롭 이벤트 핸들러 (마우스/터치) ===
+            // === 3. 퀴즈 드래그 앤 드롭 (NEW) ===
             // =================================================
 
-            // 3-1. 공통 드롭 존 (마우스)
+            quizLabels.forEach(label => {
+                label.addEventListener('dragstart', (e) => {
+                    if (draggedElement) return; // 다른 드래그 중이면 무시
+                    draggedQuizLabel = e.target;
+                    draggedType = 'quiz-label'; // [NEW] 퀴즈 타입
+                    e.dataTransfer.setData('text/plain', label.dataset.answer);
+                    setTimeout(() => label.classList.add('dragging'), 0);
+                });
+                label.addEventListener('dragend', () => {
+                    if (draggedQuizLabel) draggedQuizLabel.classList.remove('dragging');
+                    draggedQuizLabel = null;
+                    draggedType = null;
+                    checkPulseState(); // [NEW] 드래그 실패 시 반짝임 복구
+                });
+            });
+
+            quizLabels.forEach(label => {
+                label.addEventListener('touchstart', (e) => {
+                    if (draggedElement || isTouchDragging) return; // 다른 드래그 중이면 무시
+                    e.stopPropagation();
+                    draggedQuizLabel = e.target;
+                    draggedType = 'quiz-label';
+                    isTouchDragging = true; 
+
+                    quizGhostElement = draggedQuizLabel.cloneNode(true);
+                    quizGhostElement.classList.add('ghost-quiz-label'); // [NEW] 고유한 고스트 클래스
+                    document.body.appendChild(quizGhostElement);
+                    updateGhostPosition(e.touches[0], quizGhostElement);
+                }, { passive: false });
+            });
+
+
+            // =================================================
+            // === 4. 공통 드롭 이벤트 핸들러 (마우스/터치) ===
+            // =================================================
+
+            // 4-1. 공통 드롭 존 (마우스)
             document.addEventListener('dragover', (e) => {
                 e.preventDefault(); 
-                // 드롭 가능한 대상: 홈(well) 또는 결과 그룹(result-group)
-                const dropTarget = e.target.closest('.well, .result-group');
+                // [수정] 퀴즈 드롭 존 추가
+                const dropTarget = e.target.closest('.well, .result-group, .quiz-drop-zone'); 
                 
-                // 기존 .drag-over 모두 제거
                 document.querySelectorAll('.drag-over').forEach(el => el.classList.remove('drag-over'));
                 
-                if (dropTarget) {
-                    // 지시약을 홈(well) 위로 드래그할 때
-                    if (draggedType === 'indicator' && dropTarget.classList.contains('well')) {
-                        // (CSS 피드백 없음)
-                    } 
-                    // 이름표를 결과 그룹(result-group) 위로 드래그할 때
-                    else if (draggedType === 'label' && dropTarget.classList.contains('result-group')) {
-                        dropTarget.classList.add('drag-over'); 
+                if (!dropTarget) return;
+
+                if (draggedType === 'indicator' && dropTarget.classList.contains('well')) {
+                    // (피드백 없음)
+                } else if (draggedType === 'label' && dropTarget.classList.contains('result-group')) {
+                    dropTarget.classList.add('drag-over');
+                } else if (draggedType === 'quiz-label' && dropTarget.classList.contains('quiz-drop-zone')) { // [NEW]
+                    if (!dropTarget.classList.contains('filled')) {
+                        dropTarget.classList.add('drag-over');
                     }
                 }
             });
@@ -873,31 +958,41 @@
                     runIndicatorDrop(dropTarget);
                 } else if (draggedType === 'label') {
                     const dropZone = dropTarget.closest('.result-group');
-                    if (dropZone) {
-                        runClassificationDrop(dropZone, draggedElement);
-                    }
+                    if (dropZone) runClassificationDrop(dropZone, draggedElement);
+                } else if (draggedType === 'quiz-label') { // [NEW]
+                    const dropZone = dropTarget.closest('.quiz-drop-zone');
+                    if (dropZone) runQuizDrop(dropZone, draggedQuizLabel); 
                 }
             });
 
-            // 3-2. 공통 터치 이동/종료
+            // 4-2. 공통 터치 이동/종료
             document.addEventListener('touchmove', (e) => {
-                if (!isTouchDragging || !ghostElement) return;
+                if (!isTouchDragging) return;
                 e.preventDefault(); 
                 
                 const touch = e.touches[0];
-                updateGhostPosition(touch, ghostElement);
+
+                // [수정] 어떤 고스트를 움직일지 타입에 따라 결정
+                let currentGhost = null;
+                if (draggedType === 'indicator' || draggedType === 'label') {
+                    currentGhost = ghostElement;
+                } else if (draggedType === 'quiz-label') {
+                    currentGhost = quizGhostElement; // [NEW]
+                }
+                if (currentGhost) updateGhostPosition(touch, currentGhost);
                 
-                // 터치 위치의 요소 찾기
                 const elementUnderTouch = document.elementFromPoint(touch.clientX, touch.clientY);
                 document.querySelectorAll('.drag-over').forEach(el => el.classList.remove('drag-over'));
                 
                 if (draggedType === 'label') {
                     const dropZone = elementUnderTouch ? elementUnderTouch.closest('.result-group') : null;
-                    if (dropZone) {
+                    if (dropZone) dropZone.classList.add('drag-over');
+                } else if (draggedType === 'quiz-label') { // [NEW]
+                    const dropZone = elementUnderTouch ? elementUnderTouch.closest('.quiz-drop-zone') : null;
+                    if (dropZone && !dropZone.classList.contains('filled')) {
                         dropZone.classList.add('drag-over');
                     }
                 }
-                // (지시약은 터치 드래그 오버 피드백 없음)
                 
             }, { passive: false });
 
@@ -908,31 +1003,38 @@
                 document.querySelectorAll('.drag-over').forEach(el => el.classList.remove('drag-over'));
 
                 const touch = e.changedTouches[0];
-                // 터치를 뗀 위치의 요소 찾기
                 const dropTarget = document.elementFromPoint(touch.clientX, touch.clientY);
                 
-                // 유령 요소 제거
-                if (ghostElement) document.body.removeChild(ghostElement);
-                ghostElement = null;
-
-                if (dropTarget) {
-                    if (draggedType === 'indicator') {
-                        runIndicatorDrop(dropTarget);
-                    } else if (draggedType === 'label') {
-                        const dropZone = dropTarget.closest('.result-group');
-                        if (dropZone) {
-                            runClassificationDrop(dropZone, draggedElement);
+                // [수정] 퀴즈 로직 추가
+                if (draggedType === 'indicator' || draggedType === 'label') {
+                    if (ghostElement) document.body.removeChild(ghostElement);
+                    ghostElement = null;
+                    if (dropTarget) {
+                        if (draggedType === 'indicator') runIndicatorDrop(dropTarget);
+                        else if (draggedType === 'label') {
+                            const dropZone = dropTarget.closest('.result-group');
+                            if (dropZone) runClassificationDrop(dropZone, draggedElement);
                         }
                     }
+                    draggedElement = null;
+
+                } else if (draggedType === 'quiz-label') {
+                    if (quizGhostElement) document.body.removeChild(quizGhostElement);
+                    quizGhostElement = null;
+                    if (dropTarget) {
+                        const dropZone = dropTarget.closest('.quiz-drop-zone');
+                        if (dropZone) {
+                            runQuizDrop(dropZone, draggedQuizLabel); // [NEW]
+                        }
+                    }
+                    draggedQuizLabel = null;
                 }
                 
-                draggedElement = null;
                 draggedType = null;
-                
                 checkPulseState(); // [NEW] 터치 종료 시 반짝임 상태 재확인
             });
 
-            // 3-3. 유령 요소 위치 업데이트 (공통)
+            // 4-3. 유령 요소 위치 업데이트 (공통)
             function updateGhostPosition(touch, ghostEl) {
                 if (!ghostEl) return;
                 ghostEl.style.left = `${touch.clientX}px`;
@@ -944,17 +1046,21 @@
             // === 4. 상태 관리 함수 ===
             // ================================
             
-            // 4-1. 분류 영역 표시 함수
+            // ================================
+            // === 5. 상태 관리 함수 ===
+            // ================================
+            
+            // 5-1. 분류 영역 표시 함수
             function showClassificationArea() {
                 resultsArea.classList.add('show'); 
                 labelPoolContainer.style.display = 'block'; // 이름표 풀 보이기
-                knowledgePoint.classList.remove('show'); // '알게 된 점'은 숨기기
+                knowledgeQuiz.classList.remove('show'); // [수정] '알게 된 점'은 숨기기
                 
                 // [NEW] 이름표들에 반짝임 효과 추가
                 checkPulseState();
             }
 
-            // 4-2. 다시하기 버튼 이벤트
+            // 5-2. 다시하기 버튼 이벤트
             resetButton.addEventListener('click', () => {
                 // 1. 지시약 실험 리셋
                 indicatorColoredCount = 0;
@@ -969,7 +1075,6 @@
                 classifiedCount = 0;
                 resultsArea.classList.remove('show');
                 labelPoolContainer.style.display = 'none';
-                knowledgePoint.classList.remove('show');
                 
                 acidList.innerHTML = '';
                 baseList.innerHTML = '';
@@ -977,6 +1082,18 @@
                 solutionLabels.forEach(label => {
                     label.style.display = 'inline-flex'; // 숨겼던 이름표 다시 보이기
                     label.classList.remove('classified');
+                });
+
+                // 3. [NEW] 퀴즈 리셋
+                correctQuizAnswers = 0;
+                knowledgeQuiz.classList.remove('show');
+                quizCompleteMessage.classList.remove('show'); // [NEW] 완료 메시지 숨기기
+                quizDropZones.forEach(zone => {
+                    zone.classList.remove('filled');
+                    zone.innerText = '';
+                });
+                quizLabels.forEach(label => {
+                    label.classList.remove('dropped');
                 });
                 
                 // [NEW] 리셋 후 반짝임 상태 재설정 (지시약이 다시 반짝이도록)
