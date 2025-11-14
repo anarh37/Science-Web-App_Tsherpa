@@ -76,21 +76,39 @@
         .tool img {
              object-fit: contain;
         }
-        /* [수정됨] 리트머스 이미지 크기/모양 (세로 길이 증가) */
+        /* [수정됨] 리트머스 이미지 스타일 제거 */
+        /*
         #tool-red-litmus img,
         #tool-blue-litmus img {
             width: 80px;
-            height: 65px; /* 50px -> 65px */
-            border-radius: 18px; /* 타원형 유지 */
+            height: 65px; 
+            border-radius: 18px; 
             object-fit: cover;
             box-shadow: 0 1px 3px rgba(0,0,0,0.2) inset;
         }
+        */
         /* [수정됨] 페놀프탈레인 이미지 크기 (세로 길이 증가) */
         #tool-phenolphthalein img {
             width: 36px;
             height: 75px; /* 60px -> 75px */
         }
 
+
+        /* [추가됨] 리트머스 종이 도구 스타일 (첫 버전에서 복원) */
+        .litmus-tool-shape {
+            width: 80px; 
+            height: 35px; 
+            border-radius: 18px; /* 타원형 */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.1em;
+            font-weight: bold;
+            color: white;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.2) inset;
+        }
+        #tool-red-litmus .litmus-tool-shape { background-color: #FF6666; }
+        #tool-blue-litmus .litmus-tool-shape { background-color: #6666FF; }
 
         /* 리트머스 종이 결과 (원 안에 표시됨) */
         .litmus-paper-result {
@@ -335,20 +353,20 @@
         <!-- [수정됨] 실험 도구 (id="tools-area" 추가) -->
         <div id="tools-area" class="tools-area">
             
-            <!-- [수정됨] 붉은색 리트머스 (CSS -> 이미지) -->
+            <!-- [수정됨] 붉은색 리트머스 (이미지 -> CSS) -->
             <div class="tool-item">
                 <div class="tool" id="tool-red-litmus" draggable="true">
-                    <!-- <div class="litmus-tool-shape">붉은색</div> -->
-                    <img src="red.png" alt="붉은색 리트머스 종이">
+                    <div class="litmus-tool-shape">붉은색</div>
+                    <!-- <img src="red.png" alt="붉은색 리트머스 종이"> -->
                 </div>
                 <p>리트머스<br>종이</p>
             </div>
             
-            <!-- [수정됨] 푸른색 리트머스 (CSS -> 이미지) -->
+            <!-- [수정됨] 푸른색 리트머스 (이미지 -> CSS) -->
             <div class="tool-item">
                 <div class="tool" id="tool-blue-litmus" draggable="true">
-                    <!-- <div class="litmus-tool-shape">푸른색</div> -->
-                    <img src="blue.png" alt="푸른색 리트머스 종이">
+                    <div class="litmus-tool-shape">푸른색</div>
+                    <!-- <img src="blue.png" alt="푸른색 리트머스 종이"> -->
                 </div>
                 <p>리트머스<br>종이</p>
             </div>
