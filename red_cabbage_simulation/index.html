@@ -366,7 +366,7 @@
             flex-basis: 48%; 
             padding: 15px;
             border-radius: 8px;
-            transition: background-color 0.2s; 
+            transition: background-color 0.2s;
         }
         .result-group.acid {
             background-color: #fff0f0;
@@ -398,11 +398,84 @@
             pointer-events: none; /* 드롭 이벤트가 박스로 전달되도록 */
         }
         
-        /* 드롭된 리스트 아이템 */
-        /* [수정] '알게 된 점' 박스 (초기 숨김) -> 퀴즈로 대체 */
+        /* [ROLLBACK] 드롭된 리스트 아이템 */
+        .result-group ul li {
+            background-color: white;
+            padding: 8px 12px;
+            border-radius: 5px;
+            margin-bottom: 5px;
+            font-size: 1.1rem;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+            pointer-events: none; /* 드롭 이벤트가 박스로 전달되도록 */
+        }
+
+        /* [ROLLBACK] 분류할 용액 (이름표) 섹션 */
+        #label-pool-container {
+            display: none; /* 초기에는 숨김 */
+            margin-top: 20px;
+            width: 100%;
+        }
+        #label-pool-container h3 {
+            font-size: 1.4rem;
+            text-align: center;
+            margin-bottom: 15px;
+        }
+        .label-pool {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+            padding: 15px;
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            border: 1px solid #eee;
+        }
+        
+        /* [ROLLBACK] 드래그할 이름표 스타일 */
+        .solution-label {
+            padding: 10px 15px;
+            background-color: white;
+            border: 1px solid #ddd;
+            border-radius: 20px;
+            cursor: grab;
+            font-size: 1.1rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            transition: all 0.2s;
+        }
+        
+        /* [ROLLBACK] 드래그 중인 이름표 스타일 */
+        .solution-label.dragging {
+            opacity: 0.5;
+            cursor: grabbing;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+        
+        /* [ROLLBACK] 터치 드래그 시 복제되는 유령 요소 (이름표용) */
+        .ghost-label {
+            position: absolute;
+            pointer-events: none;
+            opacity: 0.8;
+            z-index: 1000;
+            transform: translate(-50%, -50%);
+            padding: 10px 15px;
+            background-color: white;
+            border: 1px solid #ddd;
+            border-radius: 20px;
+            font-size: 1.1rem;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+        
+        /* [ROLLBACK] 분류 완료 시 숨기기 (JavaScript로 제어) */
+        .solution-label.classified {
+            display: none;
+        }
+
+        /* '알게 된 점' 박스 (초기 숨김) -> 퀴즈로 대체 */
         #knowledge-quiz {
             display: none; 
             margin-top: 20px;
+            width: 100%; /* [NEW] 너비 100% */
+            box-sizing: border-box; /* [NEW] */
         }
         #knowledge-quiz.show {
             display: block;
@@ -491,8 +564,9 @@
             animation: pulse-guide 1.5s infinite;
             border-radius: 8px; /* tool, label 모양에 맞춰 적용 */
         }
-        .solution-label.pulsing-guide {
-            border-radius: 20px; /* 이름표 모양에 맞춤 */
+        /* [ROLLBACK] solution-label 모양에 맞춤 */
+        .solution-label.pulsing-guide, .quiz-label.pulsing-guide {
+            border-radius: 20px; 
         }
         
     </style>
@@ -604,14 +678,14 @@
         
                     <!-- 퀴즈 문장 -->
                     <ul class="space-y-2" style="font-size: 1.1rem; line-height: 2.5;">
-                        <li>
+                        <li style="white-space: nowrap;"> <!-- [ROLLBACK] 줄바꿈 방지 -->
                             1. 붉은 양배추 지시약은
                             <span class="quiz-drop-zone" data-answer="acid"></span>
                             (을)를 만나면 
                             <span class="quiz-drop-zone" data-answer="red"></span>
                             (으)로 변합니다.
                         </li>
-                        <li>
+                        <li style="white-space: nowrap;"> <!-- [ROLLBACK] 줄바꿈 방지 -->
                             2. 붉은 양배추 지시약은
                             <span class="quiz-drop-zone" data-answer="base"></span>
                             (을)를 만나면 
@@ -672,6 +746,7 @@
             const dropZones = document.querySelectorAll('.result-group');
             const resultsArea = document.getElementById('results-area');
             const labelPoolContainer = document.getElementById('label-pool-container');
+            let classifiedCount = 0; // [ROLLBACK] classifiedCount 변수 추가
             
             // [수정] 퀴즈 요소 추가
             const knowledgeQuiz = document.getElementById('knowledge-quiz');
@@ -684,7 +759,6 @@
 
             const acidList = document.getElementById('acid-list'); 
             const baseList = document.getElementById('base-list'); 
-            let classifiedCount = 0;
             
             // === 3. 공통 요소 ===
             const resetButton = document.getElementById('reset-button');
@@ -696,17 +770,29 @@
             let ghostElement = null;
 
 
-            // [NEW] 반짝임 상태를 확인하고 적용하는 함수
+            // [ROLLBACK] 반짝임 상태를 확인하고 적용하는 함수 (전체 복구)
             function checkPulseState() {
                 // 1. 지시약 반짝임 제어
-                // 6개가 다 차지 않았으면 지시약 반짝임
                 if (indicatorColoredCount < wells.length) {
                     indicatorTool.classList.add('pulsing-guide');
+                } else {
+                    indicatorTool.classList.remove('pulsing-guide');
+                }
+
+                // 2. [ROLLBACK] 이름표 반짝임 제어 (분류 영역이 보일 때만)
+                if (resultsArea.classList.contains('show') && classifiedCount < solutionLabels.length) {
+                    solutionLabels.forEach(label => {
+                        if (!label.classList.contains('classified')) {
+                            label.classList.add('pulsing-guide');
+                        } else {
+                            label.classList.remove('pulsing-guide');
+                        }
+                    });
                 } else {
                     solutionLabels.forEach(label => label.classList.remove('pulsing-guide'));
                 }
 
-                // 3. [NEW] 퀴즈 이름표
+                // 3. 퀴즈 이름표
                 if (knowledgeQuiz.classList.contains('show') && correctQuizAnswers < quizDropZones.length) {
                     quizLabels.forEach(label => {
                         if (!label.classList.contains('dropped')) label.classList.add('pulsing-guide');
@@ -1042,10 +1128,6 @@
             }
 
 
-            // ================================
-            // === 4. 상태 관리 함수 ===
-            // ================================
-            
             // ================================
             // === 5. 상태 관리 함수 ===
             // ================================
