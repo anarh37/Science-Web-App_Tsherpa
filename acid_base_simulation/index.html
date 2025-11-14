@@ -1242,7 +1242,7 @@
                 btnExp2.classList.toggle('active', expNum === 2);
                 supplySet1.classList.toggle('hidden', expNum !== 1);
                 supplySet2.classList.toggle('hidden', expNum !== 2);
-                plateTitle.innerText = (expNum === 1) ? '실험 1: 껍데기 & 대리암' : '실험 2: 달걀흰자 & 닭가슴살';
+                plateTitle.innerText = (expNum === 1) ? '실험 1: 껍데기 & 대리암' : '실험 2: 흰자 & 닭가슴살';
                 
                 allWellMaterialLabels.forEach(label => {
                     const labelKey = (expNum === 1) ? label.dataset.materialLabelSet1 : label.dataset.materialLabelSet2;
