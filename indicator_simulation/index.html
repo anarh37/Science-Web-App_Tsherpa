@@ -5,11 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>과학 실험 시뮬레이터: 지시약 반응</title>
     
-    <!-- 구글 폰트 'Jua' 로드 --><link rel="preconnect" href="https://fonts.googleapis.com">
+    <!-- 구글 폰트 'Jua' 로드 -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Jua&display=swap" rel="stylesheet">
     
-    <!-- Tailwind CSS 로드 --><script src="https://cdn.tailwindcss.com"></script>
+    <!-- Tailwind CSS 로드 -->
+    <script src="https://cdn.tailwindcss.com"></script>
     <style>
         /* 'Jua' 폰트 기본 적용 */
         body {
@@ -24,7 +26,7 @@
             font-weight: bold;
             color: #6666FF; 
             text-shadow: 
-                -2px -2px 0 #fff,  
+                -2px -2px 0 #fff, 
                  2px -2px 0 #fff,
                 -2px  2px 0 #fff,
                  2px  2px 0 #fff,
@@ -48,10 +50,10 @@
             transform: translate(-50%, -50%); /* 터치 포인터 중앙에 오도록 */
         }
 
-        /* 실험 도구 아이콘 스타일 */
+        /* [수정됨] 실험 도구 아이콘 스타일 (세로 길이 증가) */
         .tool {
             width: 100px; 
-            height: 60px; 
+            height: 100px; /* 80px -> 100px */
             border-width: 1px;
             border-style: solid; 
             cursor: grab;
@@ -65,25 +67,30 @@
         }
         
         /* 각 도구별 임시 스타일 */
-        #tool-red-litmus { background-color: #fce8e8; border-color: #efb8b8; color: #c9302c; }
-        #tool-blue-litmus { background-color: #e8f0fc; border-color: #b8cdef; color: #4a6fe2; }
-        #tool-phenolphthalein { background-color: #f0f0f0; border-color: #c0c0c0; color: #555; }
+        #tool-red-litmus { background-color: #fce8e8; border-color: #efb8b8; }
+        #tool-blue-litmus { background-color: #e8f0fc; border-color: #b8cdef; }
+        #tool-phenolphthalein { background-color: #f0f0f0; border-color: #c0c0c0; }
 
-        /* 리트머스 종이 도구 스타일 */
-        .litmus-tool-shape {
-            width: 80px; 
-            height: 35px; 
-            border-radius: 18px; /* 타원형 */
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 1.1em;
-            font-weight: bold;
-            color: white;
+
+        /* [추가됨] 도구 영역의 이미지 스타일 */
+        .tool img {
+             object-fit: contain;
+        }
+        /* [수정됨] 리트머스 이미지 크기/모양 (세로 길이 증가) */
+        #tool-red-litmus img,
+        #tool-blue-litmus img {
+            width: 80px;
+            height: 65px; /* 50px -> 65px */
+            border-radius: 18px; /* 타원형 유지 */
+            object-fit: cover;
             box-shadow: 0 1px 3px rgba(0,0,0,0.2) inset;
         }
-        #tool-red-litmus .litmus-tool-shape { background-color: #FF6666; }
-        #tool-blue-litmus .litmus-tool-shape { background-color: #6666FF; }
+        /* [수정됨] 페놀프탈레인 이미지 크기 (세로 길이 증가) */
+        #tool-phenolphthalein img {
+            width: 36px;
+            height: 75px; /* 60px -> 75px */
+        }
+
 
         /* 리트머스 종이 결과 (원 안에 표시됨) */
         .litmus-paper-result {
@@ -211,28 +218,56 @@
             line-height: 1.2;
         }
 
+        /* [추가됨] 동적 가이드 Pulse 애니메이션 */
+        @keyframes pulse-animation {
+            0% {
+                box-shadow: 0 0 0 0 rgba(0, 123, 255, 0.7);
+            }
+            70% {
+                box-shadow: 0 0 0 10px rgba(0, 123, 255, 0);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(0, 123, 255, 0);
+            }
+        }
+        .pulsing-guide {
+            animation: pulse-animation 1.5s infinite;
+            border-radius: 8px; /* 기본 둥근 모서리 */
+            box-shadow: 0 0 0 0 rgba(0, 123, 255, 0.7); 
+        }
+        /* .tool 클래스에 적용될 때 둥근 모서리 유지 */
+        .tool.pulsing-guide {
+             border-radius: 6px;
+        }
+
+
     </style>
 </head>
 <body class="bg-gray-100 p-8 flex flex-col items-center">
 
-    <!-- [요청 사항 반영] 제목 색상 및 크기, 그림자 --><h1 class="main-title mb-6">
+    <!-- [요청 사항 반영] 제목 색상 및 크기, 그림자 -->
+    <h1 class="main-title mb-6">
         지시약 색깔 변화 실험
     </h1>
 
     
-    <!-- 사용 방법 안내 --><div class="w-full max-w-[792px] mx-auto p-4 mb-8 bg-blue-100 border border-blue-300 text-blue-800 rounded-lg shadow text-center text-lg">
+    <!-- [삭제됨] 사용 방법 안내 상자 -->
+    <!-- 
+    <div id="instructions-box" class="w-full max-w-[792px] mx-auto p-4 mb-8 bg-blue-100 border border-blue-300 text-blue-800 rounded-lg shadow text-center text-lg">
         <p class="font-bold">✨ 사용 방법</p>
         <div class="flex flex-col items-start w-fit mx-auto mt-2 text-base">
             <p class="text-left">- 아래의 실험도구(리트머스종이, 페놀프탈레인 용액)을 끌어 6홈판에 놓아 보세요.</p>
             <p class="text-left">- 리트머스 종이와, 페놀프탈레인의 색깔 변화를 관찰해 보세요.</p>
         </div>
     </div>
+    -->
 
 
     <div class="lab-container">
         <div class="experiments-wrapper">
             
-            <!-- 리트머스 종이 실험 --><div class="experiment-set flex flex-col items-center">
+            <!-- 리트머스 종이 실험 -->
+            <div class="experiment-set flex flex-col items-center">
                 <h2>리트머스 종이 실험</h2>
                 <div class="well-plate" id="litmus-plate">
                     
@@ -253,7 +288,8 @@
                         <div class="label">묽은 염산</div>
                     </div>
                     <div class="well" data-type="base" data-solution="glass-cleaner">
-                        <!-- 유리 세정제 초기 색상 (하늘색) --><div class="solution bg-cyan-100"></div>
+                        <!-- 유리 세정제 초기 색상 (하늘색) -->
+                        <div class="solution bg-cyan-100"></div>
                         <div class="label">유리 세정제</div>
                     </div>
                     <div class="well" data-type="base" data-solution="sodium-hydroxide">
@@ -263,7 +299,8 @@
                 </div>
             </div>
 
-            <!-- 페놀프탈레인 용액 실험 --><div class="experiment-set flex flex-col items-center">
+            <!-- 페놀프탈레인 용액 실험 -->
+            <div class="experiment-set flex flex-col items-center">
                 <h2>페놀프탈레인 용액 실험</h2>
                 <div class="well-plate" id="phen-plate">
                     <div class="well" data-type="acid" data-solution="vinegar">
@@ -283,7 +320,8 @@
                         <div class="label">묽은 염산</div>
                     </div>
                     <div class="well" data-type="base" data-solution="glass-cleaner">
-                        <!-- 유리 세정제 초기 색상 (하늘색) --><div class="solution bg-cyan-100"></div>
+                        <!-- 유리 세정제 초기 색상 (하늘색) -->
+                        <div class="solution bg-cyan-100"></div>
                         <div class="label">유리 세정제</div>
                     </div>
                     <div class="well" data-type="base" data-solution="sodium-hydroxide">
@@ -294,44 +332,81 @@
             </div>
         </div>
 
-        <!-- 실험 도구 --><div class="tools-area">
+        <!-- [수정됨] 실험 도구 (id="tools-area" 추가) -->
+        <div id="tools-area" class="tools-area">
             
+            <!-- [수정됨] 붉은색 리트머스 (CSS -> 이미지) -->
             <div class="tool-item">
                 <div class="tool" id="tool-red-litmus" draggable="true">
-                    <div class="litmus-tool-shape">붉은색</div>
+                    <!-- <div class="litmus-tool-shape">붉은색</div> -->
+                    <img src="red.png" alt="붉은색 리트머스 종이">
                 </div>
                 <p>리트머스<br>종이</p>
             </div>
             
+            <!-- [수정됨] 푸른색 리트머스 (CSS -> 이미지) -->
             <div class="tool-item">
                 <div class="tool" id="tool-blue-litmus" draggable="true">
-                    <div class="litmus-tool-shape">푸른색</div>
+                    <!-- <div class="litmus-tool-shape">푸른색</div> -->
+                    <img src="blue.png" alt="푸른색 리트머스 종이">
                 </div>
                 <p>리트머스<br>종이</p>
             </div>
             
+            <!-- [수정됨] 페놀프탈레인 (SVG -> 이미지) -->
             <div class="tool-item">
                 <div class="tool" id="tool-phenolphthalein" draggable="true">
-                    <!-- SVG 점적병 아이콘 --><svg width="36" height="48" viewBox="0 0 24 30" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <title>페놀프탈레인 용액 (점적병)</title>
-                        <path d="M18 13.5C18 17.6421 15.3137 21 12 21C8.68629 21 6 17.6421 6 13.5C6 9.35786 8.68629 6 12 6C15.3137 6 18 9.35786 18 13.5Z" fill="#F0F0F0" stroke="#777" stroke-width="1.5"/>
-                        <path d="M12 21V25M12 25H9M12 25H15" stroke="#777" stroke-width="1.5" stroke-linecap="round"/>
-                        <path d="M12 17L12 12" stroke="#BBB" stroke-width="1.5" stroke-linecap="round"/>
-                        <path d="M10.5 6C10.5 4.17157 11.1716 3.5 12 3.5C12.8284 3.5 13.5 4.17157 13.5 6V7H10.5V6Z" fill="#D0D0D0" stroke="#777" stroke-width="1.5"/>
-                        <path d="M10.5 4C10.5 3.17157 11.1716 2.5 12 2.5C12.8284 2.5 13.5 3.17157 13.5 4V5H10.5V4Z" fill="#999" stroke="#777" stroke-width="1"/>
-                    </svg>
+                    <!-- SVG 점적병 아이콘 (제거됨) -->
+                    <img src="phenolphthalein.png" alt="페놀프탈레인 용액">
                 </div>
                 <p>페놀프탈레인<br>용액</p>
             </div>
 
         </div>
 
-        <!-- 간격 수정 완료 --><button id="reset-button" class="mt-4 px-6 py-3 text-lg font-bold text-white bg-red-500 rounded-lg shadow-md cursor-pointer hover:bg-red-600 transition-colors">
+        <!-- 간격 수정 완료 -->
+        <button id="reset-button" class="mt-4 px-6 py-3 text-lg font-bold text-white bg-red-500 rounded-lg shadow-md cursor-pointer hover:bg-red-600 transition-colors">
             처음부터 다시하기
         </button>
     </div>
 
+    <!-- [추가됨] 효과음용 오디오 태그 -->
+    <audio id="water-sound" src="water.mp3" preload="auto"></audio>
+    <audio id="reaction-sound" src="reaction.mp3" preload="auto"></audio>
+
     <script>
+        // --- [0] 효과음 및 가이드 DOM 요소 ---
+        let waterSound, reactionSound;
+        let instructionsBox, toolsArea; // [수정됨] instructionsBox는 있지만, 사용하지 않음
+
+        // [추가됨] 효과음 재생 함수
+        function playSound(sound) {
+            if (sound) {
+                sound.currentTime = 0;
+                sound.volume = 0.5; // 0.0 ~ 1.0
+                sound.play().catch(e => console.error("오디오 재생 오류:", e));
+            }
+        }
+
+        // [추가됨] 가이드 반짝임 제거
+        function clearAllPulses() {
+            document.querySelectorAll('.pulsing-guide').forEach(el => {
+                el.classList.remove('pulsing-guide');
+            });
+        }
+
+        // [수정됨] 가이드 반짝임 설정 (instructionsBox 제거)
+        function updateGuide(state) {
+            clearAllPulses();
+            if (state === 'init') {
+                // if(instructionsBox) instructionsBox.classList.add('pulsing-guide'); // [삭제됨]
+                if(toolsArea) toolsArea.classList.add('pulsing-guide');
+                // 도구들에도 개별적으로 추가
+                document.querySelectorAll('.tool').forEach(tool => tool.classList.add('pulsing-guide'));
+            }
+        }
+
+
         // --- [1] 마우스 드래그 앤 드롭 로직 ---
         const tools = document.querySelectorAll('.tool');
         const wells = document.querySelectorAll('.well');
@@ -340,6 +415,7 @@
         // 1-1. 마우스 드래그 시작
         tools.forEach(tool => {
             tool.addEventListener('dragstart', (e) => {
+                // [수정됨] e.target이 img일 수 있으므로 closest로 .tool을 찾음
                 const parentTool = e.target.closest('.tool');
                 if (parentTool && parentTool.id) {
                     draggedToolId = parentTool.id;
@@ -446,56 +522,78 @@
             const solutionType = targetWell.dataset.type; // 'acid' 또는 'base'
             const plateId = targetWell.closest('.well-plate').id;
 
+            let changeOccurred = false; // [추가됨] 변화 여부 플래그
+
             // [A] 리트머스 종이 실험판 로직
             if (plateId === 'litmus-plate') {
                 if (toolId === 'tool-red-litmus' || toolId === 'tool-blue-litmus') {
-                    showLitmusResult(solutionDiv, toolId, solutionType);
+                    // [수정됨] showLitmusResult가 boolean을 반환하도록 함
+                    changeOccurred = showLitmusResult(solutionDiv, toolId, solutionType);
                 }
             // [B] 페놀프탈레인 실험판 로직
             } else if (plateId === 'phen-plate') {
                 if (toolId === 'tool-phenolphthalein') {
-                    showPhenolphthaleinResult(solutionDiv, solutionType);
+                    // [수정됨] showPhenolphthaleinResult가 boolean을 반환하도록 함
+                    changeOccurred = showPhenolphthaleinResult(solutionDiv, solutionType);
                 }
             }
+
+            // [추가됨] 변화 여부에 따라 다른 효과음 재생
+            if (changeOccurred) {
+                playSound(reactionSound);
+            } else {
+                playSound(waterSound);
+            }
+
+            // [추가됨] 실험이 한 번이라도 실행되면 가이드 중지
+            clearAllPulses();
         }
 
 
         // --- [4] 실험 결과 표시 함수 ---
 
-        // 4-1. 리트머스 종이 결과 표시
+        // 4-1. [수정됨] 리트머스 종이 결과 표시 (변화 여부 boolean 반환)
         function showLitmusResult(solutionDiv, toolId, solutionType) {
             solutionDiv.innerHTML = ''; // 이전 결과 삭제
             const paper = document.createElement('div');
             paper.className = 'litmus-paper-result'; // CSS 스타일 적용
+            let changed = false;
 
             if (toolId === 'tool-red-litmus') {
                 if (solutionType === 'base') {
                     paper.style.backgroundColor = '#6666FF'; // 푸른색 (변화)
                     paper.innerText = '푸른색';
+                    changed = true; // [수정됨]
                 } else { // acid or neutral
                     paper.style.backgroundColor = '#FF6666'; // 붉은색 (변화 없음)
                     paper.innerText = '변화 없음';
+                    changed = false; // [수정됨]
                 }
             } else if (toolId === 'tool-blue-litmus') {
                 if (solutionType === 'acid') {
                     paper.style.backgroundColor = '#FF6666'; // 붉은색 (변화)
                     paper.innerText = '붉은색';
+                    changed = true; // [수정됨]
                 } else { // base or neutral
                     paper.style.backgroundColor = '#6666FF'; // 푸른색 (변화 없음)
                     paper.innerText = '변화 없음';
+                    changed = false; // [수정됨]
                 }
             }
             solutionDiv.appendChild(paper);
+            return changed; // [수정됨]
         }
 
-        // 4-2. 페놀프탈레인 결과 표시 (인라인 스타일로 버그 수정)
+        // 4-2. [수정됨] 페놀프탈레인 결과 표시 (변화 여부 boolean 반환)
         function showPhenolphthaleinResult(solutionDiv, solutionType) {
             if (solutionType === 'base') {
                 // 염기성 용액(석회수, 유리세정제, 수산화나트륨)은 붉게 변함
                 solutionDiv.style.backgroundColor = '#ec4899'; // Tailwind 'pink-500' (마젠타/붉은색)
+                return true; // [수정됨]
             } else {
                 // 산성(식초, 탄산수, 염산)은 무색
                 solutionDiv.style.backgroundColor = 'transparent';
+                return false; // [수정됨]
             }
         }
 
@@ -535,11 +633,20 @@
                     solutionDiv.classList.add('bg-cyan-100'); // 연한 파란색
                 }
             });
+
+            // [추가됨] 초기화 시 가이드 다시 시작
+            updateGuide('init');
         }
 
         // 초기 로드 시 실험 상태 설정 
         document.addEventListener('DOMContentLoaded', () => {
-             resetExperiment();
+            // [추가됨] 효과음 및 가이드 요소 할당
+            waterSound = document.getElementById('water-sound');
+            reactionSound = document.getElementById('reaction-sound');
+            // instructionsBox = document.getElementById('instructions-box'); // [수정됨] 요소를 찾지만 사용하지 않음
+            toolsArea = document.getElementById('tools-area');
+
+            resetExperiment(); // 여기에서 updateGuide('init')이 호출됨
         });
 
     </script>
