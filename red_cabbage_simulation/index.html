@@ -126,12 +126,12 @@
         .instructions-box {
             border: 2px dashed #C8B6E2;
             background-color: #fafaff; 
-            padding: 15px; 
+            padding: 10px; /* [수정] 15px -> 10px (내부 여백 축소) */
             border-radius: 10px;
             width: 100%; 
             display: flex;
             flex-direction: column;
-            gap: 5px; 
+            gap: 0; /* [수정] 2px -> 0px (요소간 간격 제거) */
             align-items: center;
             height: 298px; 
             box-sizing: border-box; 
@@ -145,7 +145,7 @@
             width: 100%; 
             padding-left: 0px; 
             line-height: 1.4;
-            margin-bottom: 5px; 
+            margin-bottom: 2px; /* [수정] 5px -> 2px (간격 축소) */
         }
         
         /* 붉은 양배추 지시약 도구 영역 */
@@ -157,19 +157,19 @@
             font-size: 1rem;
             color: #333;
             width: 100%; 
-            margin-top: 5px; 
-            margin-bottom: 5px; 
+            margin-top: 2px; /* [수정] 5px -> 2px (간격 축소) */
+            margin-bottom: 0px; 
         }
          .tool-item p {
-             margin-top: 8px; 
+             margin-top: 2px; /* [수정] 4px -> 2px (간격 축소) */
              line-height: 1.2;
              text-align: center; 
          }
 
         /* 드래그 가능한 도구 스타일 (크기 조정) */
         .tool {
-            width: 100px; /* [수정] 80px -> 100px */
-            height: 100px; /* [수정] 80px -> 100px */
+            width: 150px; /* [수정] 100px -> 150px */
+            height: 150px; /* [수정] 100px -> 150px */
             border: 1px solid #c0c0c0; 
             background-color: #f0f0f0;
             cursor: grab;
@@ -189,8 +189,8 @@
         
         /* [수정] SVG -> img 아이콘 크기 조정 */
         .tool img {
-            width: 80px; /* [수정] 64px -> 80px */
-            height: 80px; /* [수정] 64px -> 80px */
+            width: 130px; /* [수정] 80px -> 130px */
+            height: 130px; /* [수정] 80px -> 130px */
             object-fit: contain;
         }
 
@@ -201,8 +201,8 @@
             opacity: 0.7;
             z-index: 1000;
             transform: translate(-50%, -50%); 
-            width: 100px; /* [수정] 80px -> 100px */
-            height: 100px; /* [수정] 80px -> 100px */
+            width: 150px; /* [수정] 100px -> 150px */
+            height: 150px; /* [수정] 100px -> 150px */
             border: 1px solid #c0c0c0; 
             background-color: #f0f0f0;
             display: flex;
@@ -213,8 +213,8 @@
         }
         /* [수정] SVG -> img 아이콘 크기 조정 */
         .ghost-tool img {
-            width: 80px; /* [수정] 64px -> 80px */
-            height: 80px; /* [수정] 64px -> 80px */
+            width: 130px; /* [수정] 80px -> 130px */
+            height: 130px; /* [수정] 80px -> 130px */
             object-fit: contain;
         }
 
@@ -240,7 +240,7 @@
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
             cursor: pointer;
             transition: background-color 0.2s;
-            margin-top: auto; 
+            margin-top: 5px; /* [수정] 10px -> 5px (간격 축소) */
             align-self: center; 
             width: 200px; 
             max-width: 80%; 
