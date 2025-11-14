@@ -53,7 +53,7 @@
             margin-bottom: 20px; 
         }
 
-        /* [수정] h2 스타일 정의 */
+        /* h2 스타일 정의 */
         h2 {
             color: #111;
             font-size: 1.8em; 
@@ -71,14 +71,14 @@
             font-size: 1.2em;
         }
         
-        /* [수정] h3 (결과 박스 내) 스타일 정의 */
+        /* h3 (결과 박스 내) 스타일 정의 */
         h3 {
              color: #111;
              font-size: 1.4rem;
-        }
+         }
 
 
-        /* [수정] 실험 영역 전체를 감싸는 래퍼 */
+        /* 실험 영역 전체를 감싸는 래퍼 */
         .experiment-wrapper {
             display: flex;
             flex-direction: column;
@@ -107,7 +107,7 @@
             }
         }
 
-        /* [NEW] 왼쪽 전체 영역 (제목과 박스 모두 포함) */
+        /* 왼쪽 전체 영역 (제목과 박스 모두 포함) */
         .left-content-wrapper {
             flex-shrink: 0; 
             display: flex;
@@ -139,7 +139,7 @@
         
         /* '사용 방법' 설명 텍스트 */
         .instructions-box p {
-            text-align: center; /* [수정] left -> center */
+            text-align: center;
             font-size: 1.1rem;
             color: #333;
             width: 100%; 
@@ -161,9 +161,9 @@
             margin-bottom: 5px; 
         }
          .tool-item p {
-            margin-top: 8px; 
-            line-height: 1.2;
-            text-align: center; 
+             margin-top: 8px; 
+             line-height: 1.2;
+             text-align: center; 
          }
 
         /* 드래그 가능한 도구 스타일 (크기 조정) */
@@ -186,10 +186,12 @@
             opacity: 0.5;
             transform: scale(1.1);
         }
-        /* SVG 아이콘 크기 조정 */
-        .tool svg {
-            width: 48px; 
-            height: 60px; 
+        
+        /* [수정] SVG -> img 아이콘 크기 조정 */
+        .tool img {
+            width: 64px; 
+            height: 64px; 
+            object-fit: contain;
         }
 
         /* 터치 드래그 시 복제되는 유령 요소 (지시약용) */
@@ -209,12 +211,14 @@
             border-radius: 6px;
             box-shadow: 0 1px 3px rgba(0,0,0,0.1);
         }
-        .ghost-tool svg {
-            width: 48px;
-            height: 60px;
+        /* [수정] SVG -> img 아이콘 크기 조정 */
+        .ghost-tool img {
+            width: 64px;
+            height: 64px;
+            object-fit: contain;
         }
 
-        /* [NEW] 실험 진행 영역 (오른쪽) */
+        /* 실험 진행 영역 (오른쪽) */
         .experiment-area {
             flex-grow: 1; 
             display: flex;
@@ -245,7 +249,7 @@
             background-color: #dc2626; 
         }
 
-        /* '리트머스' 앱의 6홈판 스타일 */
+        /* 6홈판 스타일 */
         .well-plate {
             display: grid;
             grid-template-columns: repeat(3, 1fr); 
@@ -275,9 +279,10 @@
             align-items: center;
             padding: 8px 5px 5px 5px; 
             box-sizing: border-box; 
+            transition: all 0.2s; /* 반짝임 효과를 위해 추가 */
         }
 
-        /* 용액 원 (겹침 문제 해결) */
+        /* 용액 원 */
         .well .solution {
             width: 70px; 
             height: 70px; 
@@ -295,7 +300,7 @@
             flex-shrink: 0; 
         }
         
-        /* 라벨 (겹침 문제 해결) */
+        /* 라벨 */
         .well .label {
             position: static; 
             width: 100%; 
@@ -315,21 +320,21 @@
         /* 지시약이 떨어진 상태 (색상 변함) */
         .solution[data-colored="true"] {
              background-color: var(--solution-color);
-        }
+         }
 
-        /* '리트머스' 앱의 실험 세트 제목 */
+        /* 실험 세트 제목 */
          .experiment-set {
-            display: flex; 
-            flex-direction: column;
-            align-items: center;
-            width: 100%; 
+             display: flex; 
+             flex-direction: column;
+             align-items: center;
+             width: 100%; 
          }
         
-        .experiment-set h2::before {
-            content: '🧪'; 
-        }
+         .experiment-set h2::before {
+             content: '🧪'; 
+         }
 
-        /* [수정] 결과 영역 */
+        /* 결과 영역 */
         #results-area {
             display: none; 
             margin-top: 25px;
@@ -356,12 +361,12 @@
             }
         }
         
-        /* [수정] 드롭 존 스타일 확장 */
+        /* 드롭 존 스타일 확장 */
         .result-group {
             flex-basis: 48%; 
             padding: 15px;
             border-radius: 8px;
-            transition: background-color 0.2s; /* [NEW] 드래그 오버 피드백용 */
+            transition: background-color 0.2s; 
         }
         .result-group.acid {
             background-color: #fff0f0;
@@ -371,17 +376,17 @@
             background-color: #f0fff4;
             border: 1px solid #4caf50;
         }
-        /* [NEW] 드래그 올렸을 때 피드백 (박스 전체) */
+        /* 드래그 올렸을 때 피드백 (박스 전체) */
         .result-group.drag-over {
             background-color: #e0e0e0;
         }
         .result-group h3 {
             margin-top: 0;
             font-size: 1.4rem;
-            pointer-events: none; /* [NEW] 드롭 이벤트가 박스로 전달되도록 */
+            pointer-events: none; /* 드롭 이벤트가 박스로 전달되도록 */
         }
         
-        /* [NEW] 드롭 존 스타일 */
+        /* 드롭 존 스타일 */
         .result-group ul {
             padding-left: 0;
             list-style-type: none;
@@ -390,10 +395,10 @@
             border: 2px dashed #ccc;
             border-radius: 5px;
             padding: 10px;
-            pointer-events: none; /* [NEW] 드롭 이벤트가 박스로 전달되도록 */
+            pointer-events: none; /* 드롭 이벤트가 박스로 전달되도록 */
         }
         
-        /* [NEW] 드롭된 리스트 아이템 */
+        /* 드롭된 리스트 아이템 */
         .result-group ul li {
             background-color: white;
             padding: 8px 12px;
@@ -401,10 +406,10 @@
             margin-bottom: 5px;
             font-size: 1.1rem;
             box-shadow: 0 1px 2px rgba(0,0,0,0.1);
-            pointer-events: none; /* [NEW] 드롭 이벤트가 박스로 전달되도록 */
+            pointer-events: none; /* 드롭 이벤트가 박스로 전달되도록 */
         }
 
-        /* [NEW] 분류할 용액 (이름표) 섹션 */
+        /* 분류할 용액 (이름표) 섹션 */
         #label-pool-container {
             display: none; /* 초기에는 숨김 */
             margin-top: 20px;
@@ -426,7 +431,7 @@
             border: 1px solid #eee;
         }
         
-        /* [NEW] 드래그할 이름표 스타일 */
+        /* 드래그할 이름표 스타일 */
         .solution-label {
             padding: 10px 15px;
             background-color: white;
@@ -438,14 +443,14 @@
             transition: all 0.2s;
         }
         
-        /* [NEW] 드래그 중인 이름표 스타일 */
+        /* 드래그 중인 이름표 스타일 */
         .solution-label.dragging {
             opacity: 0.5;
             cursor: grabbing;
             box-shadow: 0 4px 8px rgba(0,0,0,0.2);
         }
         
-        /* [NEW] 터치 드래그 시 복제되는 유령 요소 (이름표용) */
+        /* 터치 드래그 시 복제되는 유령 요소 (이름표용) */
         .ghost-label {
             position: absolute;
             pointer-events: none;
@@ -460,19 +465,34 @@
             box-shadow: 0 4px 8px rgba(0,0,0,0.2);
         }
         
-        /* [NEW] 분류 완료 시 숨기기 (JavaScript로 제어) */
+        /* 분류 완료 시 숨기기 (JavaScript로 제어) */
         .solution-label.classified {
             display: none;
         }
 
 
-        /* [수정] '알게 된 점' 박스 (초기 숨김) */
+        /* '알게 된 점' 박스 (초기 숨김) */
         #knowledge-point {
             display: none; 
             margin-top: 20px;
         }
         #knowledge-point.show {
             display: block;
+        }
+
+        /* [NEW] 참고 코드에서 가져온 반짝임 효과 */
+        @keyframes pulse-guide {
+            0% { box-shadow: 0 0 0 0 rgba(0, 123, 255, 0.9); } 
+            70% { box-shadow: 0 0 0 10px rgba(0, 123, 255, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(0, 123, 255, 0); }
+        }
+        /* [NEW] 반짝임 클래스 (box-shadow 사용) */
+        .pulsing-guide {
+            animation: pulse-guide 1.5s infinite;
+            border-radius: 8px; /* tool, label 모양에 맞춰 적용 */
+        }
+        .solution-label.pulsing-guide {
+            border-radius: 20px; /* 이름표 모양에 맞춤 */
         }
         
     </style>
@@ -487,54 +507,33 @@
         <div class="experiment-wrapper">
             <div class="lab-bench">
                 
-                
-
-<div class="left-content-wrapper">
-                    
-
-<h2 class="text-3xl font-bold mb-4 flex items-center justify-center min-w-[280px]">사용 방법</h2>
-                    
-                    
-
-<div class="instructions-box">
+                <!-- 왼쪽 영역 -->
+                <div class="left-content-wrapper">
+                    <h2 class="text-3xl font-bold mb-4">사용 방법</h2>
+                    <div class="instructions-box">
                         <p>
                             - 아래의 '붉은 양배추 지시약'을 끌어 <br>6홈판에 놓아 보세요.
                         </p>
                         
-                        
-
-<div class="tool-item">
+                        <!-- [수정] 지시약 도구 -->
+                        <div class="tool-item">
+                            <!-- [수정] SVG를 IMG 태그로 변경 -->
                             <div class="tool" id="tool-cabbage-indicator" draggable="true">
-                                
-
-<svg width="36" height="48" viewBox="0 0 24 30" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <title>붉은 양배추 지시약</title>
-                                    <path d="M18 13.5C18 17.6421 15.3137 21 12 21C8.68629 21 6 17.6421 6 13.5C6 9.35786 8.68629 6 12 6C15.3137 6 18 9.35786 18 13.5Z" fill="#e0cffc" stroke="#777" stroke-width="1.5"/>
-                                    <path d="M12 21V25M12 25H9M12 25H15" stroke="#777" stroke-width="1.5" stroke-linecap="round"/>
-                                    <path d="M12 17L12 12" stroke="#d1b3f2" stroke-width="1.5" stroke-linecap="round"/>
-                                    <path d="M10.5 6C10.5 4.17157 11.1716 3.5 12 3.5C12.8284 3.5 13.5 4.17157 13.5 6V7H10.5V6Z" fill="#D0D0D0" stroke="#777" stroke-width="1.5"/>
-                                    <path d="M10.5 4C10.5 3.17157 11.1716 2.5 12 2.5C12.8284 2.5 13.5 3.17157 13.5 4V5H10.5V4Z" fill="#999" stroke="#777" stroke-width="1"/>
-                                </svg>
+                                <img src="indicator-dropper.png" alt="붉은 양배추 지시약">
                             </div>
                             <p>붉은 양배추<br>지시약</p>
                         </div>
                         
-                        
-
-<button id="reset-button">처음부터 다시하기</button> 
+                        <button id="reset-button">처음부터 다시하기</button> 
                     </div>
                 </div>
 
-                
-
-<div class="experiment-area">
-                    
+                <!-- 오른쪽 영역 -->
+                <div class="experiment-area">
                     <div class="experiment-set">
-                        
-
-<h2 class="text-3xl font-bold mb-4 flex items-center justify-center min-w-[280px]">붉은 양배추 지시약 실험</h2>
+                        <h2 class="text-3xl font-bold mb-4">붉은 양배추 지시약 실험</h2>
                         <div class="well-plate" id="cabbage-plate">
-                            
+                            <!-- 6홈판 내용 -->
                             <div class="well" data-solution="vinegar" data-type="acid">
                                 <div class="solution"></div>
                                 <div class="label">식초</div>
@@ -559,36 +558,27 @@
                                 <div class="solution"></div>
                                 <div class="label">묽은 수산화<br>나트륨 용액</div>
                             </div>
-                            
                         </div>
                     </div>
                 </div>
             </div>
 
-            
-
-<div id="results-area">
-                
-
-<h2 class="text-3xl font-bold mb-4">🔬 실험 결과 분류</h2>
+            <!-- 결과 분류 영역 (초기 숨김) -->
+            <div id="results-area">
+                <h2 class="text-3xl font-bold mb-4">🔬 실험 결과 분류</h2>
                 <div class="result-box">
                     <div class="result-group acid" data-zone="acid">
                         <h3 class="font-semibold mb-2">붉은색 계열 (산성 용액)</h3>
-                        
-
-<ul id="acid-list"></ul>
+                        <ul id="acid-list"></ul>
                     </div>
                     <div class="result-group base" data-zone="base">
                         <h3 class="font-semibold mb-2">푸른/녹/노란색 계열 (염기성 용액)</h3>
-                        
-
-<ul id="base-list"></ul>
+                        <ul id="base-list"></ul>
                     </div>
                 </div>
 
-                
-
-<div id="label-pool-container">
+                <!-- 이름표 풀 (초기 숨김) -->
+                <div id="label-pool-container">
                     <h3 class="font-semibold mb-3 text-center">👇 아래의 이름표를 끌어 분류해 보세요.</h3>
                     <div class="label-pool">
                         <div class="solution-label" id="label-vinegar" draggable="true" data-type="acid">식초</div>
@@ -600,20 +590,41 @@
                     </div>
                 </div>
                 
-                
-
-<p id="knowledge-point" class="mt-4 p-4 bg-blue-50 border border-blue-200 rounded-md">
+                <!-- 알게 된 점 (초기 숨김) -->
+                <p id="knowledge-point" class="mt-4 p-4 bg-blue-50 border border-blue-200 rounded-md">
                     <b>알게 된 점:</b> 붉은 양배추 지시약은 산성 용액을 만나면 붉은색 계열로, 염기성 용액을 만나면 푸른색, 녹색, 노란색 계열로 변합니다.
                     이 결과는 리트머스 종이나 페놀프탈레인 용액으로 분류한 결과와 일치합니다.
                 </p>
             </div>
         </div> 
 
-</div>
+    </div>
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
 
+            // [NEW] 효과음 플레이어 변수
+            let waterSoundEffect;
+
+            // [NEW] 효과음 로드 (참고 코드)
+            try {
+                // water.mp3 파일이 index.html과 같은 위치에 있다고 가정
+                waterSoundEffect = new Audio('water.mp3');
+                waterSoundEffect.load(); 
+            } catch (e) {
+                console.error("Audio 파일을 로드할 수 없습니다.", e);
+                waterSoundEffect = null;
+            }
+
+            // [NEW] 효과음 재생 함수 (참고 코드)
+            function playDropSound() {
+                if (!waterSoundEffect) return;
+                waterSoundEffect.currentTime = 0;
+                waterSoundEffect.volume = 0.5; // 볼륨 조절
+                waterSoundEffect.play().catch(e => console.error("효과음 재생 실패:", e));
+            }
+
+            // 용액 정보
             const solutions = {
                 'vinegar': { name: '식초', color: '#F06292', type: 'acid' }, // 분홍색
                 'carbonated': { name: '탄산수', color: '#CE93D8', type: 'acid' }, // 연보라색
@@ -624,13 +635,13 @@
             };
 
             // === 1. 지시약 드래그 관련 요소 ===
-            const indicatorTool = document.getElementById('tool-cabbage-indicator');
+            const indicatorTool = document.getElementById('tool-cabbage-indicator'); // [NEW] 지시약 도구
             const wells = document.querySelectorAll('.well');
             let indicatorColoredCount = 0;
 
             // === 2. 이름표 분류 드래그 관련 요소 ===
             const solutionLabels = document.querySelectorAll('.solution-label');
-            const dropZones = document.querySelectorAll('.result-group'); // [수정] 드롭 존을 .result-group으로 변경
+            const dropZones = document.querySelectorAll('.result-group');
             const resultsArea = document.getElementById('results-area');
             const labelPoolContainer = document.getElementById('label-pool-container');
             const knowledgePoint = document.getElementById('knowledge-point');
@@ -648,8 +659,35 @@
             let ghostElement = null;
 
 
+            // [NEW] 반짝임 상태를 확인하고 적용하는 함수
+            function checkPulseState() {
+                // 1. 지시약 반짝임 제어
+                // 6개가 다 차지 않았으면 지시약 반짝임
+                if (indicatorColoredCount < wells.length) {
+                    indicatorTool.classList.add('pulsing-guide');
+                } else {
+                    indicatorTool.classList.remove('pulsing-guide');
+                }
+
+                // 2. 이름표 반짝임 제어 (분류 영역이 보일 때만)
+                if (resultsArea.classList.contains('show') && classifiedCount < solutionLabels.length) {
+                    solutionLabels.forEach(label => {
+                        // 분류되지 않은(숨겨지지 않은) 이름표만 반짝임
+                        if (!label.classList.contains('classified')) {
+                            label.classList.add('pulsing-guide');
+                        } else {
+                            label.classList.remove('pulsing-guide');
+                        }
+                    });
+                } else {
+                    // 분류 영역이 안보이거나, 다 분류했으면 반짝임 모두 제거
+                    solutionLabels.forEach(label => label.classList.remove('pulsing-guide'));
+                }
+            }
+
+
             // ===========================================
-            // === 1. 지시약 드래그 앤 드롭 (기존 로직) ===
+            // === 1. 지시약 드래그 앤 드롭 ===
             // ===========================================
 
             // 1-1. 마우스 드래그 (지시약)
@@ -660,6 +698,7 @@
                 draggedElement = target;
                 draggedType = 'indicator'; // 타입 구분
                 target.classList.add('dragging');
+                target.classList.remove('pulsing-guide'); // [NEW] 드래그 시작 시 반짝임 제거
                 e.dataTransfer.setDragImage(new Image(), 0, 0); 
                 e.dataTransfer.setData('text/plain', target.id);
             });
@@ -668,6 +707,7 @@
                 if (draggedElement) draggedElement.classList.remove('dragging');
                 draggedElement = null;
                 draggedType = null;
+                checkPulseState(); // [NEW] 드래그 종료 시 반짝임 상태 재확인
             });
 
             // 1-2. 터치 드래그 (지시약)
@@ -678,11 +718,19 @@
                 draggedElement = target;
                 draggedType = 'indicator';
                 isTouchDragging = true;
+                target.classList.remove('pulsing-guide'); // [NEW] 터치 시작 시 반짝임 제거
                 
                 ghostElement = target.cloneNode(true);
                 ghostElement.classList.add('ghost-tool');
-                const originalSvg = target.querySelector('svg');
-                if (originalSvg) ghostElement.innerHTML = originalSvg.outerHTML;
+                
+                // [수정] SVG가 아닌 IMG를 복제하도록 변경
+                const originalImg = target.querySelector('img');
+                if (originalImg) {
+                    ghostElement.innerHTML = originalImg.outerHTML;
+                } else {
+                    ghostElement.innerHTML = ''; // 이미지가 없으면 빈칸
+                }
+                
                 document.body.appendChild(ghostElement);
                 
                 updateGhostPosition(e.touches[0], ghostElement);
@@ -695,7 +743,7 @@
                 if (!targetWell) return; 
 
                 const solutionDiv = targetWell.querySelector('.solution');
-                if (!solutionDiv || solutionDiv.dataset.colored) return; 
+                if (!solutionDiv || solutionDiv.dataset.colored) return; // 이미 색칠됐으면 무시
 
                 const solutionId = targetWell.dataset.solution;
                 const solutionData = solutions[solutionId];
@@ -704,15 +752,19 @@
                     solutionDiv.style.setProperty('--solution-color', solutionData.color);
                     solutionDiv.dataset.colored = 'true'; 
                     indicatorColoredCount++;
+                    playDropSound(); // [NEW] 효과음 재생
                 }
 
+                // [NEW] 6개가 모두 완료되었는지 확인
                 if (indicatorColoredCount === wells.length) {
                     showClassificationArea(); 
+                    // [NEW] 6개 완료 시 지시약 반짝임 제거
+                    indicatorTool.classList.remove('pulsing-guide'); 
                 }
             }
             
             // =================================================
-            // === 2. 이름표 분류 드래그 앤 드롭 (새 로직) ===
+            // === 2. 이름표 분류 드래그 앤 드롭 ===
             // =================================================
 
             // 2-1. 마우스 드래그 (이름표)
@@ -721,6 +773,7 @@
                     draggedElement = e.target;
                     draggedType = 'label'; // 타입 구분
                     e.target.classList.add('dragging');
+                    e.target.classList.remove('pulsing-guide'); // [NEW] 드래그 시작 시 반짝임 제거
                     e.dataTransfer.setData('text/plain', e.target.id);
                     e.dataTransfer.setData('data-type', e.target.dataset.type);
                 });
@@ -729,6 +782,8 @@
                     e.target.classList.remove('dragging');
                     draggedElement = null;
                     draggedType = null;
+                    // 드래그가 실패(잘못된 곳에 드롭)했을 경우를 대비해 반짝임 재확인
+                    checkPulseState(); 
                 });
             });
             
@@ -741,6 +796,7 @@
 
                     draggedType = 'label';
                     isTouchDragging = true;
+                    draggedElement.classList.remove('pulsing-guide'); // [NEW] 터치 시작 시 반짝임 제거
 
                     ghostElement = draggedElement.cloneNode(true);
                     ghostElement.classList.add('ghost-label');
@@ -752,19 +808,19 @@
 
 
             // 2-3. 이름표 드롭 실행 (공통 로직)
-            function runClassificationDrop(dropGroup, draggedEl) { // [수정] dropZone -> dropGroup
+            function runClassificationDrop(dropGroup, draggedEl) {
                 if (!draggedEl) return;
                 
                 const draggedDataType = draggedEl.dataset.type;
-                const dropZoneType = dropGroup.dataset.zone; // [수정] .result-group에서 data-zone 가져오기
-                const listElement = dropGroup.querySelector('ul'); // [NEW] 실제 리스트(ul) 찾기
+                const dropZoneType = dropGroup.dataset.zone;
+                const listElement = dropGroup.querySelector('ul');
 
                 // [정답/오답 확인]
                 if (draggedDataType === dropZoneType) {
                     // 정답
                     const li = document.createElement('li');
                     li.textContent = draggedEl.textContent;
-                    listElement.appendChild(li); // [수정] li를 ul에 추가
+                    listElement.appendChild(li); 
                     
                     draggedEl.style.display = 'none'; // 원본 이름표 숨기기
                     draggedEl.classList.add('classified'); // 초기화용 클래스
@@ -789,16 +845,20 @@
             // 3-1. 공통 드롭 존 (마우스)
             document.addEventListener('dragover', (e) => {
                 e.preventDefault(); 
-                const dropTarget = e.target.closest('.well, .result-group'); // [수정] .result-group으로 변경
+                // 드롭 가능한 대상: 홈(well) 또는 결과 그룹(result-group)
+                const dropTarget = e.target.closest('.well, .result-group');
                 
                 // 기존 .drag-over 모두 제거
                 document.querySelectorAll('.drag-over').forEach(el => el.classList.remove('drag-over'));
                 
                 if (dropTarget) {
+                    // 지시약을 홈(well) 위로 드래그할 때
                     if (draggedType === 'indicator' && dropTarget.classList.contains('well')) {
-                        // 지시약 드롭존 (동작 없음)
-                    } else if (draggedType === 'label' && dropTarget.classList.contains('result-group')) {
-                        dropTarget.classList.add('drag-over'); // [수정] .result-group에 drag-over 적용
+                        // (CSS 피드백 없음)
+                    } 
+                    // 이름표를 결과 그룹(result-group) 위로 드래그할 때
+                    else if (draggedType === 'label' && dropTarget.classList.contains('result-group')) {
+                        dropTarget.classList.add('drag-over'); 
                     }
                 }
             });
@@ -812,7 +872,7 @@
                 if (draggedType === 'indicator') {
                     runIndicatorDrop(dropTarget);
                 } else if (draggedType === 'label') {
-                    const dropZone = dropTarget.closest('.result-group'); // [수정] .result-group 찾기
+                    const dropZone = dropTarget.closest('.result-group');
                     if (dropZone) {
                         runClassificationDrop(dropZone, draggedElement);
                     }
@@ -827,16 +887,17 @@
                 const touch = e.touches[0];
                 updateGhostPosition(touch, ghostElement);
                 
-                // 드래그 오버 피드백 (터치용)
+                // 터치 위치의 요소 찾기
                 const elementUnderTouch = document.elementFromPoint(touch.clientX, touch.clientY);
                 document.querySelectorAll('.drag-over').forEach(el => el.classList.remove('drag-over'));
                 
                 if (draggedType === 'label') {
-                    const dropZone = elementUnderTouch ? elementUnderTouch.closest('.result-group') : null; // [수정] .result-group 찾기
+                    const dropZone = elementUnderTouch ? elementUnderTouch.closest('.result-group') : null;
                     if (dropZone) {
-                        dropZone.classList.add('drag-over'); // [수정] .result-group에 drag-over 적용
+                        dropZone.classList.add('drag-over');
                     }
                 }
+                // (지시약은 터치 드래그 오버 피드백 없음)
                 
             }, { passive: false });
 
@@ -847,8 +908,10 @@
                 document.querySelectorAll('.drag-over').forEach(el => el.classList.remove('drag-over'));
 
                 const touch = e.changedTouches[0];
+                // 터치를 뗀 위치의 요소 찾기
                 const dropTarget = document.elementFromPoint(touch.clientX, touch.clientY);
                 
+                // 유령 요소 제거
                 if (ghostElement) document.body.removeChild(ghostElement);
                 ghostElement = null;
 
@@ -856,7 +919,7 @@
                     if (draggedType === 'indicator') {
                         runIndicatorDrop(dropTarget);
                     } else if (draggedType === 'label') {
-                        const dropZone = dropTarget.closest('.result-group'); // [수정] .result-group 찾기
+                        const dropZone = dropTarget.closest('.result-group');
                         if (dropZone) {
                             runClassificationDrop(dropZone, draggedElement);
                         }
@@ -865,6 +928,8 @@
                 
                 draggedElement = null;
                 draggedType = null;
+                
+                checkPulseState(); // [NEW] 터치 종료 시 반짝임 상태 재확인
             });
 
             // 3-3. 유령 요소 위치 업데이트 (공통)
@@ -876,17 +941,20 @@
 
 
             // ================================
-            // === 4. 상태 관리 함수 (수정) ===
+            // === 4. 상태 관리 함수 ===
             // ================================
             
-            // [수정] 4-1. 분류 영역 표시 함수
+            // 4-1. 분류 영역 표시 함수
             function showClassificationArea() {
                 resultsArea.classList.add('show'); 
                 labelPoolContainer.style.display = 'block'; // 이름표 풀 보이기
                 knowledgePoint.classList.remove('show'); // '알게 된 점'은 숨기기
+                
+                // [NEW] 이름표들에 반짝임 효과 추가
+                checkPulseState();
             }
 
-            // [수정] 4-2. 다시하기 버튼 이벤트
+            // 4-2. 다시하기 버튼 이벤트
             resetButton.addEventListener('click', () => {
                 // 1. 지시약 실험 리셋
                 indicatorColoredCount = 0;
@@ -894,7 +962,7 @@
                     const solutionDiv = well.querySelector('.solution');
                     solutionDiv.style.removeProperty('--solution-color');
                     delete solutionDiv.dataset.colored;
-                    solutionDiv.style.backgroundColor = ''; 
+                    solutionDiv.style.backgroundColor = ''; // 기본 배경색으로
                 });
 
                 // 2. 분류 실험 리셋
@@ -910,8 +978,14 @@
                     label.style.display = 'inline-flex'; // 숨겼던 이름표 다시 보이기
                     label.classList.remove('classified');
                 });
+                
+                // [NEW] 리셋 후 반짝임 상태 재설정 (지시약이 다시 반짝이도록)
+                checkPulseState();
             });
             
+            // [NEW] 페이지 로드 시 초기 반짝임 적용
+            checkPulseState();
+
         });
     </script>
 </body>
