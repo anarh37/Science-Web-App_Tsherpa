@@ -3,24 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>과학 실험 시뮬레이터: 지시약 반응</title>
+    <title>과학 실험 시뮬레이터: 지시약 반응 (최종 레이아웃)</title>
     
-    <!-- 구글 폰트 'Jua' 로드 -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <!-- 구글 폰트 'Jua' 로드 --><link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Jua&display=swap" rel="stylesheet">
     
-    <!-- Tailwind CSS 로드 -->
-    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Tailwind CSS 로드 --><script src="https://cdn.tailwindcss.com"></script>
     <style>
         /* 'Jua' 폰트 기본 적용 */
         body {
             font-family: 'Jua', sans-serif;
-            user-select: none; /* 드래그 중 텍스트 선택 방지 */
+            user-select: none;
             min-height: 100vh;
+            background-color: #f0f4f8; 
         }
 
-        /* [요청 사항 반영] 제목 색상 및 크기, 그림자 */
+        /* 메인 타이틀 */
         .main-title {
             font-size: 3.5rem; 
             font-weight: bold;
@@ -30,79 +29,98 @@
                  2px -2px 0 #fff,
                 -2px  2px 0 #fff,
                  2px  2px 0 #fff,
-                 4px 4px 0 rgba(0,0,0,0.3); /* 스크린샷과 유사한 입체 그림자 */
-            line-height: 1.2; /* 줄간격 조절 */
+                 4px 4px 0 rgba(0,0,0,0.3);
+            line-height: 1.2;
         }
 
-        /* 드래그 중인 도구 스타일 */
+        /* 메인 탭 (실험하기 / 결과정리) */
+        .main-tabs {
+            width: 100%;
+            max-width: 900px;
+            display: grid; 
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+        .main-tab-btn {
+            flex: 1;
+            padding: 10px 15px;
+            font-size: 1.5rem;
+            font-weight: bold;
+            border: 2px solid #b0c4de;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+            background-color: #f0f4f8;
+            color: #555;
+            line-height: 1.2;
+        }
+        .main-tab-btn.active {
+            background-color: #4a90e2;
+            color: white;
+            border-color: #3a75b6;
+        }
+        .main-tab-btn:disabled {
+            background-color: #e0e6ed;
+            color: #999;
+            border-color: #dbe2eb;
+            cursor: not-allowed;
+            opacity: 0.7;
+        }
+        
+        .hidden {
+            display: none !important;
+        }
+
+        /* 드래그 앤 드롭 스타일 */
         .tool.dragging {
             cursor: grabbing;
             opacity: 0.5;
             transform: scale(1.1);
         }
-
-        /* 터치 드래그 시 복제되는 요소 스타일 */
         .ghost-tool {
             position: absolute;
             pointer-events: none;
             opacity: 0.7;
             z-index: 1000;
-            transform: translate(-50%, -50%); /* 터치 포인터 중앙에 오도록 */
+            transform: translate(-50%, -50%);
         }
 
-        /* [수정됨] 실험 도구 아이콘 스타일 (세로 길이 증가) */
+        /* [수정] 실험 도구 아이콘 */
         .tool {
-            width: 100px; 
-            height: 100px; /* 80px -> 100px */
+            width: 150px; 
+            height: 160px; 
             border-width: 1px;
             border-style: solid; 
             cursor: grab;
             transition: all 0.2s;
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center; 
+            gap: 8px;
+            padding: 8px;
             border-radius: 6px;
             box-shadow: 0 1px 3px rgba(0,0,0,0.1);
             box-sizing: border-box;
+            background: #fff;
         }
         
-        /* 각 도구별 임시 스타일 */
-        #tool-red-litmus { background-color: #fce8e8; border-color: #efb8b8; }
-        #tool-blue-litmus { background-color: #e8f0fc; border-color: #b8cdef; }
-        #tool-phenolphthalein { background-color: #f0f0f0; border-color: #c0c0c0; }
+        #tool-red-litmus { background-color: #fff; border-color: #efb8b8; }
+        #tool-blue-litmus { background-color: #fff; border-color: #b8cdef; }
+        #tool-phenolphthalein { background-color: #fff; border-color: #c0c0c0; }
 
+        .tool img { object-fit: contain; }
+        #tool-phenolphthalein img { width: 48px; height: 100px; } 
 
-        /* [추가됨] 도구 영역의 이미지 스타일 */
-        .tool img {
-             object-fit: contain;
-        }
-        /* [수정됨] 리트머스 이미지 스타일 제거 */
-        /*
-        #tool-red-litmus img,
-        #tool-blue-litmus img {
-            width: 80px;
-            height: 65px; 
-            border-radius: 18px; 
-            object-fit: cover;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.2) inset;
-        }
-        */
-        /* [수정됨] 페놀프탈레인 이미지 크기 (세로 길이 증가) */
-        #tool-phenolphthalein img {
-            width: 36px;
-            height: 75px; /* 60px -> 75px */
-        }
-
-
-        /* [추가됨] 리트머스 종이 도구 스타일 (첫 버전에서 복원) */
+        /* [수정] 리트머스 도구 모양 */
         .litmus-tool-shape {
-            width: 80px; 
-            height: 35px; 
-            border-radius: 18px; /* 타원형 */
+            width: 125px; 
+            height: 60px; 
+            border-radius: 18px;
             display: flex;
             justify-content: center;
             align-items: center;
-            font-size: 1.1em;
+            font-size: 1.2em; 
             font-weight: bold;
             color: white;
             box-shadow: 0 1px 3px rgba(0,0,0,0.2) inset;
@@ -110,11 +128,10 @@
         #tool-red-litmus .litmus-tool-shape { background-color: #FF6666; }
         #tool-blue-litmus .litmus-tool-shape { background-color: #6666FF; }
 
-        /* 리트머스 종이 결과 (원 안에 표시됨) */
         .litmus-paper-result {
-            width: 80px; 
-            height: 35px; 
-            border-radius: 18px; /* 타원형 */
+            width: 100px; 
+            height: 45px; 
+            border-radius: 18px;
             border: 1px solid #555;
             font-size: 0.9em;
             font-weight: bold;
@@ -125,21 +142,35 @@
             box-shadow: 0 1px 3px rgba(0,0,0,0.2) inset;
         }
 
-        /* 용액 라벨 스타일 */
+        /* 페놀프탈레인 '반응 없음' 텍스트 스타일 */
+        .phen-no-result {
+            width: 100px;
+            height: 45px; 
+            border-radius: 18px;
+            border: 1px solid #ccc;
+            font-size: 0.9em;
+            font-weight: bold;
+            color: #777;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: transparent;
+        }
+
+        /* 홈판(well) 관련 스타일 */
         .well .label {
             position: absolute; 
-            bottom: 8px; /* 홈 바닥에서 띄우기 */
+            bottom: 15px; 
             width: 100%; 
-            font-size: 0.9em; 
+            font-size: 1em; 
             font-weight: bold;
             color: #555;
             text-align: center;
         }
 
-        /* 용액 원 (홈 안의 실제 용액 영역) */
         .well .solution {
-            width: 75px; 
-            height: 75px; 
+            width: 120px;  
+            height: 120px; 
             margin: 10px auto 0; 
             border: 1px solid #d0d0d0; 
             border-radius: 50%;
@@ -153,11 +184,10 @@
             box-shadow: 0 0 5px rgba(0,0,0,0.05) inset;
         }
 
-        /* 각 홈(well) 컨테이너 */
         .well {
             position: relative; 
-            width: 110px; 
-            height: 130px; 
+            width: 125px; 
+            height: 180px; 
             border: 1px solid #eee; 
             border-radius: 8px;
             background-color: #f9f9f9; 
@@ -168,505 +198,1293 @@
             padding-top: 5px; 
         }
         
-        /* 6홈판 전체 */
         .well-plate {
             display: grid;
             grid-template-columns: repeat(3, 1fr); 
             grid-template-rows: repeat(2, 1fr); 
-            gap: 8px; 
-            background-color: #ffffff;
-            border: 1px solid #e0e0e0; 
-            border-radius: 10px;
-            padding: 15px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.05); 
+            gap: 10px; 
             width: fit-content; 
             margin: 0 auto; 
         }
 
-        /* 각 실험 세트 타이틀 */
-        .experiment-set h2 {
+        /* 전체 컨테이너 */
+        .container {
+            width: 100%;
+            max-width: 900px;
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            padding: 25px;
+            display: flex; 
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+
+        /* [수정] 2단 레이아웃 (align-items: stretch 추가) */
+        .lab-bench {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            width: 100%;
+            align-items: stretch; /* [추가] 높이를 같게 만듦 */
+        }
+        @media (max-width: 768px) {
+            .lab-bench { 
+                grid-template-columns: 1fr; 
+                align-items: stretch;
+            }
+            .main-tabs { max-width: 100%; }
+            .container { padding: 15px; }
+            .main-title { font-size: 2.5rem; }
+        }
+
+        .left-content-wrapper, .experiment-area {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+        }
+
+        /* [수정] 컨텐츠 박스 높이 (height: 100% 추가) */
+        .content-box {
+            width: 100%;
+            background-color: #ffffff;
+            border: 1px solid #e0e0e0;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            padding: 15px;
+            height: 100%; /* [추가] 부모 높이를 따름 */
+        }
+        /* [수정] 결과 정리 탭 높이 */
+        #summary-content .content-box {
+            min-height: 620px; 
+            height: auto; 
+        }
+
+        /* 오른쪽 박스 */
+        .experiment-area .content-box {
+            display: block; 
+            padding-top: 15px;
+        }
+
+        /* [수정] 왼쪽 박스 */
+        .instructions-box {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px; 
+            height: 100%; 
+            padding-top: 10px; 
+            padding-bottom: 10px;
+        }
+        
+        /* 섹션 타이틀 (h2) */
+        .section-title {
             font-size: 1.8em; 
             font-weight: bold;
             color: #333;
-            margin-bottom: 15px;
             display: flex;
             align-items: center;
             justify-content: center;
         }
-        .experiment-set h2::before {
-            content: '🧪'; 
-            margin-right: 8px;
-            font-size: 1.2em;
-        }
+        .section-title::before { content: '🧪'; margin-right: 8px; font-size: 1.2em; }
+        .left-content-wrapper .section-title::before { content: '📖'; }
 
-        /* 전체 레이아웃 조정 */
-        .lab-container {
+        /* 중첩 탭 (실험 1/2) 스타일 */
+        .exp-controls {
             display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 30px;
+            width: 100%;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid #b0c4de;
         }
-
-        .experiments-wrapper {
-            display: flex;
-            flex-direction: row; 
-            gap: 40px; 
-            justify-content: center;
-            flex-wrap: wrap; 
+        .exp-btn {
+            flex: 1;
+            padding: 8px 10px;
+            font-size: 1.2rem; 
+            font-weight: bold;
+            background-color: #e0e6ed;
+            color: #555;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s;
         }
+        .exp-btn.active {
+            background-color: #4a90e2;
+            color: white;
+        }
+        .exp-btn:first-child { border-right: 1px solid #b0c4de; }
 
-        /* 실험 도구 영역 */
+        /* [수정] 실험 도구 영역 (여백 추가) */
         .tools-area {
-            display: flex;
-            gap: 20px; 
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px; 
             justify-content: center;
-            margin-top: 20px; 
-            flex-wrap: wrap;
+            margin-top: 15px; 
+            width: 100%;
         }
         .tool-item {
             display: flex;
-            flex-direction: column;
+            justify-content: center;
             align-items: center;
-            text-align: center;
-            font-size: 0.9em;
-            color: #333;
         }
-        .tool-item p {
-            margin-top: 8px; 
+        /* [수정] 도구 텍스트 크기 */
+        .tool p {
+            font-size: 1.0em; /* 0.9em -> 1.0em */
+            color: #333;
             line-height: 1.2;
+            white-space: nowrap;
+            margin-top: 4px; /* 아이콘과의 간격 */
+        }
+        #tool-item-phen {
+            grid-column: span 2 / span 2;
+            justify-self: center;
         }
 
-        /* [추가됨] 동적 가이드 Pulse 애니메이션 */
+        /* 가이드 텍스트 박스 */
+        .guide-text-box {
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: #004085; 
+            padding: 10px 15px;
+            background: #e0f2ff; 
+            border: 2px solid #a7d9ff; 
+            border-radius: 8px; 
+            height: 80px;
+            width: 100%;
+            text-align: center; 
+            display: flex;
+            flex-direction: column; 
+            align-items: center;
+            justify-content: center;
+            line-height: 1.3; 
+            margin-top: 15px; 
+            margin-bottom: 15px; 
+        }
+        .guide-text-box p {
+            font-weight: normal;
+            font-size: 1rem;
+            margin-top: 5px;
+        }
+
+        /* 리셋 버튼 */
+        #reset-button {
+            width: 100%;
+            margin-top: auto; 
+        }
+        
+        /* 비우기 버튼 스타일 */
+        #clear-plate-button {
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+            margin-bottom: 10px; /* 홈판과의 간격 */
+        }
+
+        /* 가이드 Pulse 애니메이션 */
         @keyframes pulse-animation {
-            0% {
-                box-shadow: 0 0 0 0 rgba(0, 123, 255, 0.7);
-            }
-            70% {
-                box-shadow: 0 0 0 10px rgba(0, 123, 255, 0);
-            }
-            100% {
-                box-shadow: 0 0 0 0 rgba(0, 123, 255, 0);
-            }
+            0% { box-shadow: 0 0 0 0 rgba(0, 123, 255, 0.7); }
+            70% { box-shadow: 0 0 0 10px rgba(0, 123, 255, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(0, 123, 255, 0); }
         }
         .pulsing-guide {
             animation: pulse-animation 1.5s infinite;
-            border-radius: 8px; /* 기본 둥근 모서리 */
+            border-radius: 8px;
             box-shadow: 0 0 0 0 rgba(0, 123, 255, 0.7); 
         }
-        /* .tool 클래스에 적용될 때 둥근 모서리 유지 */
-        .tool.pulsing-guide {
-             border-radius: 6px;
+        .tool.pulsing-guide { border-radius: 6px; }
+        .exp-controls.pulsing-guide {
+             animation: pulse-animation 1.5s infinite;
+        }
+        .exp-btn.pulsing-guide {
+             animation: pulse-animation 1.5s infinite;
+        }
+        .main-tab-btn.pulsing-guide {
+             animation: pulse-animation 1.5s infinite;
+        }
+        /* [삭제] 가이드 텍스트 박스 펄스 제거
+        .guide-text-box.pulsing-guide {
+             animation: pulse-animation 1.5s infinite;
+        }
+        */
+
+
+        /* 이미지/오디오 Fallback */
+        img {
+            background-color: #eee;
+            min-height: 40px; 
+            display: inline-block;
+        }
+         #tool-phenolphthalein img {
+            onerror: "this.onerror=null; this.src='https://placehold.co/36x75/f0f0f0/c0c0c0?text=Phen';";
+         }
+
+        /* --- 퀴즈 스타일 --- */
+        
+        /* 퀴즈 라벨 풀 (가로 정렬) */
+        #quiz-label-pool {
+            display: flex;
+            flex-direction: row; 
+            flex-wrap: wrap; 
+            justify-content: center; 
+            gap: 10px;
+            margin-bottom: 15px;
+            padding: 10px;
+            background-color: #f0f4f8;
+            border-radius: 8px;
+        }
+        /* 퀴즈 라벨 (크기 자동) */
+        .summary-label {
+            padding: 8px 16px;
+            font-size: 1rem;
+            font-weight: bold;
+            border-radius: 20px;
+            background-color: #fff;
+            border: 2px solid #b0c4de;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            cursor: grab;
+            transition: all 0.2s;
+            width: auto; 
+            max-width: none; 
+            text-align: center;
+            margin: 5px; 
+        }
+        .summary-label.dragging {
+            opacity: 0.5;
+            cursor: grabbing;
+        }
+        .summary-table {
+            width: 100%;
+            border-collapse: collapse;
+            border: 2px solid #c3e6cb; 
+        }
+        /* 테이블 셀 높이/패딩 */
+        .summary-table th, .summary-table td {
+            border: 1px solid #c3e6cb;
+            padding: 8px; 
+            text-align: center;
+            vertical-align: top;
+            height: auto; 
+        }
+        .summary-table th {
+            background-color: #e9f5e9; 
+            font-size: 1.1rem;
+        }
+        .summary-table .sub-header {
+            font-weight: bold;
+            font-size: 1rem;
+            vertical-align: middle;
+            padding: 8px; 
+        }
+        /* 드롭존 높이 */
+        .summary-drop-zone {
+            min-height: 50px; 
+            height: 100%;
+            width: 100%;
+            border: 2px dashed #ccc;
+            border-radius: 8px;
+            background-color: #fafafa;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1rem;
+            color: #999;
+            transition: all 0.2s;
+        }
+        .summary-drop-zone.drag-over {
+            background-color: #e0f2ff;
+            border-color: #4a90e2;
+        }
+        .summary-drop-zone.filled {
+            background-color: #e8f5e9;
+            border-color: #4caf50;
+            border-style: solid;
+            color: #111;
+            font-weight: bold;
+            font-size: 1rem;
+            padding: 5px;
+            line-height: 1.2;
+        }
+        .ghost-label {
+            position: absolute;
+            pointer-events: none;
+            opacity: 0.8;
+            z-index: 1001;
+            transform: translate(-50%, -50%);
+            padding: 8px 16px;
+            font-size: 1rem;
+            font-weight: bold;
+            border-radius: 20px;
+            background-color: #fff;
+            border: 2px solid #b0c4de;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
         }
 
+        /* 퀴즈 참고용 미니 플레이트 스타일 */
+        #quiz-results-display {
+            display: flex;
+            justify-content: space-around;
+            gap: 10px;
+            margin-bottom: 15px;
+            background-color: #f9f9f9;
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid #eee;
+            flex-wrap: wrap; 
+        }
+        .mini-plate {
+            width: 32%;
+            min-width: 120px; 
+            text-align: center;
+            margin-bottom: 10px; 
+        }
+        .mini-plate-title {
+            font-size: 0.9rem;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        .mini-well-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 4px;
+            border: 1px solid #ddd;
+            background-color: #fff;
+            padding: 4px;
+            border-radius: 4px;
+        }
+        /* [NEW] 미니 홈판용 라벨 */
+        .mini-well-container {
+            text-align: center;
+        }
+        .mini-well-label {
+            font-size: 0.75rem; /* 12px */
+            font-weight: bold;
+            color: #333;
+            margin-top: 2px;
+            line-height: 1;
+        }
+        .mini-well {
+            width: 100%;
+            padding-top: 100%; /* 정사각형 비율 */
+            position: relative;
+            border: 1px solid #ccc;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 0.7rem;
+            font-weight: bold;
+            color: white;
+            overflow: hidden;
+        }
+        .mini-well-inner {
+            /* [수정] 중앙 정렬을 위한 CSS */
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            /* [수정] 텍스트가 있는 요소의 스타일 */
+            width: 90%; 
+            height: 40%; 
+            border-radius: 10px; 
+            border: 1px solid #555; 
+            font-size: 0.6rem; 
+            color: white;
+        }
+        
+        /* 붉은색 리트머스 결과 */
+        .mini-well.r-acid { background-color: #f9f9f9; }
+        .mini-well.r-acid .mini-well-inner { background-color: #FF6666; border-color: #555; color: white;}
+        .mini-well.r-base { background-color: #f9f9f9; }
+        .mini-well.r-base .mini-well-inner { background-color: #6666FF; border-color: #555; color: white;}
+        
+        /* 푸른색 리트머스 결과 */
+        .mini-well.b-acid { background-color: #f9f9f9; }
+        .mini-well.b-acid .mini-well-inner { background-color: #FF6666; border-color: #555; color: white;}
+        .mini-well.b-base { background-color: #f9f9f9; }
+        .mini-well.b-base .mini-well-inner { background-color: #6666FF; border-color: #555; color: white;}
+
+        /* 페놀프탈레인 결과 */
+        .mini-well.p-acid { background-color: #f9f9f9; }
+        .mini-well.p-acid .mini-well-inner { background-color: transparent; border-color: #ccc; color: #777;}
+        /* [수정] 페놀 베이스는 inner div가 아닌, well 자체가 칠해짐 */
+        .mini-well.p-base { background-color: #ec4899; } 
+        .mini-well.p-base .mini-well-inner {
+            display: none; /* 핑크색일때는 inner가 보일 필요 없음 */
+        }
+        
+        /* [NEW] mini-well-inner 텍스트 추가 (HTML 대신 CSS로) */
+        .mini-well.r-acid .mini-well-inner::before { content: '변화 없음'; }
+        .mini-well.r-base .mini-well-inner::before { content: '푸른색'; }
+        .mini-well.b-acid .mini-well-inner::before { content: '붉은색'; }
+        .mini-well.b-base .mini-well-inner::before { content: '변화 없음'; }
+        .mini-well.p-acid .mini-well-inner::before { content: '반응 없음'; }
 
     </style>
 </head>
 <body class="bg-gray-100 p-8 flex flex-col items-center">
 
-    <!-- [요청 사항 반영] 제목 색상 및 크기, 그림자 -->
     <h1 class="main-title mb-6">
         지시약 색깔 변화 실험
     </h1>
 
-    
-    <!-- [삭제됨] 사용 방법 안내 상자 -->
-    <!-- 
-    <div id="instructions-box" class="w-full max-w-[792px] mx-auto p-4 mb-8 bg-blue-100 border border-blue-300 text-blue-800 rounded-lg shadow text-center text-lg">
-        <p class="font-bold">✨ 사용 방법</p>
-        <div class="flex flex-col items-start w-fit mx-auto mt-2 text-base">
-            <p class="text-left">- 아래의 실험도구(리트머스종이, 페놀프탈레인 용액)을 끌어 6홈판에 놓아 보세요.</p>
-            <p class="text-left">- 리트머스 종이와, 페놀프탈레인의 색깔 변화를 관찰해 보세요.</p>
+    <div class="container">
+        
+        <div class="main-tabs">
+            <button id="main-tab-experiment" class="main-tab-btn active">🔬 실험하기</button>
+            <button id="main-tab-summary" class="main-tab-btn" disabled>📝 결과 정리</button>
         </div>
-    </div>
-    -->
 
-
-    <div class="lab-container">
-        <div class="experiments-wrapper">
+        <div id="experiment-content" class="lab-bench">
             
-            <!-- 리트머스 종이 실험 -->
-            <div class="experiment-set flex flex-col items-center">
-                <h2>리트머스 종이 실험</h2>
-                <div class="well-plate" id="litmus-plate">
+            <!-- 왼쪽 컬럼 (도구) --><div class="left-content-wrapper">
+                <h2 class="section-title">사용 방법 및 도구</h2>
+                
+                <div class="content-box instructions-box">
                     
-                    <div class="well" data-type="acid" data-solution="vinegar">
-                        <div class="solution"></div>
-                        <div class="label">식초</div>
+                    <div class="exp-controls">
+                        <button id="exp-tab-litmus" class="exp-btn active">🧪 리트머스 실험</button>
+                        <button id="exp-tab-phen" class="exp-btn">🧪 페놀프탈레인 실험</button>
                     </div>
-                    <div class="well" data-type="acid" data-solution="carbonated-water">
-                        <div class="solution"></div>
-                        <div class="label">탄산수</div>
+
+                    <div id="tools-area" class="tools-area">
+                        <div class="tool-item" id="tool-item-red-litmus">
+                            <div class="tool" id="tool-red-litmus" draggable="true">
+                                <div class="litmus-tool-shape">붉은색</div>
+                                <p>리트머스 종이</p> 
+                            </div>
+                        </div>
+                        
+                        <div class="tool-item" id="tool-item-blue-litmus">
+                            <div class="tool" id="tool-blue-litmus" draggable="true">
+                                <div class="litmus-tool-shape">푸른색</div>
+                                <p>리트머스 종이</p> 
+                            </div>
+                        </div>
+                        
+                        <div class="tool-item hidden" id="tool-item-phen">
+                            <div class="tool" id="tool-phenolphthalein" draggable="true">
+                                <img src="phenolphthalein.png" alt="페놀프탈레인 용액">
+                                <p>페놀프탈레인 용액</p> 
+                            </div>
+                        </div>
                     </div>
-                    <div class="well" data-type="base" data-solution="limewater">
-                        <div class="solution"></div>
-                        <div class="label">석회수</div>
+
+                    <div id="guide-text-box" class="guide-text-box">
+                        도구를 홈판에 끌어다 놓으세요.
                     </div>
-                    <div class="well" data-type="acid" data-solution="hydrochloric-acid">
-                        <div class="solution"></div>
-                        <div class="label">묽은 염산</div>
-                    </div>
-                    <div class="well" data-type="base" data-solution="glass-cleaner">
-                        <!-- 유리 세정제 초기 색상 (하늘색) -->
-                        <div class="solution bg-cyan-100"></div>
-                        <div class="label">유리 세정제</div>
-                    </div>
-                    <div class="well" data-type="base" data-solution="sodium-hydroxide">
-                        <div class="solution"></div>
-                        <div class="label">묽은 수산화나트륨</div>
+
+                    <button id="reset-button" class="px-6 py-3 text-xl font-bold text-white bg-red-500 rounded-lg shadow-md cursor-pointer hover:bg-red-600 transition-colors">
+                        처음부터 다시하기
+                    </button>
+                </div>
+            </div>
+
+            <!-- 오른쪽 컬럼 (실험판) --><div class="experiment-area">
+                <h2 class="section-title" id="plate-title">리트머스 종이 실험판</h2>
+                
+                <div class="content-box">
+                    
+                    <button id="clear-plate-button" class="text-xl px-6 py-2 font-bold text-gray-700 bg-gray-200 rounded-lg shadow-sm hover:bg-gray-300 transition-colors">
+                        현재 실험판 비우기
+                    </button>
+
+                    <div class="well-plate" id="litmus-plate"> 
+                        
+                        <div class="well" data-type="acid" data-solution="vinegar" data-tested-red="false" data-tested-blue="false" data-tested-phen="false">
+                            <div class="solution"></div>
+                            <div class="label">식초</div>
+                        </div>
+                        <div class="well" data-type="acid" data-solution="carbonated-water" data-tested-red="false" data-tested-blue="false" data-tested-phen="false">
+                            <div class="solution"></div>
+                            <div class="label">탄산수</div>
+                        </div>
+                        <div class="well" data-type="base" data-solution="limewater" data-tested-red="false" data-tested-blue="false" data-tested-phen="false">
+                            <div class="solution"></div>
+                            <div class="label">석회수</div>
+                        </div>
+                        <div class="well" data-type="acid" data-solution="hydrochloric-acid" data-tested-red="false" data-tested-blue="false" data-tested-phen="false">
+                            <div class="solution"></div>
+                            <div class="label">묽은 염산</div>
+                        </div>
+                        <div class="well" data-type="base" data-solution="glass-cleaner" data-tested-red="false" data-tested-blue="false" data-tested-phen="false">
+                            <div class="solution bg-cyan-100"></div>
+                            <div class="label">유리 세정제</div>
+                        </div>
+                        <div class="well" data-type="base" data-solution="sodium-hydroxide" data-tested-red="false" data-tested-blue="false" data-tested-phen="false">
+                            <div class="solution"></div>
+                            <div class="label">묽은 수산화나트륨</div>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <!-- 페놀프탈레인 용액 실험 -->
-            <div class="experiment-set flex flex-col items-center">
-                <h2>페놀프탈레인 용액 실험</h2>
-                <div class="well-plate" id="phen-plate">
-                    <div class="well" data-type="acid" data-solution="vinegar">
-                        <div class="solution"></div>
-                        <div class="label">식초</div>
+        </div> <!-- /#experiment-content --><div id="summary-content" class="hidden w-full">
+            <div class="content-box">
+                <!-- [수정] '퀴즈' 단어 삭제 --><h2 class="section-title text-center text-3xl mb-4">🔬 실험 결과 정리</h2>
+                
+                <!-- [수정] 가이드 텍스트 위치 변경 --><div id="quiz-guide-text" class="text-center text-lg mb-4 text-blue-800">
+                    실험 결과를 보고, 알맞은 <span class="font-bold text-gray-700">'용액 묶음'</span> 카드를 빈칸에 끌어다 놓으세요!
+                </div>
+
+                <!-- [수정] 스크린샷 이미지에 맞게 스타일 변경 --><div id="quiz-results-display">
+                    <div class="mini-plate">
+                        <div class="mini-plate-title">붉은색 리트머스 결과</div>
+                        <!-- [수정] HTML 구조 변경 -->
+                        <div class="mini-well-grid">
+                            <div class="mini-well-container">
+                                <div class="mini-well r-acid"><div class="mini-well-inner"></div></div>
+                                <div class="mini-well-label">식초</div>
+                            </div>
+                            <div class="mini-well-container">
+                                <div class="mini-well r-acid"><div class="mini-well-inner"></div></div>
+                                <div class="mini-well-label">탄산수</div>
+                            </div>
+                            <div class="mini-well-container">
+                                <div class="mini-well r-base"><div class="mini-well-inner"></div></div>
+                                <div class="mini-well-label">석회수</div>
+                            </div>
+                            <div class="mini-well-container">
+                                <div class="mini-well r-acid"><div class="mini-well-inner"></div></div>
+                                <div class="mini-well-label">묽은 염산</div>
+                            </div>
+                            <div class="mini-well-container">
+                                <div class="mini-well r-base"><div class="mini-well-inner"></div></div>
+                                <div class="mini-well-label">유리 세정제</div>
+                            </div>
+                            <div class="mini-well-container">
+                                <div class="mini-well r-base"><div class="mini-well-inner"></div></div>
+                                <div class="mini-well-label">묽은 수산화나트륨</div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="well" data-type="acid" data-solution="carbonated-water">
-                        <div class="solution"></div>
-                        <div class="label">탄산수</div>
+                    <div class="mini-plate">
+                        <div class="mini-plate-title">푸른색 리트머스 결과</div>
+                        <!-- [수정] HTML 구조 변경 -->
+                        <div class="mini-well-grid">
+                            <div class="mini-well-container">
+                                <div class="mini-well b-acid"><div class="mini-well-inner"></div></div>
+                                <div class="mini-well-label">식초</div>
+                            </div>
+                            <div class="mini-well-container">
+                                <div class="mini-well b-acid"><div class="mini-well-inner"></div></div>
+                                <div class="mini-well-label">탄산수</div>
+                            </div>
+                            <div class="mini-well-container">
+                                <div class="mini-well b-base"><div class="mini-well-inner"></div></div>
+                                <div class="mini-well-label">석회수</div>
+                            </div>
+                            <div class="mini-well-container">
+                                <div class="mini-well b-acid"><div class="mini-well-inner"></div></div>
+                                <div class="mini-well-label">묽은 염산</div>
+                            </div>
+                            <div class="mini-well-container">
+                                <div class="mini-well b-base"><div class="mini-well-inner"></div></div>
+                                <div class="mini-well-label">유리 세정제</div>
+                            </div>
+                            <div class="mini-well-container">
+                                <div class="mini-well b-base"><div class="mini-well-inner"></div></div>
+                                <div class="mini-well-label">묽은 수산화나트륨</div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="well" data-type="base" data-solution="limewater">
-                        <div class="solution"></div>
-                        <div class="label">석회수</div>
-                    </div>
-                    <div class="well" data-type="acid" data-solution="hydrochloric-acid">
-                        <div class="solution"></div>
-                        <div class="label">묽은 염산</div>
-                    </div>
-                    <div class="well" data-type="base" data-solution="glass-cleaner">
-                        <!-- 유리 세정제 초기 색상 (하늘색) -->
-                        <div class="solution bg-cyan-100"></div>
-                        <div class="label">유리 세정제</div>
-                    </div>
-                    <div class="well" data-type="base" data-solution="sodium-hydroxide">
-                        <div class="solution"></div>
-                        <div class="label">묽은 수산화나트륨</div>
+                    <div class="mini-plate">
+                        <div class="mini-plate-title">페놀프탈레인 결과</div>
+                        <!-- [수정] HTML 구조 변경 -->
+                        <div class="mini-well-grid">
+                            <div class="mini-well-container">
+                                <div class="mini-well p-acid"><div class="mini-well-inner"></div></div>
+                                <div class="mini-well-label">식초</div>
+                            </div>
+                            <div class="mini-well-container">
+                                <div class="mini-well p-acid"><div class="mini-well-inner"></div></div>
+                                <div class="mini-well-label">탄산수</div>
+                            </div>
+                            <div class="mini-well-container">
+                                <div class="mini-well p-base"><div class="mini-well-inner"></div></div>
+                                <div class="mini-well-label">석회수</div>
+                            </div>
+                            <div class="mini-well-container">
+                                <div class="mini-well p-acid"><div class="mini-well-inner"></div></div>
+                                <div class="mini-well-label">묽은 염산</div>
+                            </div>
+                            <div class="mini-well-container">
+                                <div class="mini-well p-base"><div class="mini-well-inner"></div></div>
+                                <div class="mini-well-label">유리 세정제</div>
+                            </div>
+                            <div class="mini-well-container">
+                                <div class="mini-well p-base"><div class="mini-well-inner"></div></div>
+                                <div class="mini-well-label">묽은 수산화나트륨</div>
+                            </div>
+                        </div>
                     </div>
                 </div>
+                
+                <div id="quiz-label-pool">
+                    <div class="summary-label" draggable="true" data-answer="acid">식초, 탄산수, 묽은 염산</div>
+                    <div class="summary-label" draggable="true" data-answer="base">석회수, 유리 세정제, 묽은 수산화나트륨</div>
+                </div>
+
+                <table class="summary-table">
+                    <thead>
+                        <tr>
+                            <th colspan="2">리트머스 종이</th>
+                            <th colspan="2">페놀프탈레인 용액</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="sub-header">푸른색 → 붉은색</td>
+                            <td class="sub-header">붉은색 → 푸른색</td>
+                            <td class="sub-header">변화 없음</td>
+                            <td class="sub-header">붉은색으로 변함</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="summary-drop-zone" data-answer="acid">이곳에 드롭</div>
+                            </td>
+                            <td>
+                                <div class="summary-drop-zone" data-answer="base">이곳에 드롭</div>
+                            </td>
+                            <td>
+                                <div class="summary-drop-zone" data-answer="acid">이곳에 드롭</div>
+                            </td>
+                            <td>
+                                <div class="summary-drop-zone" data-answer="base">이곳에 드롭</div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
 
-        <!-- [수정됨] 실험 도구 (id="tools-area" 추가) -->
-        <div id="tools-area" class="tools-area">
-            
-            <!-- [수정됨] 붉은색 리트머스 (이미지 -> CSS) -->
-            <div class="tool-item">
-                <div class="tool" id="tool-red-litmus" draggable="true">
-                    <div class="litmus-tool-shape">붉은색</div>
-                    <!-- <img src="red.png" alt="붉은색 리트머스 종이"> -->
-                </div>
-                <p>리트머스<br>종이</p>
-            </div>
-            
-            <!-- [수정됨] 푸른색 리트머스 (이미지 -> CSS) -->
-            <div class="tool-item">
-                <div class="tool" id="tool-blue-litmus" draggable="true">
-                    <div class="litmus-tool-shape">푸른색</div>
-                    <!-- <img src="blue.png" alt="푸른색 리트머스 종이"> -->
-                </div>
-                <p>리트머스<br>종이</p>
-            </div>
-            
-            <!-- [수정됨] 페놀프탈레인 (SVG -> 이미지) -->
-            <div class="tool-item">
-                <div class="tool" id="tool-phenolphthalein" draggable="true">
-                    <!-- SVG 점적병 아이콘 (제거됨) -->
-                    <img src="phenolphthalein.png" alt="페놀프탈레인 용액">
-                </div>
-                <p>페놀프탈레인<br>용액</p>
-            </div>
 
-        </div>
-
-        <!-- 간격 수정 완료 -->
-        <button id="reset-button" class="mt-4 px-6 py-3 text-lg font-bold text-white bg-red-500 rounded-lg shadow-md cursor-pointer hover:bg-red-600 transition-colors">
-            처음부터 다시하기
-        </button>
-    </div>
-
-    <!-- [추가됨] 효과음용 오디오 태그 -->
-    <audio id="water-sound" src="water.mp3" preload="auto"></audio>
+    </div> <!-- /.container --><audio id="water-sound" src="water.mp3" preload="auto"></audio>
     <audio id="reaction-sound" src="reaction.mp3" preload="auto"></audio>
 
     <script>
-        // --- [0] 효과음 및 가이드 DOM 요소 ---
+        // --- [0] DOM 요소 변수 (전역 선언) ---
         let waterSound, reactionSound;
-        let instructionsBox, toolsArea; // [수정됨] instructionsBox는 있지만, 사용하지 않음
+        let toolsArea;
+        let currentExperiment = 'litmus';
+        
+        let mainTabExperiment, mainTabSummary;
+        let experimentContent, summaryContent;
+        let expTabLitmus, expTabPhen;
+        let toolItemRedLitmus, toolItemBlueLitmus, toolItemPhen;
+        let mainPlate; 
+        let guideTextBox;
+        let plateTitle;
+        let clearPlateButton; 
+        let wells; 
+        let resetButton;
+        let tools; 
 
-        // [추가됨] 효과음 재생 함수
-        function playSound(sound) {
-            if (sound) {
-                sound.currentTime = 0;
-                sound.volume = 0.5; // 0.0 ~ 1.0
-                sound.play().catch(e => console.error("오디오 재생 오류:", e));
-            }
-        }
+        let redLitmusUsedCount = 0;
+        let blueLitmusUsedCount = 0;
+        let phenUsedCount = 0;
+        const allWells = 6;
 
-        // [추가됨] 가이드 반짝임 제거
-        function clearAllPulses() {
-            document.querySelectorAll('.pulsing-guide').forEach(el => {
-                el.classList.remove('pulsing-guide');
-            });
-        }
-
-        // [수정됨] 가이드 반짝임 설정 (instructionsBox 제거)
-        function updateGuide(state) {
-            clearAllPulses();
-            if (state === 'init') {
-                // if(instructionsBox) instructionsBox.classList.add('pulsing-guide'); // [삭제됨]
-                if(toolsArea) toolsArea.classList.add('pulsing-guide');
-                // 도구들에도 개별적으로 추가
-                document.querySelectorAll('.tool').forEach(tool => tool.classList.add('pulsing-guide'));
-            }
-        }
-
-
-        // --- [1] 마우스 드래그 앤 드롭 로직 ---
-        const tools = document.querySelectorAll('.tool');
-        const wells = document.querySelectorAll('.well');
+        let quizLabels, quizDropZones, quizLabelPool, quizGuideText;
+        let draggedQuizLabel = null;
+        let quizGhostElement = null;
+        let correctQuizAnswers = 0;
+        
         let draggedToolId = null;
-
-        // 1-1. 마우스 드래그 시작
-        tools.forEach(tool => {
-            tool.addEventListener('dragstart', (e) => {
-                // [수정됨] e.target이 img일 수 있으므로 closest로 .tool을 찾음
-                const parentTool = e.target.closest('.tool');
-                if (parentTool && parentTool.id) {
-                    draggedToolId = parentTool.id;
-                    parentTool.classList.add('dragging');
-                    e.dataTransfer.setData('text/plain', draggedToolId);
-                } else {
-                    e.preventDefault(); 
-                }
-            });
-
-            // 1-2. 마우스 드래그 종료
-            tool.addEventListener('dragend', (e) => {
-                const draggedElement = document.getElementById(draggedToolId) || e.target.closest('.tool');
-                if (draggedElement) {
-                    draggedElement.classList.remove('dragging');
-                }
-                draggedToolId = null;
-            });
-        });
-
-        // 1-3. 홈판 위에 드롭 허용
-        wells.forEach(well => {
-            well.addEventListener('dragover', (e) => {
-                e.preventDefault(); // 필수: 드롭을 허용함
-            });
-
-            // 1-4. 홈판에 마우스 드롭 (실험!)
-            well.addEventListener('drop', (e) => {
-                e.preventDefault();
-                const toolId = e.dataTransfer.getData('text/plain');
-                runExperiment(e.target, toolId);
-            });
-        });
-
-        // --- [2] 모바일 터치 드래그 앤 드롭 로직 ---
         let draggedToolElement = null;
         let ghostElement = null;
         let isTouchDragging = false;
 
-        tools.forEach(tool => {
-            tool.addEventListener('touchstart', (e) => {
-                // e.preventDefault(); // 스크롤을 막을 수 있으나, 클릭 이벤트와 충돌할 수 있음.
-                draggedToolElement = e.target.closest('.tool');
-                if (!draggedToolElement || !draggedToolElement.id) return;
 
-                isTouchDragging = true;
-                
-                // 드래그 중인 시각적 피드백용 '유령' 요소 생성
-                ghostElement = draggedToolElement.cloneNode(true);
-                ghostElement.classList.add('ghost-tool'); // CSS 스타일 적용
-                document.body.appendChild(ghostElement);
+        // --- [1] 유틸리티 함수 ---
 
-                // 터치 시작 위치에서 요소 위치 보정
-                const touch = e.touches[0];
-                updateGhostPosition(touch);
-            }, { passive: false });
-        });
-
-        document.addEventListener('touchmove', (e) => {
-            if (!isTouchDragging || !ghostElement) return;
-            
-            e.preventDefault(); // 스크롤 방지
-            
-            const touch = e.touches[0];
-            updateGhostPosition(touch);
-        }, { passive: false });
-
-        document.addEventListener('touchend', (e) => {
-            if (!isTouchDragging || !ghostElement) return;
-
-            isTouchDragging = false;
-            
-            // 유령 요소를 숨기고 현재 위치의 요소 찾기
-            ghostElement.style.display = 'none';
-            const touch = e.changedTouches[0];
-            const dropTarget = document.elementFromPoint(touch.clientX, touch.clientY);
-            
-            // 유령 요소 제거
-            document.body.removeChild(ghostElement);
-            ghostElement = null;
-
-            if (dropTarget) {
-                // 터치 위치에서 실험 실행
-                runExperiment(dropTarget, draggedToolElement.id);
+        function playSound(sound) {
+            if (sound) {
+                const playPromise = sound.play();
+                if (playPromise !== undefined) {
+                    playPromise.then(_ => {
+                        sound.currentTime = 0;
+                        sound.volume = 0.5;
+                    }).catch(error => {
+                        console.info("오디오 자동 재생이 차단되었습니다.");
+                    });
+                }
             }
-            
-            draggedToolElement = null;
-        });
-
-        function updateGhostPosition(touch) {
-            if (!ghostElement) return;
-            // 터치한 위치의 중앙에 유령 요소가 오도록
-            ghostElement.style.left = `${touch.clientX}px`;
-            ghostElement.style.top = `${touch.clientY}px`;
         }
 
+        function clearAllPulses() {
+            document.querySelectorAll('.pulsing-guide').forEach(el => {
+                el.classList.remove('pulsing-guide');
+            });
+            document.querySelector('.exp-controls')?.classList.remove('pulsing-guide');
+            document.getElementById('exp-tab-litmus')?.classList.remove('pulsing-guide');
+            document.getElementById('exp-tab-phen')?.classList.remove('pulsing-guide');
+            mainTabSummary?.classList.remove('pulsing-guide');
+        }
+        
+        function updateGuideText(message, p_message = "") {
+            const cleanMessage = message.replace(" 퀴즈", "");
+            const targetBox = (mainTabSummary.classList.contains('active')) ? quizGuideText : guideTextBox;
+            if (targetBox) {
+                if (targetBox.id === 'quiz-guide-text') {
+                    targetBox.innerHTML = `<b>${cleanMessage}</b> ${p_message.replace(/<br>/g, ' ')}`;
+                } else {
+                    targetBox.innerHTML = `<b>${cleanMessage}</b>${p_message ? `<p class="mt-1">${p_message}</p>` : ""}`;
+                }
+            }
+        }
 
-        // --- [3] 공통 실험 로직 ---
+        // [수정] 가이드 로직 (카운트 버그 수정)
+        function updateGuide(state) {
+            clearAllPulses();
+            
+            const isLitmusDone = (redLitmusUsedCount === allWells && blueLitmusUsedCount === allWells);
+            const isPhenDone = (phenUsedCount === allWells);
+
+            if (state === 'check_completion') {
+                if (isLitmusDone && isPhenDone) {
+                    state = 'all_done';
+                }
+                else if (currentExperiment === 'litmus') {
+                    if (redLitmusUsedCount < allWells) state = 'pulse_red';
+                    else if (blueLitmusUsedCount < allWells) state = 'pulse_blue';
+                    else state = 'litmus_done';
+                } 
+                else { // phen
+                    if (phenUsedCount < allWells) state = 'pulse_phen';
+                    else if (!isLitmusDone) state = 'phen_done_goto_litmus'; 
+                    else state = 'all_done';
+                }
+            }
+
+            switch (state) {
+                case 'init': 
+                    if(document.readyState === 'loading') return; 
+                    updateGuide('check_completion');
+                    return;
+                
+                case 'pulse_red':
+                    updateGuideText("1. 리트머스 실험", "붉은색 종이를 홈판에 끌어다 놓고<br>색깔 변화를 관찰하세요.");
+                    document.getElementById('tool-red-litmus').classList.add('pulsing-guide');
+                    break;
+                case 'pulse_blue':
+                    updateGuideText("1. 리트머스 실험", "붉은색 완료! 이제 푸른색 종이로<br>색깔 변화를 관찰하세요.");
+                    document.getElementById('tool-blue-litmus').classList.add('pulsing-guide');
+                    break;
+                case 'pulse_phen':
+                    updateGuideText("2. 페놀프탈레인 실험", "점적병을 홈판에 끌어다 놓고<br>색깔 변화를 관찰하세요.");
+                    document.getElementById('tool-phenolphthalein').classList.add('pulsing-guide');
+                    break;
+                
+                case 'litmus_done':
+                    updateGuideText("리트머스 실험 완료!", "모든 반응을 확인했습니다.<br>'페놀프탈레인' 탭을 누르세요.");
+                    document.getElementById('exp-tab-phen').classList.add('pulsing-guide');
+                    break;
+                case 'phen_done_goto_litmus':
+                    updateGuideText("페놀프탈레인 실험 완료!", "모든 반응을 확인했습니다.<br>'리트머스' 탭을 누르세요.");
+                    document.getElementById('exp-tab-litmus').classList.add('pulsing-guide');
+                    break;
+                
+                case 'all_done': 
+                    updateGuideText("모든 실험 완료!", "'결과 정리' 탭을 눌러<br>학습한 내용을 확인하세요.");
+                    if(mainTabSummary.disabled) {
+                        mainTabSummary.disabled = false;
+                        mainTabSummary.classList.add('pulsing-guide');
+                    }
+                    break;
+
+                case 'reaction':
+                    updateGuideText("반응 확인!", "다른 홈에도 실험해 보세요.<br>색깔 변화를 잘 관찰하세요.");
+                    break;
+                
+                default:
+                     if (currentExperiment === 'litmus') {
+                        updateGuideText("1. 리트머스 실험", "붉은색/푸른색 종이를 홈판에 끌어다 놓고<br>색깔 변화를 관찰하세요.");
+                     } else {
+                        updateGuideText("2. 페놀프탈레인 실험", "점적병을 홈판에 끌어다 놓고<br>색깔 변화를 관찰하세요.");
+                     }
+            }
+        } 
+
+
+        // --- [2] 탭 전환 로직 ---
+
+        function showMainTab(tabName) {
+            if (mainTabSummary.disabled && tabName === 'summary') return;
+            
+            mainTabExperiment.classList.toggle('active', tabName === 'experiment');
+            mainTabSummary.classList.toggle('active', tabName === 'summary');
+
+            if (tabName === 'summary') {
+                mainTabSummary.classList.remove('pulsing-guide');
+                if (correctQuizAnswers < 4) {
+                    updateGuideText("실험 결과를 보고, 알맞은 용액 묶음을 빈칸에 끌어다 놓으세요!", "");
+                } else {
+                    updateGuideText("결과 정리 완료! 모든 정답을 맞혔습니다! 참 잘했어요!", "");
+                }
+            }
+            
+            experimentContent.classList.toggle('hidden', tabName !== 'experiment');
+            summaryContent.classList.toggle('hidden', tabName !== 'summary');
+            
+            if (tabName === 'experiment') {
+                 updateGuide('init'); 
+            }
+        }
+
+        function switchExperiment(expType) {
+            if (currentExperiment === expType) return;
+            currentExperiment = expType;
+
+            if (expType === 'litmus') {
+                expTabLitmus.classList.add('active');
+                expTabPhen.classList.remove('active');
+                mainPlate.id = 'litmus-plate';
+                plateTitle.innerText = "리트머스 종이 실험판";
+                
+                toolItemRedLitmus.classList.remove('hidden');
+                toolItemBlueLitmus.classList.remove('hidden');
+                toolItemPhen.classList.add('hidden');
+
+            } else { // 'phen'
+                expTabLitmus.classList.remove('active');
+                expTabPhen.classList.add('active');
+                mainPlate.id = 'phen-plate';
+                plateTitle.innerText = "페놀프탈레인 실험판";
+                
+                toolItemRedLitmus.classList.add('hidden');
+                toolItemBlueLitmus.classList.add('hidden');
+                toolItemPhen.classList.remove('hidden');
+            }
+            
+            resetExperiment(false); 
+            updateGuide('init'); 
+        }
+
+        // --- [3] 핵심 실험 로직 ---
         function runExperiment(targetElement, toolId) {
             const targetWell = targetElement.closest('.well');
-            if (!targetWell || !toolId) return; // 홈(well)이 아니거나 도구가 없으면 무시
+            if (!targetWell || !toolId) return;
 
             const solutionDiv = targetWell.querySelector('.solution');
-            const solutionType = targetWell.dataset.type; // 'acid' 또는 'base'
-            const plateId = targetWell.closest('.well-plate').id;
+            const solutionType = targetWell.dataset.type;
+            const plateId = targetWell.closest('.well-plate').id; 
 
-            let changeOccurred = false; // [추가됨] 변화 여부 플래그
+            let changeOccurred = false;
+            let justTestedNew = false; 
 
-            // [A] 리트머스 종이 실험판 로직
             if (plateId === 'litmus-plate') {
-                if (toolId === 'tool-red-litmus' || toolId === 'tool-blue-litmus') {
-                    // [수정됨] showLitmusResult가 boolean을 반환하도록 함
+                if (toolId === 'tool-red-litmus') {
+                    if (targetWell.dataset.testedRed !== 'true') {
+                        targetWell.dataset.testedRed = 'true';
+                        if(redLitmusUsedCount < allWells) redLitmusUsedCount++;
+                        justTestedNew = true;
+                    }
+                    changeOccurred = showLitmusResult(solutionDiv, toolId, solutionType);
+                } else if (toolId === 'tool-blue-litmus') {
+                    if (targetWell.dataset.testedBlue !== 'true') {
+                        targetWell.dataset.testedBlue = 'true';
+                        if(blueLitmusUsedCount < allWells) blueLitmusUsedCount++;
+                        justTestedNew = true;
+                    }
                     changeOccurred = showLitmusResult(solutionDiv, toolId, solutionType);
                 }
-            // [B] 페놀프탈레인 실험판 로직
             } else if (plateId === 'phen-plate') {
                 if (toolId === 'tool-phenolphthalein') {
-                    // [수정됨] showPhenolphthaleinResult가 boolean을 반환하도록 함
+                    if (targetWell.dataset.testedPhen !== 'true') {
+                        targetWell.dataset.testedPhen = 'true';
+                        if(phenUsedCount < allWells) phenUsedCount++;
+                        justTestedNew = true;
+                    }
                     changeOccurred = showPhenolphthaleinResult(solutionDiv, solutionType);
                 }
             }
 
-            // [추가됨] 변화 여부에 따라 다른 효과음 재생
             if (changeOccurred) {
                 playSound(reactionSound);
-            } else {
+            } else if (toolId === 'tool-red-litmus' || toolId === 'tool-blue-litmus' || toolId === 'tool-phenolphthalein') {
                 playSound(waterSound);
             }
 
-            // [추가됨] 실험이 한 번이라도 실행되면 가이드 중지
-            clearAllPulses();
+            if (justTestedNew) {
+                updateGuide('check_completion'); 
+            } else {
+                updateGuide('reaction'); 
+            }
         }
 
-
-        // --- [4] 실험 결과 표시 함수 ---
-
-        // 4-1. [수정됨] 리트머스 종이 결과 표시 (변화 여부 boolean 반환)
         function showLitmusResult(solutionDiv, toolId, solutionType) {
-            solutionDiv.innerHTML = ''; // 이전 결과 삭제
+            solutionDiv.innerHTML = '';
             const paper = document.createElement('div');
-            paper.className = 'litmus-paper-result'; // CSS 스타일 적용
+            paper.className = 'litmus-paper-result';
             let changed = false;
 
             if (toolId === 'tool-red-litmus') {
                 if (solutionType === 'base') {
-                    paper.style.backgroundColor = '#6666FF'; // 푸른색 (변화)
+                    paper.style.backgroundColor = '#6666FF'; 
                     paper.innerText = '푸른색';
-                    changed = true; // [수정됨]
-                } else { // acid or neutral
-                    paper.style.backgroundColor = '#FF6666'; // 붉은색 (변화 없음)
+                    changed = true;
+                } else { 
+                    paper.style.backgroundColor = '#FF6666'; 
                     paper.innerText = '변화 없음';
-                    changed = false; // [수정됨]
+                    changed = false;
                 }
             } else if (toolId === 'tool-blue-litmus') {
                 if (solutionType === 'acid') {
-                    paper.style.backgroundColor = '#FF6666'; // 붉은색 (변화)
+                    paper.style.backgroundColor = '#FF6666';
                     paper.innerText = '붉은색';
-                    changed = true; // [수정됨]
-                } else { // base or neutral
-                    paper.style.backgroundColor = '#6666FF'; // 푸른색 (변화 없음)
+                    changed = true;
+                } else { 
+                    paper.style.backgroundColor = '#6666FF';
                     paper.innerText = '변화 없음';
-                    changed = false; // [수정됨]
+                    changed = false;
                 }
             }
             solutionDiv.appendChild(paper);
-            return changed; // [수정됨]
+            return changed; 
         }
 
-        // 4-2. [수정됨] 페놀프탈레인 결과 표시 (변화 여부 boolean 반환)
         function showPhenolphthaleinResult(solutionDiv, solutionType) {
+            solutionDiv.innerHTML = '';
+            const alreadyPink = solutionDiv.style.backgroundColor === 'rgb(236, 72, 153)'; 
+
             if (solutionType === 'base') {
-                // 염기성 용액(석회수, 유리세정제, 수산화나트륨)은 붉게 변함
-                solutionDiv.style.backgroundColor = '#ec4899'; // Tailwind 'pink-500' (마젠타/붉은색)
-                return true; // [수정됨]
+                solutionDiv.style.backgroundColor = '#ec4899';
+                return !alreadyPink; 
             } else {
-                // 산성(식초, 탄산수, 염산)은 무색
+                const solutionIsCyan = solutionDiv.classList.contains('bg-cyan-100');
                 solutionDiv.style.backgroundColor = 'transparent';
-                return false; // [수정됨]
+                
+                const noResult = document.createElement('div');
+                noResult.className = 'phen-no-result';
+                noResult.innerText = '반응 없음';
+                solutionDiv.appendChild(noResult);
+
+                if (solutionIsCyan) {
+                    return true;
+                }
+                const alreadyTransparent = solutionDiv.style.backgroundColor === 'transparent' || solutionDiv.style.backgroundColor === '';
+                return !alreadyTransparent;
             }
         }
 
-        // --- [5] 초기화 버튼 로직 ---
-        const resetButton = document.getElementById('reset-button');
-        resetButton.addEventListener('click', () => {
-            resetExperiment();
-        });
+        // --- [4] 퀴즈 드래그 앤 드롭 로직 ---
 
-        function resetExperiment() {
-            // 1. 리트머스 실험판 초기화
-            document.querySelectorAll('#litmus-plate .well').forEach(well => {
-                const solutionDiv = well.querySelector('.solution');
-                const solutionName = well.dataset.solution;
-                solutionDiv.innerHTML = ''; // 종이 제거
-                
-                // 인라인 스타일 초기화 (Tailwind 클래스보다 우선순위 높음)
-                solutionDiv.style.backgroundColor = ''; 
-                // Tailwind 클래스 복원 (유리 세정제)
-                solutionDiv.classList.remove('bg-cyan-100');
-                if (solutionName === 'glass-cleaner') {
-                    solutionDiv.classList.add('bg-cyan-100'); // 연한 파란색
-                }
-            });
-
-            // 2. 페놀프탈레인 실험판 초기화
-            document.querySelectorAll('#phen-plate .well').forEach(well => {
-                const solutionDiv = well.querySelector('.solution');
-                const solutionName = well.dataset.solution;
-                
-                // 인라인 스타일 초기화 (색상 제거)
-                solutionDiv.style.backgroundColor = '';
-                
-                // Tailwind 클래스 복원 (유리 세정제)
-                solutionDiv.classList.remove('bg-cyan-100'); // 혹시 모를 클래스 제거
-                if (solutionName === 'glass-cleaner') {
-                    solutionDiv.classList.add('bg-cyan-100'); // 연한 파란색
-                }
-            });
-
-            // [추가됨] 초기화 시 가이드 다시 시작
-            updateGuide('init');
+        function handleQuizDragStart(e) {
+            if (draggedToolElement) return; 
+            draggedQuizLabel = e.target;
+            e.dataTransfer.setData('text/plain', draggedQuizLabel.dataset.answer);
+            setTimeout(() => draggedQuizLabel.classList.add('dragging'), 0);
+        }
+        function handleQuizDragEnd(e) {
+            if (draggedQuizLabel) draggedQuizLabel.classList.remove('dragging');
+            draggedQuizLabel = null;
+        }
+        function handleQuizTouchStart(e) {
+            if (draggedToolElement) return;
+            draggedQuizLabel = e.target.closest('.summary-label');
+            if (!draggedQuizLabel) return; 
+            isTouchDragging = true;
+            
+            quizGhostElement = draggedQuizLabel.cloneNode(true);
+            quizGhostElement.classList.add('ghost-label');
+            document.body.appendChild(quizGhostElement);
+            updateGhostPosition(e.touches[0], quizGhostElement);
+        }
+        
+        function handleQuizDragOver(e) {
+            e.preventDefault();
+            const dropZone = e.target.closest('.summary-drop-zone');
+            if (draggedQuizLabel && dropZone && !dropZone.classList.contains('filled')) {
+                dropZone.classList.add('drag-over');
+            }
+        }
+        function handleQuizDragLeave(e) {
+            e.target.closest('.summary-drop-zone')?.classList.remove('drag-over');
+        }
+        function handleQuizDrop(e) {
+            e.preventDefault();
+            const dropZone = e.target.closest('.summary-drop-zone');
+            if (draggedQuizLabel && dropZone && !dropZone.classList.contains('filled')) {
+                runQuizDrop(dropZone, draggedQuizLabel);
+            }
         }
 
-        // 초기 로드 시 실험 상태 설정 
+        function runQuizDrop(dropZone, label) {
+            const answer = label.dataset.answer;
+            if (dropZone.dataset.answer === answer) {
+                dropZone.innerHTML = (answer === 'acid') ? '식초, 탄산수,<br>묽은 염산' : '석회수, 유리 세정제,<br>묽은 수산화나트륨';
+                dropZone.classList.add('filled');
+                dropZone.classList.remove('drag-over');
+                correctQuizAnswers++;
+                checkQuizCompletion();
+            } else {
+                dropZone.classList.remove('drag-over');
+            }
+        }
+        
+        function checkQuizCompletion() {
+            if (correctQuizAnswers === 4) {
+                updateGuideText("결과 정리 완료!", "모든 정답을 맞혔습니다! 참 잘했어요!");
+            }
+        }
+
+        // --- [5] 초기화 로직 ---
+
+        // [버그 수정] "현재 실험판 비우기" - 카운터 초기화 *안함*
+        function clearCurrentPlate() {
+            wells.forEach(well => {
+                const solutionDiv = well.querySelector('.solution');
+                const solutionName = well.dataset.solution;
+                solutionDiv.innerHTML = '';
+                solutionDiv.style.backgroundColor = ''; 
+                solutionDiv.classList.remove('bg-cyan-100');
+                if (solutionName === 'glass-cleaner') {
+                    solutionDiv.classList.add('bg-cyan-100');
+                }
+            });
+
+            if (currentExperiment === 'litmus') {
+                // redLitmusUsedCount = 0; // [수정] 카운터 초기화 *제거*
+                // blueLitmusUsedCount = 0; // [수정] 카운터 초기화 *제거*
+                wells.forEach(well => {
+                    well.dataset.testedRed = 'false';
+                    well.dataset.testedBlue = 'false';
+                });
+            } else { // phen
+                // phenUsedCount = 0; // [수정] 카운터 초기화 *제거*
+                wells.forEach(well => {
+                    well.dataset.testedPhen = 'false';
+                });
+            }
+            
+            updateGuide('check_completion');
+        }
+
+        // "처음부터 다시하기" 함수
+        function resetExperiment(fullReset = true) {
+            if (fullReset) {
+                redLitmusUsedCount = 0;
+                blueLitmusUsedCount = 0;
+                phenUsedCount = 0;
+            }
+
+            wells.forEach(well => {
+                const solutionDiv = well.querySelector('.solution');
+                const solutionName = well.dataset.solution;
+                solutionDiv.innerHTML = '';
+                solutionDiv.style.backgroundColor = ''; 
+                solutionDiv.classList.remove('bg-cyan-100');
+                if (solutionName === 'glass-cleaner') {
+                    solutionDiv.classList.add('bg-cyan-100');
+                }
+                
+                if (fullReset) {
+                    well.dataset.testedRed = 'false';
+                    well.dataset.testedBlue = 'false';
+                    well.dataset.testedPhen = 'false';
+                }
+            });
+
+            // 퀴즈 초기화
+            correctQuizAnswers = 0;
+            quizDropZones.forEach(zone => {
+                zone.classList.remove('filled');
+                zone.innerHTML = '이곳에 드롭';
+            });
+            if (quizGuideText) { 
+                 updateGuideText("실험 결과를 보고, 알맞은 용액 묶음을 빈칸에 끌어다 놓으세요!", "");
+            }
+
+            if (fullReset) {
+                if (currentExperiment !== 'litmus') {
+                    switchExperiment('litmus');
+                }
+                mainTabSummary.disabled = true;
+                mainTabSummary.classList.remove('pulsing-guide');
+                showMainTab('experiment');
+                updateGuide('init'); 
+            }
+        }
+
+        // --- [6] 초기 로드 (DOMContentLoaded) ---
         document.addEventListener('DOMContentLoaded', () => {
-            // [추가됨] 효과음 및 가이드 요소 할당
+            // 변수 할당 (실험)
             waterSound = document.getElementById('water-sound');
             reactionSound = document.getElementById('reaction-sound');
-            // instructionsBox = document.getElementById('instructions-box'); // [수정됨] 요소를 찾지만 사용하지 않음
             toolsArea = document.getElementById('tools-area');
+            tools = document.querySelectorAll('.tool'); 
 
-            resetExperiment(); // 여기에서 updateGuide('init')이 호출됨
+            mainTabExperiment = document.getElementById('main-tab-experiment');
+            mainTabSummary = document.getElementById('main-tab-summary');
+            experimentContent = document.getElementById('experiment-content');
+            summaryContent = document.getElementById('summary-content');
+
+            expTabLitmus = document.getElementById('exp-tab-litmus');
+            expTabPhen = document.getElementById('exp-tab-phen');
+            
+            toolItemRedLitmus = document.getElementById('tool-item-red-litmus');
+            toolItemBlueLitmus = document.getElementById('tool-item-blue-litmus');
+            toolItemPhen = document.getElementById('tool-item-phen');
+            
+            mainPlate = document.getElementById('litmus-plate');
+            guideTextBox = document.getElementById('guide-text-box');
+            plateTitle = document.getElementById('plate-title');
+            clearPlateButton = document.getElementById('clear-plate-button'); 
+            wells = document.querySelectorAll('.well-plate .well'); 
+            resetButton = document.getElementById('reset-button');
+
+            // 변수 할당 (퀴즈)
+            quizLabels = document.querySelectorAll('.summary-label');
+            quizDropZones = document.querySelectorAll('.summary-drop-zone');
+            quizLabelPool = document.getElementById('quiz-label-pool');
+            quizGuideText = document.getElementById('quiz-guide-text');
+
+            
+            // --- 실험 도구 D&D (데스크탑) ---
+            tools.forEach(tool => {
+                tool.addEventListener('dragstart', (e) => {
+                    if (draggedQuizLabel) return;
+                    const parentTool = e.target.closest('.tool');
+                    if (parentTool && parentTool.id) {
+                        draggedToolId = parentTool.id;
+                        draggedToolElement = parentTool;
+                        parentTool.classList.add('dragging');
+                        e.dataTransfer.setData('text/plain', draggedToolId);
+                    } else {
+                        e.preventDefault(); 
+                    }
+                });
+                tool.addEventListener('dragend', (e) => {
+                    if (draggedToolElement) draggedToolElement.classList.remove('dragging');
+                    draggedToolId = null;
+                    draggedToolElement = null;
+                });
+            });
+
+            // --- 퀴즈 라벨 D&D (데스크탑) ---
+            quizLabels.forEach(label => {
+                label.addEventListener('dragstart', handleQuizDragStart);
+                label.addEventListener('dragend', handleQuizDragEnd);
+            });
+            quizDropZones.forEach(zone => {
+                zone.addEventListener('dragover', handleQuizDragOver);
+                zone.addEventListener('dragleave', handleQuizDragLeave);
+                zone.addEventListener('drop', handleQuizDrop);
+            });
+
+
+            // --- 공통 터치 D&D (모바일) ---
+            document.addEventListener('touchstart', (e) => {
+                const tool = e.target.closest('.tool');
+                const label = e.target.closest('.summary-label');
+                
+                if (tool) {
+                    if (draggedQuizLabel) return;
+                    draggedToolElement = tool;
+                    draggedToolId = tool.id;
+                    isTouchDragging = true;
+                    ghostElement = draggedToolElement.cloneNode(true);
+                    ghostElement.classList.add('ghost-tool');
+                    document.body.appendChild(ghostElement);
+                    updateGhostPosition(e.touches[0], ghostElement);
+                } else if (label) {
+                    if (draggedToolElement) return;
+                    draggedQuizLabel = label;
+                    isTouchDragging = true;
+                    quizGhostElement = draggedQuizLabel.cloneNode(true);
+                    quizGhostElement.classList.add('ghost-label');
+                    document.body.appendChild(quizGhostElement);
+                    updateGhostPosition(e.touches[0], quizGhostElement);
+                }
+            }, { passive: false });
+    
+            document.addEventListener('touchmove', (e) => {
+                if (!isTouchDragging) return;
+                e.preventDefault();
+                const touch = e.touches[0];
+                const elementUnderTouch = document.elementFromPoint(touch.clientX, touch.clientY);
+                
+                document.querySelectorAll('.drag-over').forEach(el => el.classList.remove('drag-over'));
+
+                if (draggedToolElement) {
+                    updateGhostPosition(touch, ghostElement);
+                    const dropTarget = elementUnderTouch?.closest('.well');
+                    if(dropTarget) dropTarget.classList.add('drag-over'); 
+                } else if (draggedQuizLabel) {
+                    updateGhostPosition(touch, quizGhostElement);
+                    const dropTarget = elementUnderTouch?.closest('.summary-drop-zone');
+                    if(dropTarget && !dropTarget.classList.contains('filled')) {
+                        dropTarget.classList.add('drag-over');
+                    }
+                }
+            }, { passive: false });
+    
+            document.addEventListener('touchend', (e) => {
+                if (!isTouchDragging) return;
+                isTouchDragging = false;
+                const touch = e.changedTouches[0];
+                const elementUnderTouch = document.elementFromPoint(touch.clientX, touch.clientY);
+                
+                document.querySelectorAll('.drag-over').forEach(el => el.classList.remove('drag-over'));
+                
+                if (draggedToolElement) {
+                    const dropTarget = elementUnderTouch?.closest('.well');
+                    if (dropTarget) {
+                        runExperiment(dropTarget, draggedToolId);
+                    }
+                    if (ghostElement) document.body.removeChild(ghostElement);
+                    ghostElement = null;
+                    draggedToolElement = null;
+                    draggedToolId = null;
+                } else if (draggedQuizLabel) {
+                    const dropTarget = elementUnderTouch?.closest('.summary-drop-zone');
+                    if (dropTarget && !dropTarget.classList.contains('filled')) {
+                        runQuizDrop(dropTarget, draggedQuizLabel);
+                    }
+                    if (quizGhostElement) document.body.removeChild(quizGhostElement);
+                    quizGhostElement = null;
+                    draggedQuizLabel = null;
+                }
+            });
+    
+            function updateGhostPosition(touch, ghostEl) {
+                if (!ghostEl) return;
+                ghostEl.style.left = `${touch.clientX}px`;
+                ghostEl.style.top = `${touch.clientY}px`;
+            }
+
+            // 홈판 드롭 이벤트 (데스크탑 전용)
+            wells.forEach(well => {
+                well.addEventListener('dragover', (e) => {
+                    e.preventDefault();
+                });
+                well.addEventListener('drop', (e) => {
+                    e.preventDefault();
+                    const toolId = e.dataTransfer.getData('text/plain');
+                    if (toolId) { 
+                        runExperiment(e.target, toolId);
+                    }
+                });
+            });
+
+            // 버튼 이벤트 리스너
+            mainTabExperiment.addEventListener('click', () => showMainTab('experiment'));
+            mainTabSummary.addEventListener('click', () => showMainTab('summary'));
+            expTabLitmus.addEventListener('click', () => switchExperiment('litmus'));
+            expTabPhen.addEventListener('click', () => switchExperiment('phen'));
+            clearPlateButton.addEventListener('click', clearCurrentPlate);
+            resetButton.addEventListener('click', () => resetExperiment(true));
+
+            // 앱 시작
+            resetExperiment(true); 
         });
-
     </script>
 </body>
 </html>
