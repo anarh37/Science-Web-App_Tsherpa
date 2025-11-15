@@ -18,10 +18,11 @@
             min-height: 100vh;
             background-color: #f0f4f8; 
             
-            /* [수정] 참고 코드와 동일하게 body에서 직접 중앙 정렬 */
+            /* [수정] '참고 코드'의 중앙 정렬 방식(flex)을 정확히 적용 */
             display: flex;
-            flex-direction: column;
-            align-items: center;
+            justify-content: center; /* [추가] 수직 중앙 정렬 */
+            align-items: center; /* 수평 중앙 정렬 */
+            /* [삭제] flex-direction: column; */
             padding: 2rem; /* p-8 */
         }
 
@@ -637,12 +638,13 @@
 <!-- [수정] body에서 Tailwind 레이아웃 클래스 제거 (CSS에서 처리) -->
 <body class="bg-gray-100">
 
-    <h1 class="main-title mb-6">
-        지시약 색깔 변화 실험
-    </h1>
-
+    <!-- [수정] H1 (제목)을 container 안으로 이동 (참고 코드와 동일한 구조) -->
     <div class="container">
         
+        <h1 class="main-title mb-6">
+            지시약 색깔 변화 실험
+        </h1>
+
         <div class="main-tabs">
             <button id="main-tab-experiment" class="main-tab-btn active">🔬 실험하기</button>
             <button id="main-tab-summary" class="main-tab-btn" disabled>📝 결과 정리</button>
