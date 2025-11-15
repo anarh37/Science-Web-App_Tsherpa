@@ -315,13 +315,14 @@
         .exp-btn {
             flex: 1;
             padding: 8px 10px;
-            font-size: 1.2rem; 
+            font-size: 1.2rem; /* [수정] 1.0rem -> 1.2rem (원래 폰트 크기로 복원) */
             font-weight: bold;
             background-color: #e0e6ed;
             color: #555;
             border: none;
             cursor: pointer;
             transition: all 0.2s;
+            /* white-space: nowrap; [삭제] 비율 유지를 위해 nowrap 제거 */
         }
         .exp-btn.active {
             background-color: #4a90e2;
@@ -665,8 +666,8 @@
                 <div class="content-box instructions-box">
                     
                     <div class="exp-controls">
-                        <button id="exp-tab-litmus" class="exp-btn active">🧪 리트머스 실험</button>
-                        <button id="exp-tab-phen" class="exp-btn">🧪 페놀프탈레인 실험</button>
+                        <button id="exp-tab-litmus" class="exp-btn active">리트머스 실험</button>
+                        <button id="exp-tab-phen" class="exp-btn">페놀프탈레인 실험</button>
                     </div>
 
                     <div id="tools-area" class="tools-area">
