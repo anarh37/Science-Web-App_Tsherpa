@@ -18,12 +18,8 @@
             min-height: 100vh;
             background-color: #f0f4f8; 
             
-            /* [수정] '참고 코드'의 중앙 정렬 방식(flex)을 정확히 적용 */
-            display: flex;
-            justify-content: center; /* [추가] 수직 중앙 정렬 */
-            align-items: center; /* 수평 중앙 정렬 */
-            /* [삭제] flex-direction: column; */
-            padding: 2rem; /* p-8 */
+            /* [수정] body 스타일은 기본값으로 되돌리고,
+               HTML의 Tailwind 클래스가 레이아웃을 담당하도록 함 */
         }
 
         /* 메인 타이틀 */
@@ -43,7 +39,8 @@
         /* 메인 탭 (실험하기 / 결과정리) */
         .main-tabs {
             width: 100%;
-            max-width: 900px;
+            /* [수정] 최대 너비를 820px로 제한 */
+            max-width: 820px;
             display: grid; 
             grid-template-columns: 1fr 1fr;
             gap: 10px;
@@ -234,6 +231,8 @@
             grid-template-columns: 1fr 1fr;
             gap: 20px;
             width: 100%;
+            /* [수정] 최대 너비를 820px로 제한하여 내부 여백이 커지는 것을 방지 */
+            max-width: 820px;
             align-items: stretch; /* [추가] 높이를 같게 만듦 */
         }
         @media (max-width: 768px) {
@@ -244,6 +243,12 @@
             .main-tabs { max-width: 100%; }
             .container { padding: 15px; }
             .main-title { font-size: 2.5rem; }
+        }
+
+        /* [추가] 요약(퀴즈) 콘텐츠의 최대 너비도 동일하게 제한 */
+        #summary-content {
+            width: 100%;
+            max-width: 820px;
         }
 
         .left-content-wrapper, .experiment-area {
@@ -635,24 +640,26 @@
 
     </style>
 </head>
-<!-- [수정] body에서 Tailwind 레이아웃 클래스 제거 (CSS에서 처리) -->
-<body class="bg-gray-100">
+<!-- body 클래스는 그대로 유지 -->
+<body class="bg-gray-100 p-8 flex flex-col items-center">
 
-    <!-- [수정] H1 (제목)을 container 안으로 이동 (참고 코드와 동일한 구조) -->
+    <!-- H1 (제목)은 container 밖에 -->
+    <h1 class="main-title mb-6">
+        지시약 색깔 변화 실험
+    </h1>
+
     <div class="container">
-        
-        <h1 class="main-title mb-6">
-            지시약 색깔 변화 실험
-        </h1>
 
         <div class="main-tabs">
             <button id="main-tab-experiment" class="main-tab-btn active">🔬 실험하기</button>
             <button id="main-tab-summary" class="main-tab-btn" disabled>📝 결과 정리</button>
         </div>
 
+        <!-- [수정] 깨졌던 HTML 구조를 올바른 2단 레이아웃으로 복원 -->
         <div id="experiment-content" class="lab-bench">
             
-            <!-- 왼쪽 컬럼 (도구) --><div class="left-content-wrapper">
+            <!-- 왼쪽 컬럼 (도구) -->
+            <div class="left-content-wrapper">
                 <h2 class="section-title">사용 방법 및 도구</h2>
                 
                 <div class="content-box instructions-box">
@@ -695,7 +702,8 @@
                 </div>
             </div>
 
-            <!-- 오른쪽 컬럼 (실험판) --><div class="experiment-area">
+            <!-- [수정] 오른쪽 컬럼 (실험판) -->
+            <div class="experiment-area">
                 <h2 class="section-title" id="plate-title">리트머스 종이 실험판</h2>
                 
                 <div class="content-box">
@@ -734,7 +742,10 @@
                 </div>
             </div>
 
-        </div> <!-- /#experiment-content --><div id="summary-content" class="hidden w-full">
+        </div> <!-- /#experiment-content (하나의 div로 복원됨) -->
+        
+        <!-- [수정] ID와 클래스를 모두 가짐 -->
+        <div id="summary-content" class="hidden">
             <div class="content-box">
                 <!-- [수정] '퀴즈' 단어 삭제 --><h2 class="section-title text-center text-3xl mb-4">🔬 실험 결과 정리</h2>
                 
