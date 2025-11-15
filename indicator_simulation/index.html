@@ -17,6 +17,12 @@
             user-select: none;
             min-height: 100vh;
             background-color: #f0f4f8; 
+            
+            /* [수정] 참고 코드와 동일하게 body에서 직접 중앙 정렬 */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 2rem; /* p-8 */
         }
 
         /* 메인 타이틀 */
@@ -628,7 +634,8 @@
 
     </style>
 </head>
-<body class="bg-gray-100 p-8 flex flex-col items-center">
+<!-- [수정] body에서 Tailwind 레이아웃 클래스 제거 (CSS에서 처리) -->
+<body class="bg-gray-100">
 
     <h1 class="main-title mb-6">
         지시약 색깔 변화 실험
