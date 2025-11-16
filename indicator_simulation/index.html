@@ -33,15 +33,15 @@
             line-height: 1.2;
         }
 
-        /* [수정] 헤더 래퍼 스타일 (Flexbox, 왼쪽 정렬) */
+        /* [수정] 헤더 래퍼 스타일 (Flexbox, 중앙 정렬) */
         .header-with-home {
             display: flex;
             align-items: center;
-            justify-content: flex-start; /* [수정] 중앙(center) -> 왼쪽(flex-start) */
+            justify-content: center; /* [수정] 중앙 정렬 */
             gap: 20px; /* 버튼과 제목 사이 간격 */
-            width: 100%;
+            /* width: 100%; <- [제거] 이 속성 때문에 넓어져서 여백이 생긴 것입니다 */
             margin-bottom: 20px; /* main-tabs와의 간격 */
-            padding-left: 20px; /* [추가] 스크린샷의 빨간 라인처럼 왼쪽 여백 */
+            /* padding-left: 20px; <- [제거] 왼쪽 여백 제거 */
         }
 
         /* 메인 탭 (실험하기 / 결과정리) */
@@ -660,7 +660,6 @@
             .header-with-home {
                 flex-direction: column; /* 세로 정렬 */
                 gap: 10px;
-                padding-left: 0; /* [수정] 작은 화면에서는 왼쪽 여백 제거 */
             }
             .main-title { 
                 font-size: 2.5rem; 
@@ -678,8 +677,7 @@
 
     <div class="container">
 
-        <!-- [수정] 홈 버튼과 제목을 래퍼로 감쌈 (Flexbox) -->
-        <div class="header-with-home">
+        <!-- [수정] 홈 버튼과 제목을 래퍼로 감쌈 (Flexbox) --><div class="header-with-home">
             <a href="../index.html" class="home-button">🏠 과학 실험실 홈으로</a>
             <h1 class="main-title">
                 지시약 색깔 변화 실험
@@ -778,8 +776,7 @@
 
         </div> <!-- /#experiment-content --><div id="summary-content" class="hidden w-full">
             <div class="content-box">
-                <!-- [수정] 이모지 하나 제거 -->
-                <h2 class="section-title text-center text-3xl mb-4">실험 결과 정리</h2>
+                <!-- [수정] 이모지 하나 제거 --><h2 class="section-title text-center text-3xl mb-4">실험 결과 정리</h2>
                 
                 <div id="quiz-guide-text" class="text-center text-lg mb-4 text-blue-800">
                     실험 결과를 보고, 알맞은 <span class="font-bold text-gray-700">'용액 묶음'</span> 카드를 빈칸에 끌어다 놓으세요!
