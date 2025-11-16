@@ -54,11 +54,11 @@
             margin-bottom: 20px;
         }
 
-        /* [MODIFIED] max-width 700px로 고정 및 min-width 추가 */
+        /* [MODIFIED] max-width 900px로 복원 및 min-width 추가 */
         .container {
             width: 100%; 
-            max-width: 700px; /* 700px로 고정 */
-            min-width: 700px; /* 레이아웃 고정을 위한 최소 너비 */
+            max-width: 900px; /* 900px로 고정 */
+            min-width: 900px; /* 레이아웃 고정을 위한 최소 너비 */
             background-color: #ffffff;
             border-radius: 10px;
             box-shadow: 0 4px 12px rgba(0,0,0,0.05);
@@ -312,7 +312,7 @@
             background-color: #dc2626; 
         }
 
-        /* [MODIFIED] 700px 너비에 맞게 내부 크기 조정 */
+        /* [MODIFIED] 900px 너비에 맞게 내부 크기 복원 */
         .well-plate-wrapper {
             position: relative;
             display: flex;
@@ -320,8 +320,8 @@
             align-items: center;
             width: 100%; 
             margin: 0 auto;
-            /* [MODIFIED] 좌우 여백 40px로 수정 */
-            padding: 15px 40px; 
+            /* [MODIFIED] 좌우 여백 90px로 복원 */
+            padding: 15px 90px; 
             background-color: #ffffff;
             border: 1px solid #e0e0e0; 
             border-radius: 10px;
@@ -340,10 +340,10 @@
             position: relative; 
         }
 
-        /* [MODIFIED] 700px 너비에 맞게 내부 크기 조정 */
+        /* [MODIFIED] 900px 너비에 맞게 내부 크기 복원 */
         .well {
             position: relative; 
-            width: 110px; /* 130 -> 110 */
+            width: 130px; /* 110 -> 130 */
             height: 180px; 
             border: 1px solid #eee; 
             border-radius: 8px;
@@ -363,7 +363,7 @@
             transform: scale(1.05);
         }
         
-        /* [MODIFIED] 700px 너비에 맞게 내부 크기 조정 */
+        /* [MODIFIED] 900px 너비에 맞게 내부 크기 복원 */
         .well-material-label {
             position: absolute;
             font-size: 0.9rem; 
@@ -376,7 +376,7 @@
             white-space: normal; 
             text-align: center; 
             z-index: 1; 
-            width: 40px; /* 80 -> 40 */
+            width: 80px; /* 40 -> 80 */
             
             top: 50px; 
             height: 80px; 
@@ -385,16 +385,16 @@
             justify-content: center;
         }
         .well-material-label.left {
-            left: -40px; /* -80 -> -40 */
+            left: -80px; /* -40 -> -80 */
         }
         .well-material-label.right {
-            right: -40px; /* -80 -> -40 */
+            right: -80px; /* -40 -> -80 */
         }
 
-        /* [MODIFIED] 700px 너비에 맞게 내부 크기 조정 */
+        /* [MODIFIED] 900px 너비에 맞게 내부 크기 복원 */
         .well .solution {
-            width: 80px; /* 90 -> 80 */
-            height: 80px; /* 90 -> 80 */
+            width: 90px; /* 80 -> 90 */
+            height: 90px; /* 80 -> 90 */
             margin: 0; 
             border: 1px solid #d0d0d0; 
             border-radius: 50%;
@@ -436,10 +436,10 @@
             height: 45px; 
         }
         
-        /* [MODIFIED] 700px 너비에 맞게 내부 크기 조정 */
+        /* [MODIFIED] 900px 너비에 맞게 내부 크기 복원 */
         .material-in-well {
-            width: 60px; /* 70 -> 60 */
-            height: 60px; /* 70 -> 60 */
+            width: 70px; /* 60 -> 70 */
+            height: 70px; /* 60 -> 70 */
             background-color: #e0e6ed;
             border: 1px solid #c0c8d4;
             border-radius: 6px;
@@ -533,7 +533,7 @@
         /* 하단 결과 요약 - 정렬 문제 수정 */
         .instructions {
             width: 100%;
-            max-width: 100%; /* 부모의 700px를 따르도록 */
+            max-width: 100%; /* 부모의 900px를 따르도록 */
             margin-top: 25px;
             padding: 20px;
             background: #f9fafb;
@@ -730,8 +730,8 @@
 
                         <div id="supply-set-2" class="supply-area hidden">
                             <div class="supply-item" id="eggwhite" draggable="true">
-                                <!-- [MODIFIED] 이미지 태그로 변경 -->
-                                <div class="material-img" id="egg-white-img">
+                                <!-- [BUG FIX] id="egg-white-img" -> "eggwhite-img" -->
+                                <div class="material-img" id="eggwhite-img">
                                     <img src="egg.png" alt="삶은 메추리알 흰자">
                                 </div>
                                 <div class="material-name">삶은 메추리알 흰자</div>
@@ -1104,9 +1104,13 @@
                     const materialVisual = document.createElement('div');
                     materialVisual.className = `material-in-well ${materialClassName}`;
                     /* [MODIFIED] 이미지 사용 시 innerText 대신 img 태그 사용 */
-                    const img = document.getElementById(`${materialId}-img`).querySelector('img').cloneNode(true);
-                    materialVisual.appendChild(img);
-                    // materialVisual.innerText = getMaterialDisplayName(materialId); 
+                    const imgContainer = document.getElementById(`${materialId}-img`);
+                    if (imgContainer) { // [BUG FIX]
+                        const img = imgContainer.querySelector('img').cloneNode(true);
+                        materialVisual.appendChild(img);
+                    } else {
+                        materialVisual.innerText = getMaterialDisplayName(materialId); 
+                    }
                     solutionDiv.appendChild(materialVisual);
                 }
 
