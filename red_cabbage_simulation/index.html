@@ -30,8 +30,8 @@
             background-color: #ffffff;
             border-radius: 10px;
             box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-            padding: 25px; /* [수정 전] */
-            padding: 25px 25px 50px 25px; /* [수정] 상: 25, 좌우: 25, 하: 50 */
+            /* [수정] 상단 여백(padding)을 25px에서 40px로 늘려 홈 버튼을 위한 공간 확보 */
+            padding: 40px 25px 50px 25px; /* 상: 40, 좌우: 25, 하: 50 */
             display: flex; 
             flex-direction: column;
             align-items: center;
@@ -40,19 +40,19 @@
         /* [NEW] 홈 버튼과 제목 래퍼 */
         .header-with-home {
             display: flex;
-            flex-direction: column; /* Mobile-first: button on top */
-            align-items: center;
+            flex-direction: column; /* [수정] 항상 세로(column) 정렬 */
+            align-items: stretch; /* [수정] center -> stretch. 자식 요소가 개별 정렬. */
             justify-content: center;
             gap: 15px; 
             width: 100%;
-            margin-bottom: 20px; /* main-title에서 이동 */
+            /* [NEW] experiment-wrapper와 동일한 max-width를 주어 정렬 기준을 통일 */
+            max-width: 721px; 
+            margin-bottom: 20px;
         }
 
+        /* [수정] 데스크탑용 flex-direction: row 스타일 제거. 항상 세로 정렬. */
         @media (min-width: 768px) {
-            .header-with-home {
-                flex-direction: row; /* Desktop: button on the side */
-                gap: 20px;
-            }
+            /* .header-with-home 관련 스타일 제거됨 */
         }
 
         /* [NEW] 홈 버튼 스타일 (Flexbox 아이템으로) */
@@ -69,6 +69,7 @@
             transition: all 0.3s ease;
             z-index: 100;
             white-space: nowrap; /* 글자 줄바꿈 방지 */
+            align-self: flex-start; /* [NEW] 래퍼(max-width: 721px)의 좌측에 정렬 */
         }
         .home-button:hover {
             background-color: #5555E0;
@@ -78,7 +79,7 @@
 
         /* '리트머스' 앱의 제목 스타일 */
         .main-title {
-            text-align: center;
+            text-align: center; /* [수정] 가운데 정렬 유지 */
             font-size: 3.5rem; 
             font-weight: bold;
             color: #6666FF; 
@@ -90,7 +91,7 @@
                  4px 4px 0 rgba(0,0,0,0.3); 
             line-height: 1.2; 
             padding-bottom: 10px;
-            margin-bottom: 0px; /* [수정] 20px -> 0px (래퍼로 이동) */
+            margin-bottom: 0px; 
         }
 
         /* h2 스타일 정의 */
@@ -115,7 +116,7 @@
         h3 {
              color: #111;
              font-size: 1.4rem;
-         }
+        }
 
 
         /* 실험 영역 전체를 감싸는 래퍼 */
@@ -124,7 +125,7 @@
             flex-direction: column;
             align-items: center; 
             width: 100%; 
-            max-width: 721px; 
+            max-width: 721px; /* 홈 버튼/제목 정렬의 기준이 되는 너비 */
         }
 
 
@@ -166,12 +167,12 @@
         .instructions-box {
             border: 2px dashed #C8B6E2;
             background-color: #fafaff; 
-            padding: 10px; /* [수정] 15px -> 10px (내부 여백 축소) */
+            padding: 10px; 
             border-radius: 10px;
             width: 100%; 
             display: flex;
             flex-direction: column;
-            gap: 0; /* [수정] 2px -> 0px (요소간 간격 제거) */
+            gap: 0; 
             align-items: center;
             height: 298px; 
             box-sizing: border-box; 
@@ -185,7 +186,7 @@
             width: 100%; 
             padding-left: 0px; 
             line-height: 1.4;
-            margin-bottom: 2px; /* [수정] 5px -> 2px (간격 축소) */
+            margin-bottom: 2px; 
         }
         
         /* 붉은 양배추 지시약 도구 영역 */
@@ -197,19 +198,19 @@
             font-size: 1rem;
             color: #333;
             width: 100%; 
-            margin-top: 2px; /* [수정] 5px -> 2px (간격 축소) */
+            margin-top: 2px; 
             margin-bottom: 0px; 
         }
          .tool-item p {
-             margin-top: 2px; /* [수정] 4px -> 2px (간격 축소) */
+             margin-top: 2px; 
              line-height: 1.2;
              text-align: center; 
-         }
+        }
 
         /* 드래그 가능한 도구 스타일 (크기 조정) */
         .tool {
-            width: 150px; /* [수정] 100px -> 150px */
-            height: 150px; /* [수정] 100px -> 150px */
+            width: 150px; 
+            height: 150px; 
             border: 1px solid #c0c0c0; 
             background-color: #f0f0f0;
             cursor: grab;
@@ -229,8 +230,8 @@
         
         /* [수정] SVG -> img 아이콘 크기 조정 */
         .tool img {
-            width: 130px; /* [수정] 80px -> 130px */
-            height: 130px; /* [수정] 80px -> 130px */
+            width: 130px; 
+            height: 130px; 
             object-fit: contain;
         }
 
@@ -241,8 +242,8 @@
             opacity: 0.7;
             z-index: 1000;
             transform: translate(-50%, -50%); 
-            width: 150px; /* [수정] 100px -> 150px */
-            height: 150px; /* [수정] 100px -> 150px */
+            width: 150px; 
+            height: 150px; 
             border: 1px solid #c0c0c0; 
             background-color: #f0f0f0;
             display: flex;
@@ -253,8 +254,8 @@
         }
         /* [수정] SVG -> img 아이콘 크기 조정 */
         .ghost-tool img {
-            width: 130px; /* [수정] 80px -> 130px */
-            height: 130px; /* [수정] 80px -> 130px */
+            width: 130px; 
+            height: 130px; 
             object-fit: contain;
         }
 
@@ -280,7 +281,7 @@
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
             cursor: pointer;
             transition: background-color 0.2s;
-            margin-top: 5px; /* [수정] 10px -> 5px (간격 축소) */
+            margin-top: 5px; 
             align-self: center; 
             width: 200px; 
             max-width: 80%; 
@@ -360,7 +361,7 @@
         /* 지시약이 떨어진 상태 (색상 변함) */
         .solution[data-colored="true"] {
              background-color: var(--solution-color);
-         }
+        }
 
         /* 실험 세트 제목 */
          .experiment-set {
@@ -368,11 +369,11 @@
              flex-direction: column;
              align-items: center;
              width: 100%; 
-         }
+        }
         
          .experiment-set h2::before {
              content: '🧪'; 
-         }
+        }
 
         /* 결과 영역 */
         #results-area {
@@ -614,9 +615,19 @@
 <body class="bg-gray-100">
 
     <div class="container my-5">
-        <!-- [수정] 홈 버튼과 제목을 래퍼로 감쌈 (Flexbox) -->
+        <!-- 
+          [수정] 홈 버튼과 제목을 래퍼로 감쌈.
+          이 래퍼는 세로(column)로 정렬되며, 
+          하위 실험 영역(experiment-wrapper)과 동일한 max-width(721px)를 가짐.
+        -->
         <div class="header-with-home">
+            <!-- 
+              [수정] 홈 버튼: 래퍼의 좌측 상단에 정렬 (align-self: flex-start) 
+            -->
             <a href="../index.html" class="home-button">🏠 과학 실험실 홈으로</a>
+            <!-- 
+              [수정] 제목: 래퍼의 두 번째 아이템. (text-align: center) 
+            -->
             <h1 class="main-title">
                 2. 붉은 양배추 지시약 실험
             </h1>
@@ -719,7 +730,7 @@
                         <div class="quiz-label" draggable="true" data-answer="red">붉은색 계열</div>
                         <div class="quiz-label" draggable="true" data-answer="blue-green">푸른/녹/노란색 계열</div>
                     </div>
-        
+    
                     <!-- 퀴즈 문장 -->
                     <ul class="space-y-2" style="font-size: 1.1rem; line-height: 2.5;">
                         <li style="white-space: nowrap;"> <!-- [ROLLBACK] 줄바꿈 방지 -->
