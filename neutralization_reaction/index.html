@@ -880,20 +880,24 @@
     </div> 
 
     <script>
-        // [v32] '1회용 오디오'로 수정 (오디오 중첩 문제 해결)
+        // [v33] '오디오 클론'으로 수정 (오디오 중첩 문제 해결)
+        let waterPlayerTemplate; // 미리 로드할 오디오 템플릿
+
         function playWaterSound(type = 'drop') {
+            if (!waterPlayerTemplate) return; 
+
             try {
-                // 매번 새로운 Audio 객체 생성
-                const audio = new Audio('water.mp3'); 
+                // 매번 새로운 Audio 객체를 생성하는 대신, 미리 로드된 노드를 복제
+                const audioClone = waterPlayerTemplate.cloneNode(true); 
                 
                 if (type === 'drop') {
-                    audio.volume = 0.3; 
-                    audio.playbackRate = 1.0;
+                    audioClone.volume = 0.3; 
+                    audioClone.playbackRate = 1.0;
                 } else if (type === 'neutral') {
-                    audio.volume = 0.6;
-                    audio.playbackRate = 1.0; 
+                    audioClone.volume = 0.6;
+                    audioClone.playbackRate = 1.0; 
                 }
-                audio.play();
+                audioClone.play();
             } catch (e) {
                 console.error("효과음 재생 오류:", e);
             }
@@ -1354,7 +1358,7 @@
             } else {
                 exp1Div.style.display = 'none';
                 exp2Div.style.display = 'block';
-                resetSummaryToggles(exp2Div);
+                resetSummaryTGoggles(exp2Div);
             }
             summaryFeedback.textContent = ''; 
         }
@@ -1513,7 +1517,13 @@
 
         // --- 스크립트 실행 ---
         window.addEventListener('DOMContentLoaded', () => {
-            // [v32] mp3 플레이어 로드 제거
+            // [v33] mp3 플레이어 템플릿 로드
+            try {
+                waterPlayerTemplate = new Audio('water.mp3');
+                waterPlayerTemplate.load(); // 미리 로드
+            } catch (e) {
+                console.error("Audio 파일을 로드할 수 없습니다.", e);
+            }
 
             // DOM 요소 할당
             wells = document.querySelectorAll('.well');
@@ -1579,4 +1589,3 @@
     </script>
 </body>
 </html>
-
