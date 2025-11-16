@@ -36,6 +36,45 @@
             align-items: center;
         }
 
+        /* [NEW] 홈 버튼과 제목 래퍼 */
+        .header-with-home {
+            display: flex;
+            flex-direction: column; /* Mobile-first: button on top */
+            align-items: center;
+            justify-content: center;
+            gap: 15px; 
+            width: 100%;
+            margin-bottom: 20px; /* main-title에서 이동 */
+        }
+
+        @media (min-width: 768px) {
+            .header-with-home {
+                flex-direction: row; /* Desktop: button on the side */
+                gap: 20px;
+            }
+        }
+
+        /* [NEW] 홈 버튼 스타일 (Flexbox 아이템으로) */
+        .home-button {
+            position: static; 
+            font-family: 'Jua', sans-serif;
+            font-size: 1.1rem;
+            padding: 8px 15px;
+            background-color: #6666FF;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+            z-index: 100;
+            white-space: nowrap; /* 글자 줄바꿈 방지 */
+        }
+        .home-button:hover {
+            background-color: #5555E0;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+
         /* '리트머스' 앱의 제목 스타일 */
         .main-title {
             text-align: center;
@@ -50,7 +89,7 @@
                  4px 4px 0 rgba(0,0,0,0.3); 
             line-height: 1.2; 
             padding-bottom: 10px;
-            margin-bottom: 20px; 
+            margin-bottom: 0px; /* [수정] 20px -> 0px (래퍼로 이동) */
         }
 
         /* h2 스타일 정의 */
@@ -574,9 +613,13 @@
 <body class="bg-gray-100">
 
     <div class="container my-5">
-        <h1 class="main-title">
-            붉은 양배추 지시약 실험
-        </h1>
+        <!-- [수정] 홈 버튼과 제목을 래퍼로 감쌈 (Flexbox) -->
+        <div class="header-with-home">
+            <a href="../index.html" class="home-button">🏠 과학 실험실 홈으로</a>
+            <h1 class="main-title">
+                붉은 양배추 지시약 실험
+            </h1>
+        </div>
         
         <div class="experiment-wrapper">
             <div class="lab-bench">
