@@ -46,10 +46,10 @@
             transform: translateY(-2px);
         }
 
-        /* 전체 컨테이너 */
+        /* [v41] .container max-width 수정 */
         .container {
             width: 100%;
-            max-width: 1100px; /* [v41] 1200px -> 1100px로 수정 (정렬) */
+            max-width: 1100px; /* 1200px -> 1100px로 수정 */
             background-color: #ffffff;
             border-radius: 10px;
             box-shadow: 0 4px 12px rgba(0,0,0,0.05);
@@ -85,9 +85,9 @@
             content: '🧪'; 
         }
 
-        /* 컨트롤 패널 (실험 1/2, 초기화 버튼) */
+        /* [v41] .controls margin-bottom 수정 */
         .controls {
-            margin-bottom: 10px; /* [v41] 20px -> 10px로 수정 (여백 축소) */
+            margin-bottom: 10px; /* 20px -> 10px로 수정 */
             background: #fff;
             padding: 15px;
             border-radius: 10px;
@@ -174,7 +174,6 @@
             }
             .container {
                 padding-top: 60px; /* 홈 버튼용 여백 */
-                max-width: 100%; /* [v41] 모바일에선 꽉 차게 */
             }
             .main-title {
                 margin-top: 0;
@@ -187,7 +186,6 @@
             .info-area, .tool-wrapper, .experiment-mat {
                 width: 100% !important;
                 max-width: 430px; 
-                margin: 0 auto; /* [v41] 모바일에서 가운데 정렬 */
             }
             .controls {
                 flex-direction: column;
@@ -367,13 +365,9 @@
             box-shadow: 0 0 15px rgba(0,123,255,0.5);
             transform: scale(1.05);
         }
-        /* [v37] 클릭은 허용하되, 시각적으로만 흐리게 */
-        .well.opacity-60 { 
+        .well.disabled { 
+            /* [v37] 클릭 허용을 위해 pointer-events 제거 */
             opacity: 0.6;
-        }
-        .well.opacity-60:hover {
-             transform: none;
-             border-color: #777;
         }
 
         /* [v34] 3홈판 라벨 (진행 상황 표시용) */
@@ -396,11 +390,11 @@
             line-height: 1.4; 
         }
         
-        /* [v37] 방울 수 강조 스타일 */
+        /* [v43] 줄바꿈 문제 해결: font-size 제거 */
         .labels .drop-count {
             font-weight: bold;
             color: #005a9c; /* 이온 관찰하기 테두리 색과 통일 */
-            font-size: 1.1em; /* 살짝 크게 */
+            /* font-size: 1.1em; <-- 이 부분이 줄바꿈 원인! 제거함 */
         }
 
         /* 초기 라벨 (높이 고정) */
@@ -531,7 +525,7 @@
             background-color: #70a1b5; 
         }
         
-        /* 이온 설명 텍스트 (스크롤바 제거) */
+        /* [v39] 이온 설명 텍스트 (스크롤바 제거) */
         #ion-info {
             font-size: 1.0rem;
             font-weight: normal; 
@@ -901,7 +895,7 @@
     </div> 
 
     <script>
-        // [v40] '오디오 중첩' 문제 해결: 매번 새로운 Audio 객체 생성
+        // [v40] 오디오 수정: '1회용 오디오' 방식으로 변경 (오디오 중첩/페이드아웃 해결)
         function playWaterSound(type = 'drop') {
             try {
                 // 이 함수가 호출될 때마다 완전히 새로운 Audio 객체를 생성합니다.
@@ -909,17 +903,19 @@
                 
                 if (type === 'drop') {
                     audio.volume = 0.3; 
-                    audio.playbackRate = 1.0; // [v39] 1.5 -> 1.0 (소리 안정화)
+                    audio.playbackRate = 1.0; 
                 } else if (type === 'neutral') {
                     audio.volume = 0.6;
                     audio.playbackRate = 1.0; 
                 }
                 
-                audio.play();
+                // play()는 Promise를 반환하므로 catch로 오류를 잡습니다.
+                audio.play().catch(e => console.error("효과음 재생 오류:", e));
             } catch (e) {
-                console.error("효과음 재생 오류:", e);
+                console.error("Audio 객체 생성 오류:", e);
             }
         }
+
 
         // 색상표
         const EXP1_COLORS = {
@@ -1014,7 +1010,8 @@
             }
 
             if (solutionType) {
-                 infoText += `<br>➡ 현재 용액은 <b>${solutionType}</b> 상태입니다.`; // [v39] pH 텍스트 제거됨
+                 // [v39] pH 텍스트 제거
+                 infoText += `<br>➡ 현재 용액은 <b>${solutionType}</b> 상태입니다.`;
             }
 
             if (water > 0 && (h_ions_remaining > 0 || oh_ions_remaining > 0)) {
@@ -1102,7 +1099,7 @@
             updateChartTickerPosition(null); 
         }
 
-        // [v37] 홈 라벨 텍스트 업데이트 함수 (스크린샷 형식 + 방울 수 강조)
+        // [v43] 'ml' 텍스트 제거 (줄바꿈 방지)
         function updateWellLabel(index) {
             const state = wellStates[index];
             const labelEl = wellLabels[index];
@@ -1123,11 +1120,11 @@
             let labelText = ``;
 
             if (currentStep === 'ADD_BASE' || currentStep === 'ADD_INDICATOR') {
-                 // 지시약 단계에서도 기본 용액 방울 수 표시 (요청사항)
-                 labelText = `${displayBaseName} <span class="drop-count">(${baseCount}/${BASE_DROPS})</span> ml`;
+                 // [v43] 'ml' 제거
+                 labelText = `${displayBaseName} <span class="drop-count">(${baseCount}/${BASE_DROPS})</span>`;
             } else if (currentStep === 'ADD_TITRANT' || currentStep === 'DONE') {
-                // [v37] 스크린샷 형식으로 수정
-                labelText = `${displayBaseName} ${BASE_DROPS} ml<br>+<br>${displayTitrantName} <span class="drop-count">(${titrantCount}/${targetDrops})</span> ml`;
+                // [v43] 'ml' 제거
+                labelText = `${displayBaseName} ${BASE_DROPS} ml<br>+<br>${displayTitrantName} <span class="drop-count">(${titrantCount}/${targetDrops})</span>`;
             } else {
                 // 실험 시작 전
                 labelText = `${index + 1}번 홈`;
@@ -1248,8 +1245,8 @@
 
                     // 3방울 다 채웠는지 확인
                     if (state.hclDrops === BASE_DROPS || state.naohDrops === BASE_DROPS) {
-                         // 3개 홈이 모두 다 채워졌는지 확인
-                        const allBaseAdded = wellStates.every(s => (s.hclDrops === BASE_DROPS || s.naohDrops === BASE_DROPS)); // [v39] 수정: ||로 변경
+                         // [v40] 버그 수정: 3개 홈이 모두 다 채워졌는지 확인
+                        const allBaseAdded = wellStates.every(s => (s.hclDrops === BASE_DROPS) || (s.naohDrops === BASE_DROPS));
                         if (allBaseAdded) {
                             currentStep = 'ADD_INDICATOR';
                             updateGuide(currentStep);
@@ -1264,7 +1261,7 @@
                     playWaterSound('drop');
                     updateWellVisuals(index, true);
 
-                    // 3개 홈에 지시약이 모두 들어갔는지 확인
+                    // [v40] 버그 수정: 3개 홈에 지시약이 모두 들어갔는지 확인
                     const allIndicatorAdded = wellStates.every(s => s.indicatorDrops === 1);
                     if (allIndicatorAdded) {
                         currentStep = 'ADD_TITRANT';
@@ -1402,7 +1399,7 @@
                 summaryBox.classList.add('pulsing-guide');
                 
                 // [v37] 클릭 허용을 위해 홈을 시각적으로만 흐리게 처리
-                wells.forEach(well => well.classList.add('opacity-60')); 
+                // wells.forEach(well => well.classList.add('disabled')); // <-- 이 코드가 클릭을 막았음
             }
         }
 
@@ -1486,7 +1483,7 @@
         function handleDragOver(e) {
             e.preventDefault();
             const well = e.target.closest('.well');
-            if (draggedTool && well && !well.classList.contains('opacity-60')) { // [v37] 완료된 홈은 drag-over 안 함
+            if (draggedTool && well && !well.classList.contains('disabled')) {
                 well.classList.add('drag-over');
             }
         }
@@ -1551,8 +1548,8 @@
             
             if (elementUnder) {
                 const well = elementUnder.closest('.well');
-                // [v37] 완료된 홈은 drag-over 안 함
-                if (well && !well.classList.contains('opacity-60')) { 
+                // [v37] 클릭 허용 로직에 따라 수정
+                if (well) { 
                     well.classList.add('drag-over');
                 }
             }
@@ -1588,7 +1585,7 @@
 
         // --- 스크립트 실행 ---
         window.addEventListener('DOMContentLoaded', () => {
-            // [v40] 오디오 로드 수정: 전역 변수 및 DOMContentLoaded 로드 제거
+            // [v40] 오디오 로드 수정: 전역 변수 및 초기화 코드 제거.
             
             // DOM 요소 할당
             wells = document.querySelectorAll('.well');
@@ -1659,3 +1656,4 @@
     </script>
 </body>
 </html>
+
