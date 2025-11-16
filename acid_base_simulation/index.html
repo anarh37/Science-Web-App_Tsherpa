@@ -1288,7 +1288,7 @@
                 /* 가이드 텍스트 및 펄스 로직 */
                 switch (guideState) {
                     case 'INIT':
-                        guideText.innerHTML = "<b>1. 실험 1 시작</b><p class='mt-1'>'실험 1' 재료(껍데기, 대리암)를<br>알맞은 홈에 끌어다 놓으세요.</p>";
+                        guideText.innerHTML = "<b>1. 실험 1 시작</b><p class='mt-1'>묽은 염산과 묽은 수산화 나트륨 용액에<br>재료를 각각 넣고 변화를 관찰하세요.</p>";
                         break;
                     case 'EXP1_DONE':
                         guideText.innerHTML = "<b>'실험 1' 완료!</b><p class='mt-1'>'실험 2' 버튼을 눌러<br>다음 실험을 진행하세요.</p>";
@@ -1296,7 +1296,7 @@
                         expControls.classList.add('pulsing'); // 펄싱 부모 클래스 추가
                         break;
                     case 'EXP2_MODE': // 실험 2 탭을 눌렀으나 아직 미완료
-                         guideText.innerHTML = "<b>2. 실험 2 시작</b><p class='mt-1'>'실험 2' 재료(흰자, 닭가슴살)를<br>알맞은 홈에 끌어다 놓으세요.</p>";
+                         guideText.innerHTML = "<b>2. 실험 2 시작</b><p class='mt-1'>묽은 염산과 묽은 수산화 나트륨 용액에<br>재료를 각각 넣넣고 변화를 관찰하세요.</p>";
                          break;
                     case 'EXP2_DONE': // 실험 1은 안하고 2만 완료 (이론상 가능)
                         guideText.innerHTML = "<b>'실험 2' 완료!</b><p class='mt-1'>'실험 1' 버튼을 눌러<br>마저 진행하세요.</p>";
