@@ -1124,7 +1124,8 @@
                  labelText = `${displayBaseName} <span class="drop-count">(${baseCount}/${BASE_DROPS})</span>`;
             } else if (currentStep === 'ADD_TITRANT' || currentStep === 'DONE') {
                 // [v43] 'ml' 제거
-                labelText = `${displayBaseName} ${BASE_DROPS} ml<br>+<br>${displayTitrantName} <span class="drop-count">(${titrantCount}/${targetDrops})</span>`;
+                // [v44] 수정: 방울 수 앞에 <br>을 추가하여 강제로 줄바꿈시킵니다.
+                labelText = `${displayBaseName} ${BASE_DROPS} ml<br>+<br>${displayTitrantName}<br><span class="drop-count">(${titrantCount}/${targetDrops})</span>`;
             } else {
                 // 실험 시작 전
                 labelText = `${index + 1}번 홈`;
