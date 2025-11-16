@@ -699,7 +699,7 @@
         .well.pulsing-guide {
             border-radius: 50%; 
         }
-        #summary-check-btn.pulsing-guide {
+        .controls button.pulsing-guide { /* [v30] 컨트롤 버튼 반짝임 */
              border-radius: 5px;
         }
 
@@ -885,22 +885,26 @@
         // [v27] mp3 효과음 플레이어
         let waterPlayer;
 
-        // [v27] 효과음 재생 함수 (mp3)
+        // [v30] 효과음 재생 함수 (페이드아웃 해결)
         function playWaterSound(type = 'drop') {
-            if (!waterPlayer) return; // waterPlayer가 로드되지 않았으면 중지
+            if (!waterPlayer) return; 
 
-            // [v28] Audio() 객체는 start()가 아닌 play()를 사용해야 합니다.
-            // 또한, 매번 재생하려면 시간을 0으로 되돌려야 합니다.
-            waterPlayer.currentTime = 0; // 재생 위치를 처음으로
+            try {
+                // [v30] 소리가 겹치거나 페이드아웃되는 현상 방지
+                waterPlayer.pause();
+                waterPlayer.currentTime = 0; 
 
-            if (type === 'drop') {
-                waterPlayer.volume = 0.3; // 0~1 사이 값 (작게)
-                waterPlayer.playbackRate = 1.5; // 재생 속도 (빠르게)
-                waterPlayer.play();
-            } else if (type === 'neutral') {
-                waterPlayer.volume = 0.6; // 0~1 사이 값 (보통)
-                waterPlayer.playbackRate = 1.0; // 재생 속도 (보통)
-                waterPlayer.play();
+                if (type === 'drop') {
+                    waterPlayer.volume = 0.3; 
+                    waterPlayer.playbackRate = 1.0; // [v30] 1.5 -> 1.0 (일정한 소리)
+                    waterPlayer.play();
+                } else if (type === 'neutral') {
+                    waterPlayer.volume = 0.6;
+                    waterPlayer.playbackRate = 1.0; 
+                    waterPlayer.play();
+                }
+            } catch (e) {
+                console.error("효과음 재생 오류:", e);
             }
         }
 
@@ -1141,13 +1145,13 @@
             for (let i = 1; i <= titration_amount; i++) {
                 if (state.base === 'hcl') { 
                     infoText = `묽은 수산화나트륨 ${i}번째 방울 투입...`;
-                    if (h_ions > 0) { h_ions--; water++; playWaterSound('neutral'); } // [v27] 효과음
-                    else { oh_ions++; playWaterSound('drop'); } // [v27] 효과음
+                    if (h_ions > 0) { h_ions--; water++; playWaterSound('neutral'); } 
+                    else { oh_ions++; playWaterSound('drop'); } 
                     updateChartTickerPosition(i); 
                 } else { 
                     infoText = `묽은 염산 ${i}번째 방울 투입...`;
-                    if (oh_ions > 0) { oh_ions--; water++; playWaterSound('neutral'); } // [v27] 효과음
-                    else { h_ions++; playWaterSound('drop'); } // [v27] 효과음
+                    if (oh_ions > 0) { oh_ions--; water++; playWaterSound('neutral'); } 
+                    else { h_ions++; playWaterSound('drop'); } 
                     updateChartTickerPosition(6 - i); 
                 }
                 
@@ -1186,7 +1190,13 @@
             if (state.titrated) { 
                 checkCompletion(); 
             } else if (state.indicator) { 
-                updateGuide('INDICATOR_DROPPED');
+                // [v30] 3개 다 넣었는지 재확인
+                const allIndicatorsPlaced = wellStates.every(s => s.indicator || !s.base);
+                if (allIndicatorsPlaced) {
+                    updateGuide('INDICATOR_DROPPED');
+                } else {
+                    updateGuide('EXP_STARTED');
+                }
             }
         }
 
@@ -1204,9 +1214,16 @@
                     instructions.innerHTML = "이미 지시약을 넣었습니다.";
                 } else {
                     state.indicator = true;
-                    playWaterSound('drop'); // [v27] 효과음
+                    playWaterSound('drop'); 
                     updateWellVisuals(index, true); 
-                    updateGuide('INDICATOR_DROPPED');
+                    
+                    // [v30] 3개의 홈에 모두 지시약이 들어갔는지 확인
+                    const allIndicatorsPlaced = wellStates.every(s => s.indicator || !s.base);
+                    if (allIndicatorsPlaced) {
+                        updateGuide('INDICATOR_DROPPED');
+                    } else {
+                        updateGuide('EXP_STARTED'); // 아직 덜 넣었으면 지시약 계속 반짝임
+                    }
                 }
             } 
             else if ((currentExperiment === 1 && toolType === 'naoh') || (currentExperiment === 2 && toolType === 'hcl')) {
@@ -1228,6 +1245,9 @@
         }
         
         function setupExperiment(expNum) {
+            // [v30] 버튼 눌렀을 때 다른 버튼 반짝임 끄기
+            clearAllPulses();
+
             currentExperiment = expNum;
             summaryBox.classList.remove('show'); 
             clearMicroscope(); 
@@ -1239,7 +1259,7 @@
             exp1Button.classList.toggle('active', expNum === 1);
             exp2Button.classList.toggle('active', expNum === 2);
 
-            // [v27] "묽은" 라벨 수정
+            // [v28] "묽은" 라벨 수정
             const labels = (expNum === 1) ? 
                 [ "묽은 염산 3mL +<br>묽은 수산화<br>나트륨 4mL",
                   "묽은 염산 3mL +<br>묽은 수산화<br>나트륨 5mL",
@@ -1318,7 +1338,19 @@
             const allTitrated = wellStates.every(state => state.titrated && state.base);
 
             if (allTitrated) {
-                updateGuide('ALL_DONE');
+                // [v30] 실험 1 끝나면 실험 2 반짝임
+                if (currentExperiment === 1) {
+                    clearAllPulses();
+                    exp2Button.classList.add('pulsing-guide');
+                    instructions.innerHTML = "<b>실험 ① 완료!</b><br><br>'실험 ②' 버튼을 눌러<br>다음 실험을 진행하세요.";
+                } 
+                // [v30] 실험 2 끝나면 초기화 반짝임
+                else if (currentExperiment === 2) {
+                    clearAllPulses();
+                    resetButton.classList.add('pulsing-guide');
+                    instructions.innerHTML = "<b>모든 실험 완료!</b><br><br>'초기화' 버튼을 눌러<br>새로 시작할 수 있습니다.";
+                }
+                
                 showSummary(currentExperiment);
             }
         }
@@ -1483,12 +1515,10 @@
 
         // --- 스크립트 실행 ---
         window.addEventListener('DOMContentLoaded', () => {
-            // [v27] Tone.js 대신 mp3 플레이어 로드
-            // *** 중요 ***: "water.mp3" 파일이 index.html과 같은 폴더에 있어야 합니다.
+            // [v27] mp3 플레이어 로드
             try {
                 // [v28] new Audio() 사용
                 waterPlayer = new Audio('water.mp3');
-                // 혹시 모를 로드 지연에 대비
                 waterPlayer.load(); 
             } catch (e) {
                 console.error("Audio 파일을 로드할 수 없습니다.", e);
