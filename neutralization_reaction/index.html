@@ -23,14 +23,13 @@
             min-height: 100vh;
             user-select: none;
             -webkit-user-select: none;
-            /* [v29] position: relative; 제거 */
         }
         
         /* [홈 버튼] 스타일 */
         .home-button {
             position: absolute;
-            top: 25px;  /* [v29] 20px -> 25px (컨테이너 padding과 맞춤) */
-            left: 25px; /* [v29] 20px -> 25px (컨테이너 padding과 맞춤) */
+            top: 25px;
+            left: 25px;
             font-family: 'Jua', sans-serif;
             font-size: 1.1rem;
             padding: 8px 15px;
@@ -58,8 +57,7 @@
             display: flex; 
             flex-direction: column;
             align-items: center;
-            position: relative; /* [v29] 홈 버튼의 기준점이 됨 */
-            /* [v29] margin-top: 50px; 제거 */
+            position: relative; /* 홈 버튼의 기준점 */
         }
 
         /* 메인 타이틀 */
@@ -80,7 +78,7 @@
             display: flex; 
             align-items: center;
             gap: 10px;
-            margin-top: 50px; /* [v29] 홈 버튼과 겹치지 않도록 여백 추가 */
+            margin-top: 50px; /* 홈 버튼과 겹치지 않도록 여백 */
         }
         
         h1::before {
@@ -175,11 +173,11 @@
                 padding: 5px 10px;
             }
             .container {
-                margin-top: 0; /* [v29] 모바일에선 상단 여백 제거 */
-                padding-top: 60px; /* [v29] 모바일 홈 버튼용 여백 */
+                margin-top: 0;
+                padding-top: 60px; /* 홈 버튼용 여백 */
             }
             .main-title {
-                margin-top: 0; /* [v29] 모바일에선 타이틀 상단 여백 제거 */
+                margin-top: 0;
             }
             .lab-area {
                 flex-direction: column;
@@ -251,29 +249,26 @@
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
         
-        /* [v25] 점적병 시각적 오브젝트 (이미지용) */
+        /* 점적병 시각적 오브젝트 (이미지용) */
         .dropper-visual {
-            width: 110px;  /* 110px로 수정 */
-            height: 110px; /* 110px로 수정 */
+            width: 110px;
+            height: 110px;
             display: flex;
             justify-content: center;
             align-items: center; 
             position: relative; 
         }
         
-        /* [v25] 점적병 이미지 스타일 */
         .dropper-visual img {
             width: 100%;
             height: 100%;
-            object-fit: contain; /* 이미지가 찌그러지지 않게 함 */
+            object-fit: contain;
         }
         
-        /* [v25] CSS로 그리던 뚜껑 제거 */
         .dropper-bottle .dropper-visual::before {
            display: none;
         }
         
-        /* 점적병 텍스트 라벨 */
         .dropper-bottle span {
             margin-top: 8px; 
             line-height: 1.2;
@@ -282,7 +277,6 @@
             font-weight: normal; 
         }
         
-        /* 드래그 중인 점적병 */
         .dropper-bottle.selected {
             cursor: grabbing;
             opacity: 0.7;
@@ -452,7 +446,7 @@
         /* 이온 비커 */
         #ion-beaker {
             width: 100%;
-            min-height: 120px; /* 120px로 수정 */
+            min-height: 120px;
             background-color: #eaeaea;
             border: 3px solid #777;
             border-radius: 5px;
@@ -512,7 +506,7 @@
             background-color: #70a1b5; 
         }
         
-        /* [v27] 이온 설명 텍스트 (스크롤바 제거) */
+        /* 이온 설명 텍스트 (스크롤바 제거) */
         #ion-info {
             font-size: 1.0rem;
             font-weight: normal; 
@@ -521,7 +515,7 @@
             color: #333;
             line-height: 1.4; 
             min-height: 84px; /* 최소 높이 유지 (울렁거림 방지) */
-            height: auto;     /* 높이 자동 */
+            height: auto;
             width: 100%; 
             box-sizing: border-box; 
             padding: 0;
@@ -549,7 +543,7 @@
         .color-gradient {
             display: flex;
             width: 100%;
-            height: 30px; /* 30px로 수정 */
+            height: 30px;
             border-radius: 5px;
             overflow: hidden;
             border: 1px solid #ccc;
@@ -570,7 +564,7 @@
         /* 파란색 삼각형 마커 */
         #chart-ticker {
             position: absolute;
-            top: 32px; /* 32px로 수정 */
+            top: 32px;
             left: 50%; 
             width: 0;
             height: 0;
@@ -699,11 +693,11 @@
         .well.pulsing-guide {
             border-radius: 50%; 
         }
-        .controls button.pulsing-guide { /* [v30] 컨트롤 버튼 반짝임 */
+        .controls button.pulsing-guide { /* 컨트롤 버튼 반짝임 */
              border-radius: 5px;
         }
 
-        /* [v26] 터치 드래그용 고스트 (이미지용) */
+        /* 터치 드래그용 고스트 (이미지용) */
         .ghost-dropper {
             position: absolute;
             pointer-events: none;
@@ -722,23 +716,22 @@
             border-radius: 8px;
             background: #fff;
             box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-            width: 130px; /* 110px 보다 조금 크게 */
+            width: 130px;
         }
         .ghost-dropper .dropper-visual { 
-            width: 110px; /* 110px로 수정 */
-            height: 110px; /* 110px로 수정 */
+            width: 110px;
+            height: 110px;
             display: flex;
             justify-content: center;
             align-items: center; 
             position: relative; 
-            /* [v26] 이미지용으로 CSS 수정 */
             border: none;
             background-color: transparent;
             box-shadow: none;
             padding-top: 0;
         }
         .ghost-dropper .dropper-visual::before {
-            display: none; /* CSS 뚜껑 숨김 */
+            display: none;
         }
         .ghost-dropper .dropper-visual img {
             width: 100%;
@@ -882,21 +875,20 @@
     </div> 
 
     <script>
-        // [v27] mp3 효과음 플레이어
+        // mp3 효과음 플레이어
         let waterPlayer;
 
-        // [v30] 효과음 재생 함수 (페이드아웃 해결)
+        // 효과음 재생 함수 (페이드아웃 해결)
         function playWaterSound(type = 'drop') {
             if (!waterPlayer) return; 
 
             try {
-                // [v30] 소리가 겹치거나 페이드아웃되는 현상 방지
                 waterPlayer.pause();
                 waterPlayer.currentTime = 0; 
 
                 if (type === 'drop') {
                     waterPlayer.volume = 0.3; 
-                    waterPlayer.playbackRate = 1.0; // [v30] 1.5 -> 1.0 (일정한 소리)
+                    waterPlayer.playbackRate = 1.0;
                     waterPlayer.play();
                 } else if (type === 'neutral') {
                     waterPlayer.volume = 0.6;
@@ -954,7 +946,7 @@
             return ion;
         }
 
-        // [v27] 이온 설명 텍스트 (pH 제거)
+        // 이온 설명 텍스트 (pH 제거)
         function renderIons(h_count, oh_count, water_count) {
             if (!ionBeaker) return;
             ionBeaker.innerHTML = ''; 
@@ -1190,7 +1182,7 @@
             if (state.titrated) { 
                 checkCompletion(); 
             } else if (state.indicator) { 
-                // [v30] 3개 다 넣었는지 재확인
+                // 3개 다 넣었는지 재확인
                 const allIndicatorsPlaced = wellStates.every(s => s.indicator || !s.base);
                 if (allIndicatorsPlaced) {
                     updateGuide('INDICATOR_DROPPED');
@@ -1217,7 +1209,7 @@
                     playWaterSound('drop'); 
                     updateWellVisuals(index, true); 
                     
-                    // [v30] 3개의 홈에 모두 지시약이 들어갔는지 확인
+                    // 3개의 홈에 모두 지시약이 들어갔는지 확인
                     const allIndicatorsPlaced = wellStates.every(s => s.indicator || !s.base);
                     if (allIndicatorsPlaced) {
                         updateGuide('INDICATOR_DROPPED');
@@ -1245,7 +1237,7 @@
         }
         
         function setupExperiment(expNum) {
-            // [v30] 버튼 눌렀을 때 다른 버튼 반짝임 끄기
+            // 버튼 눌렀을 때 다른 버튼 반짝임 끄기
             clearAllPulses();
 
             currentExperiment = expNum;
@@ -1259,7 +1251,7 @@
             exp1Button.classList.toggle('active', expNum === 1);
             exp2Button.classList.toggle('active', expNum === 2);
 
-            // [v28] "묽은" 라벨 수정
+            // "묽은" 라벨 수정
             const labels = (expNum === 1) ? 
                 [ "묽은 염산 3mL +<br>묽은 수산화<br>나트륨 4mL",
                   "묽은 염산 3mL +<br>묽은 수산화<br>나트륨 5mL",
@@ -1332,23 +1324,18 @@
             });
         }
 
+        // [v31] 퀴즈 풀 때까지 반짝임 보류
         function checkCompletion() {
             if (currentExperiment === 0) return;
 
             const allTitrated = wellStates.every(state => state.titrated && state.base);
 
             if (allTitrated) {
-                // [v30] 실험 1 끝나면 실험 2 반짝임
                 if (currentExperiment === 1) {
-                    clearAllPulses();
-                    exp2Button.classList.add('pulsing-guide');
-                    instructions.innerHTML = "<b>실험 ① 완료!</b><br><br>'실험 ②' 버튼을 눌러<br>다음 실험을 진행하세요.";
+                    instructions.innerHTML = "<b>실험 ① 완료!</b><br><br>하단의 [실험 결과 정리] 퀴즈를<br>풀어보세요.";
                 } 
-                // [v30] 실험 2 끝나면 초기화 반짝임
                 else if (currentExperiment === 2) {
-                    clearAllPulses();
-                    resetButton.classList.add('pulsing-guide');
-                    instructions.innerHTML = "<b>모든 실험 완료!</b><br><br>'초기화' 버튼을 눌러<br>새로 시작할 수 있습니다.";
+                    instructions.innerHTML = "<b>모든 실험 완료!</b><br><br>하단의 [실험 결과 정리] 퀴즈를<br>풀어보세요.";
                 }
                 
                 showSummary(currentExperiment);
@@ -1372,6 +1359,7 @@
             summaryFeedback.textContent = ''; 
         }
 
+        // [v31] 퀴즈 클릭 시 다음 단계 버튼 반짝임
         function handleChoiceClick(e) {
             const clickedChoice = e.target.closest('.choice');
             if (!clickedChoice) return;
@@ -1385,6 +1373,17 @@
                 clickedChoice.classList.add('correct');
             } else {
                 clickedChoice.classList.add('incorrect');
+            }
+
+            // [v31] 퀴즈 클릭 시 반짝임 트리거
+            const summaryDiv = clickedChoice.closest('#summary-exp1, #summary-exp2');
+            if (summaryDiv) {
+                clearAllPulses(); // 다른 반짝임 모두 끄기
+                if (summaryDiv.id === 'summary-exp1') {
+                    exp2Button.classList.add('pulsing-guide');
+                } else if (summaryDiv.id === 'summary-exp2') {
+                    resetButton.classList.add('pulsing-guide');
+                }
             }
         }
 
@@ -1454,7 +1453,6 @@
             ghostElement = document.createElement('div'); 
             ghostElement.className = 'ghost-dropper';
             
-            // [v26] 고스트 이미지 생성 (img 태그 복제)
             const visual = originalDropper.querySelector('.dropper-visual').cloneNode(true);
             const span = originalDropper.querySelector('span').cloneNode(true);
             
@@ -1515,9 +1513,8 @@
 
         // --- 스크립트 실행 ---
         window.addEventListener('DOMContentLoaded', () => {
-            // [v27] mp3 플레이어 로드
+            // mp3 플레이어 로드
             try {
-                // [v28] new Audio() 사용
                 waterPlayer = new Audio('water.mp3');
                 waterPlayer.load(); 
             } catch (e) {
