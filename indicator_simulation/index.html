@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title> 지시약 반응 시뮬레이터</title>
+    <title>지시약 반응 시뮬레이션</title>
     
     <!-- 구글 폰트 'Jua' 로드 --><link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -37,11 +37,9 @@
         .header-with-home {
             display: flex;
             align-items: center;
-            justify-content: center; /* [수정] 중앙 정렬 */
+            justify-content: center; /* 중앙 정렬 */
             gap: 20px; /* 버튼과 제목 사이 간격 */
-            /* width: 100%; <- [제거] 이 속성 때문에 넓어져서 여백이 생긴 것입니다 */
             margin-bottom: 20px; /* main-tabs와의 간격 */
-            /* padding-left: 20px; <- [제거] 왼쪽 여백 제거 */
         }
 
         /* 메인 탭 (실험하기 / 결과정리) */
@@ -552,7 +550,7 @@
         /* 퀴즈 참고용 미니 플레이트 스타일 */
         #quiz-results-display {
             display: flex;
-            justify-content: space-around;
+            justify-content: center; /* [수정] space-around -> center */
             gap: 10px;
             margin-bottom: 15px;
             background-color: #f9f9f9;
@@ -562,7 +560,7 @@
             flex-wrap: wrap; 
         }
         .mini-plate {
-            width: 32%;
+            width: 31%; /* [수정] 32% -> 31% */
             min-width: 120px; 
             text-align: center;
             margin-bottom: 10px; 
@@ -677,10 +675,11 @@
 
     <div class="container">
 
-        <!-- [수정] 홈 버튼과 제목을 래퍼로 감쌈 (Flexbox) --><div class="header-with-home">
+        <!-- [수정] 홈 버튼과 제목을 래퍼로 감쌈 (Flexbox) -->
+        <div class="header-with-home">
             <a href="../index.html" class="home-button">🏠 과학 실험실 홈으로</a>
             <h1 class="main-title">
-                  1. 지시약 색깔 변화 실험   
+                  1.지시약 색깔 변화 실험        
             </h1>
         </div>
 
@@ -774,9 +773,13 @@
                 </div>
             </div>
 
-        </div> <!-- /#experiment-content --><div id="summary-content" class="hidden w-full">
+        </div> <!-- /#experiment-content -->
+
+<div id="summary-content" class="hidden w-full">
             <div class="content-box">
-                <!-- [수정] 이모지 하나 제거 --><h2 class="section-title text-center text-3xl mb-4">실험 결과 정리</h2>
+                
+                <!-- [수정] 이모지 하나 제거 -->
+                <h2 class="section-title text-center text-3xl mb-4">실험 결과 정리</h2>
                 
                 <div id="quiz-guide-text" class="text-center text-lg mb-4 text-blue-800">
                     실험 결과를 보고, 알맞은 <span class="font-bold text-gray-700">'용액 묶음'</span> 카드를 빈칸에 끌어다 놓으세요!
@@ -807,7 +810,8 @@
                                 <div class="mini-well-label">유리 세정제</div>
                             </div>
                             <div class="mini-well-container">
-                                <div classs="mini-well r-base"><div class="mini-well-inner"></div></div>
+                                <!-- [수정] classs -> class 오타 수정 -->
+                                <div class="mini-well r-base"><div class="mini-well-inner"></div></div>
                                 <div class="mini-well-label">묽은 수산화나트륨</div>
                             </div>
                         </div>
@@ -911,7 +915,9 @@
         </div>
 
 
-    </div> <!-- /.container --><audio id="water-sound" src="water.mp3" preload="auto"></audio>
+    </div> <!-- /.container -->
+
+<audio id="water-sound" src="water.mp3" preload="auto"></audio>
     <audio id="reaction-sound" src="reaction.mp3" preload="auto"></audio>
 
     <script>
@@ -1016,7 +1022,7 @@
                     return;
                 
                 case 'pulse_red':
-                    updateGuideText("1. 리트머스 실험", "붉은색 종이를 홈판에 끌어다 놓고<br>색깔 변화를 관찰하세요.");
+                    updateGuideText("1. 리트머스 실험", "붉은색 종이를 각 홈판에 끌어다 놓고<br>색깔 변화를 관찰하세요.");
                     document.getElementById('tool-red-litmus').classList.add('pulsing-guide');
                     break;
                 case 'pulse_blue':
@@ -1024,7 +1030,7 @@
                     document.getElementById('tool-blue-litmus').classList.add('pulsing-guide');
                     break;
                 case 'pulse_phen':
-                    updateGuideText("2. 페놀프탈레인 실험", "점적병을 홈판에 끌어다 놓고<br>색깔 변화를 관찰하세요.");
+                    updateGuideText("2. 페놀프탈레인 실험", "페놀프탈레인 용액을 홈판에 떨어뜨리고<br>색깔 변화를 관찰하세요.");
                     document.getElementById('tool-phenolphthalein').classList.add('pulsing-guide');
                     break;
                 
