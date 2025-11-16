@@ -26,7 +26,7 @@
             position: relative; /* ::before pseudo-element 배치 기준 */
         }
 
-        /* --- [추가됨] 배경 이미지 및 투명도 --- */
+        /* --- [수정됨] 배경 이미지 및 투명도 --- */
         body::before {
             content: '';
             position: fixed; /* 뷰포트에 고정 */
@@ -34,13 +34,12 @@
             left: 0;
             width: 100vw;
             height: 100vh;
-            /* --- [수정됨] 깃허브 이미지(bg.png)로 변경 --- */
-            background-image: url('bg.png');
-            background-size: cover;
+            /* --- [수정됨] 이미지 경로를 bg.jpg로 변경 --- */
+            background-image: url('bg.jpg');
+            background-size: contain; 
             background-position: center center;
             background-repeat: no-repeat;
-            /* 이미지 투명도 조절 (0.0 ~ 1.0) */
-            opacity: 0.15; 
+            opacity: 1; /* 투명도 없음 (100%) */
             z-index: -1; /* 콘텐츠 뒤로 보내기 */
         }
         
@@ -48,8 +47,8 @@
         .container {
             width: 100%;
             max-width: 900px; /* 4개 카드에 맞게 크기 조절 */
-            /* --- [수정됨] 흰색 배경에 투명도 추가 --- */
-            background-color: rgba(255, 255, 255, 0.8); /* 0.8 = 80% 불투명도 */
+            /* --- [수정됨] 50% 투명도 --- */
+            background-color: rgba(255, 255, 255, 0.5);
             border-radius: 10px;
             box-shadow: 0 4px 12px rgba(0,0,0,0.05);
             padding: 30px 40px;
@@ -64,8 +63,7 @@
             text-align: center;
             font-size: 3.8rem; 
             font-weight: bold;
-            /* --- [수정됨] 짙은 보라색으로 변경 --- */
-            color: #581c87; /* #6666FF -> #581c87 */
+            color: #581c87; /* 짙은 보라색 */
             text-shadow: 
                 -2px -2px 0 #fff,  
                  2px -2px 0 #fff,
@@ -117,8 +115,6 @@
             border-radius: 10px;
             padding: 20px;
             text-decoration: none;
-            /* color: #004085; (제거 - 하위 요소에서 개별 지정) */
-            /* font-size: 1.8rem; (제거 - 하위 요소에서 개별 지정) */
             text-align: center;
             min-height: 200px;
             box-shadow: 0 2px 8px rgba(0,0,0,0.1);
@@ -210,7 +206,6 @@
                 margin-bottom: 30px; /* 모바일에서 여백 줄임 */
             }
             .sim-card {
-                /* font-size: 1.5rem; (제거) */
                 min-height: 150px;
                 padding: 15px;
             }
@@ -234,7 +229,6 @@
                 font-size: 1.1rem; /* 더 작은 화면에서 설명 크기 */
             }
             .sim-card {
-                /* font-size: 1.3rem; (제거) */
                 min-height: auto; /* 높이 자동 조절 */
             }
              /* [추가됨] 더 작은 모바일 카드 제목 */
@@ -315,9 +309,9 @@
 
         </div>
 
-        <!-- --- [수정됨] 푸터 (링크 추가) --- -->
+      
         <p class="footer-text">
-            오류문의: 대양초 허성철 <a href="mailto:byulnoa@gmil.com">byulnoa@gmil.com</a>
+            오류문의: 대양초 허성철 <a href="mailto:byulnoa@gmail.com">byulnoa@gmail.com</a>
         </p>
 
     </div> 
