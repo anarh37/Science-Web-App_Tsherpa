@@ -223,6 +223,7 @@
             flex-direction: column;
             align-items: center;
             gap: 20px;
+            position: relative; /* [추가] 홈 버튼 배치를 위한 기준점 */
         }
 
         /* [수정] 2단 레이아웃 (align-items: stretch 추가) */
@@ -403,17 +404,48 @@
             70% { box-shadow: 0 0 0 10px rgba(0, 123, 255, 0); }
             100% { box-shadow: 0 0 0 0 rgba(0, 123, 255, 0); }
         }
+
+        /* [추가] 실험 탭 버튼을 위한 강조 애니메이션 */
+        @keyframes pulse-bg-animation {
+            0% { background-color: #e0e6ed; color: #555; }
+            50% { background-color: #4a90e2; color: white; }
+            100% { background-color: #e0e6ed; color: #555; }
+        }
+
         .pulsing-guide {
             animation: pulse-animation 1.5s infinite;
             border-radius: 8px;
             box-shadow: 0 0 0 0 rgba(0, 123, 255, 0.7); 
         }
+
+        /* [추가] 홈 버튼 스타일 */
+        .home-button {
+            position: absolute;
+            top: 25px;
+            left: 25px;
+            font-family: 'Jua', sans-serif;
+            font-size: 1.1rem;
+            padding: 8px 15px;
+            background-color: #6666FF;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+            z-index: 100;
+        }
+        .home-button:hover {
+            background-color: #5050d4;
+            transform: translateY(-2px);
+        }
+
         .tool.pulsing-guide { border-radius: 6px; }
         .exp-controls.pulsing-guide {
              animation: pulse-animation 1.5s infinite;
         }
         .exp-btn.pulsing-guide {
-             animation: pulse-animation 1.5s infinite;
+             /* [수정] 더 잘 보이도록 box-shadow 대신 배경색 애니메이션으로 변경 */
+             animation: pulse-bg-animation 1.5s infinite;
         }
         .main-tab-btn.pulsing-guide {
              animation: pulse-animation 1.5s infinite;
@@ -644,12 +676,15 @@
 <!-- body 클래스는 그대로 유지 -->
 <body class="bg-gray-100 p-8 flex flex-col items-center">
 
-    <!-- H1 (제목)은 container 밖에 -->
-    <h1 class="main-title mb-6">
-        지시약 색깔 변화 실험
-    </h1>
-
     <div class="container">
+
+        <!-- [추가] 홈 버튼 -->
+        <a href="../index.html" class="home-button">🏠 과학 실험실 홈으로</a>
+
+        <!-- [추가] 제목을 흰색 박스 안으로 이동 (mb-6 클래스 제거) -->
+        <h1 class="main-title">
+            지시약 색깔 변화 실험
+        </h1>
 
         <div class="main-tabs">
             <button id="main-tab-experiment" class="main-tab-btn active">🔬 실험하기</button>
@@ -996,7 +1031,7 @@
                     return;
                 
                 case 'pulse_red':
-                    updateGuideText("1. 리트머스 실험", "붉은색 종이를 각 홈판에 끌어다 놓고<br>색깔 변화를 관찰하세요.");
+                    updateGuideText("1. 리트머스 실험", "붉은색 종이를 홈판에 끌어다 놓고<br>색깔 변화를 관찰하세요.");
                     document.getElementById('tool-red-litmus').classList.add('pulsing-guide');
                     break;
                 case 'pulse_blue':
@@ -1004,7 +1039,7 @@
                     document.getElementById('tool-blue-litmus').classList.add('pulsing-guide');
                     break;
                 case 'pulse_phen':
-                    updateGuideText("2. 페놀프탈레인 실험", "페놀프탈레인 용액을 홈판에 떨어뜨리고<br>색깔 변화를 관찰하세요.");
+                    updateGuideText("2. 페놀프탈레인 실험", "점적병을 홈판에 끌어다 놓고<br>색깔 변화를 관찰하세요.");
                     document.getElementById('tool-phenolphthalein').classList.add('pulsing-guide');
                     break;
                 
