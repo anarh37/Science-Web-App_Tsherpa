@@ -85,8 +85,9 @@
             z-index: 1; 
         }
         
+        /* --- [수정됨] 메인 타이틀 이모지 변경 --- */
         .main-title::before {
-            content: '🔬'; 
+            content: '⚗️'; /* 시약병 이모지로 변경 */
         }
 
         /* 앱 설명 (새 팔레트 기반) */
@@ -104,6 +105,11 @@
         .app-description b {
             color: #5F8FFF; /* 파란색 강조 */
             font-weight: 800; 
+            text-shadow: 
+                -1px -1px 0 #fff,  
+                 1px -1px 0 #fff,
+                -1px  1px 0 #fff,
+                 1px  1px 0 #fff;
         }
 
         .simulation-grid {
@@ -283,7 +289,7 @@
         </h1>
 
         <p class="app-description">
-            지루한 암기는 이제 그만! 🧪<br>
+            지루한 암기는 이제 그만! 😫<br>
             실험 도구를 <b>직접 클릭</b>하고 <b>변화를 관찰</b>하며<br>
             산과 염기의 성질을 즐겁게 탐구해보세요!
         </p>
