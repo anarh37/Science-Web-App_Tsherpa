@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>지시약 반응 시뮬레이션</title>
+    <title>과학 실험 시뮬레이터: 지시약 반응 (최종 레이아웃)</title>
     
     <!-- 구글 폰트 'Jua' 로드 --><link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -31,15 +31,19 @@
                  2px  2px 0 #fff,
                  4px 4px 0 rgba(0,0,0,0.3);
             line-height: 1.2;
+            width: 100%; /* [추가] 너비를 100%로 설정 */
+            text-align: center; /* [추가] 텍스트를 중앙 정렬 */
         }
 
         /* [수정] 헤더 래퍼 스타일 (Flexbox, 중앙 정렬) */
         .header-with-home {
             display: flex;
-            align-items: center;
-            justify-content: center; /* 중앙 정렬 */
-            gap: 20px; /* 버튼과 제목 사이 간격 */
+            flex-direction: column; /* [수정] 세로 정렬 (2줄) */
+            align-items: flex-start; /* [수정] 홈 버튼을 좌측 정렬 */
+            gap: 10px; /* [수정] 버튼과 제목 사이 간격 */
             margin-bottom: 20px; /* main-tabs와의 간격 */
+            width: 100%; /* [추가] 부모 너비 채우기 */
+            max-width: 820px; /* [추가] 탭/콘텐츠 너비와 동일하게 고정 */
         }
 
         /* 메인 탭 (실험하기 / 결과정리) */
@@ -656,8 +660,9 @@
 
             /* 헤더 정렬 */
             .header-with-home {
-                flex-direction: column; /* 세로 정렬 */
-                gap: 10px;
+                /* [제거] flex-direction: column; (이제 기본값) */
+                /* [제거] gap: 10px; (이제 기본값) */
+                align-items: center; /* [수정] 모바일에선 다시 중앙 정렬 */
             }
             .main-title { 
                 font-size: 2.5rem; 
@@ -679,7 +684,7 @@
         <div class="header-with-home">
             <a href="../index.html" class="home-button">🏠 과학 실험실 홈으로</a>
             <h1 class="main-title">
-                  1.지시약 색깔 변화 실험        
+                지시약 색깔 변화 실험
             </h1>
         </div>
 
@@ -1022,7 +1027,7 @@
                     return;
                 
                 case 'pulse_red':
-                    updateGuideText("1. 리트머스 실험", "붉은색 종이를 각 홈판에 끌어다 놓고<br>색깔 변화를 관찰하세요.");
+                    updateGuideText("1. 리트머스 실험", "붉은색 종이를 홈판에 끌어다 놓고<br>색깔 변화를 관찰하세요.");
                     document.getElementById('tool-red-litmus').classList.add('pulsing-guide');
                     break;
                 case 'pulse_blue':
@@ -1030,7 +1035,7 @@
                     document.getElementById('tool-blue-litmus').classList.add('pulsing-guide');
                     break;
                 case 'pulse_phen':
-                    updateGuideText("2. 페놀프탈레인 실험", "페놀프탈레인 용액을 홈판에 떨어뜨리고<br>색깔 변화를 관찰하세요.");
+                    updateGuideText("2. 페놀프탈레인 실험", "점적병을 홈판에 끌어다 놓고<br>색깔 변화를 관찰하세요.");
                     document.getElementById('tool-phenolphthalein').classList.add('pulsing-guide');
                     break;
                 
