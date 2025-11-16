@@ -24,6 +24,42 @@
             user-select: none; /* 텍스트 선택 방지 */
         }
 
+        /* [NEW] 홈 버튼 래퍼 (정렬용) */
+        .header-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start; /* '실험하기' 탭의 왼쪽에 맞춤 */
+            width: 100%;
+            max-width: 880px; /* .main-tabs와 너비 일치 */
+            margin-bottom: 20px; /* 타이틀과 탭 사이 여백 */
+        }
+
+        /* [NEW] 홈 버튼 스타일 (정적) */
+        .home-button {
+            position: static; 
+            font-family: 'Jua', sans-serif;
+            font-size: 1.1rem;
+            padding: 8px 15px;
+            background-color: #6666FF;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+            z-index: 100;
+            white-space: nowrap; 
+            margin-bottom: 15px; /* 타이틀과의 여백 */
+        }
+         .home-button:hover {
+            background-color: #5050d4;
+            transform: translateY(-2px);
+        }
+
+        /* [REMOVED] 홈 버튼 관련 래퍼 삭제 */
+        /* .header-with-home { ... } */
+        /* .header-with-home::before { ... } */
+
+
         .container {
             width: 100%;
             max-width: 1200px;
@@ -49,8 +85,10 @@
                  2px  2px 0 #fff,
                  4px 4px 0 rgba(0,0,0,0.3); 
             line-height: 1.2; 
-            padding-bottom: 10px;
-            margin-bottom: 20px; 
+            padding-bottom: 0; /* [MODIFIED] */
+            margin-bottom: 0;  
+            margin-top: 0; 
+            width: 100%; /* [NEW] 래퍼 안에서 중앙 정렬 */
         }
         
         /* [MODIFIED] 메인 탭 스타일 - 50:50 비율 */
@@ -133,6 +171,20 @@
             /* 모바일에서는 탭 비율 1:1 유지 */
             .main-tabs {
                 grid-template-columns: 1fr 1fr;
+            }
+            /* [NEW] 모바일 홈 버튼 */
+            .header-wrapper {
+                align-items: center; /* 모바일에선 중앙 정렬 */
+            }
+            .home-button {
+                position: absolute; /* 모바일에선 다시 앱솔루트 */
+                top: 10px;
+                left: 10px;
+                font-size: 1.0rem;
+                padding: 5px 10px;
+            }
+            .main-title {
+                margin-top: 40px; /* 모바일 홈 버튼 공간 확보 */
             }
         }
 
@@ -669,9 +721,14 @@
 <body class="bg-gray-100">
 
     <div class="container my-5">
-        <h1 class="main-title">
-            🧪 산성 용액과 염기성 용액의 성질
-        </h1>
+
+        <!-- [NEW] 홈 버튼 + 타이틀 래퍼 -->
+        <div class="header-with-home">
+            <a href="../index.html" class="home-button">🏠 과학 실험실 홈으로</a>
+            <h1 class="main-title">
+                🧪 산성 용액과 염기성 용액의 성질
+            </h1>
+        </div>
         
         <div class="main-tabs">
             <button id="main-tab-experiment" class="main-tab-btn active">🔬 실험하기</button>
@@ -682,7 +739,7 @@
             <div class="lab-bench">
                 
                 <div class="left-content-wrapper">
-                    <!-- [MODIFIED] 1. h2 태그에 이모지 📖 추가 -->
+                    <!-- [MODIFIED] h2 태그에 이모지 📖 추가 -->
                     <h2 class="text-3xl font-bold mb-4 flex items-center justify-center min-w-[280px]">📖 사용 방법 및 준비물</h2>
                     
                     <div class="instructions-box">
