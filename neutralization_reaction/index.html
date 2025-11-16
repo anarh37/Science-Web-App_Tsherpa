@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>중화 반응 시뮬레이터</title>
+    <title>붉은 양배추 지시약 중화 반응 시뮬레이터</title>
     
     <!-- Jua 폰트 -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -49,7 +49,7 @@
         /* 전체 컨테이너 */
         .container {
             width: 100%;
-            max-width: 1200px; 
+            max-width: 1100px; /* [v41] 1200px -> 1100px로 수정 (정렬) */
             background-color: #ffffff;
             border-radius: 10px;
             box-shadow: 0 4px 12px rgba(0,0,0,0.05);
@@ -87,7 +87,7 @@
 
         /* 컨트롤 패널 (실험 1/2, 초기화 버튼) */
         .controls {
-            margin-bottom: 20px;
+            margin-bottom: 10px; /* [v41] 20px -> 10px로 수정 (여백 축소) */
             background: #fff;
             padding: 15px;
             border-radius: 10px;
@@ -174,6 +174,7 @@
             }
             .container {
                 padding-top: 60px; /* 홈 버튼용 여백 */
+                max-width: 100%; /* [v41] 모바일에선 꽉 차게 */
             }
             .main-title {
                 margin-top: 0;
@@ -186,6 +187,7 @@
             .info-area, .tool-wrapper, .experiment-mat {
                 width: 100% !important;
                 max-width: 430px; 
+                margin: 0 auto; /* [v41] 모바일에서 가운데 정렬 */
             }
             .controls {
                 flex-direction: column;
@@ -365,9 +367,13 @@
             box-shadow: 0 0 15px rgba(0,123,255,0.5);
             transform: scale(1.05);
         }
-        .well.disabled { 
-            /* [v37] 클릭 허용을 위해 pointer-events 제거 */
+        /* [v37] 클릭은 허용하되, 시각적으로만 흐리게 */
+        .well.opacity-60 { 
             opacity: 0.6;
+        }
+        .well.opacity-60:hover {
+             transform: none;
+             border-color: #777;
         }
 
         /* [v34] 3홈판 라벨 (진행 상황 표시용) */
@@ -422,7 +428,7 @@
             flex-shrink: 0; 
         }
         .info-area h2::before {
-            content: '📖'; 
+            content: '✨'; 
         }
         
         /* '안내' 박스 */
@@ -774,7 +780,7 @@
         <a href="../index.html" class="home-button">🏠 과학 실험실 홈으로</a>
 
         <h1 class="main-title"> 
-            4. 산성 용액과 염기성 용액을 섞을때의 변화
+            붉은 양배추 지시약 중화 반응
         </h1>
 
         <div class="controls">
@@ -895,8 +901,7 @@
     </div> 
 
     <script>
-        // [v38] '오디오 중첩' 문제의 근본적인 해결책:
-        // 매번 새로운 Audio 객체를 생성하여 재생합니다.
+        // [v40] '오디오 중첩' 문제 해결: 매번 새로운 Audio 객체 생성
         function playWaterSound(type = 'drop') {
             try {
                 // 이 함수가 호출될 때마다 완전히 새로운 Audio 객체를 생성합니다.
@@ -904,7 +909,7 @@
                 
                 if (type === 'drop') {
                     audio.volume = 0.3; 
-                    audio.playbackRate = 1.0;
+                    audio.playbackRate = 1.0; // [v39] 1.5 -> 1.0 (소리 안정화)
                 } else if (type === 'neutral') {
                     audio.volume = 0.6;
                     audio.playbackRate = 1.0; 
@@ -915,7 +920,6 @@
                 console.error("효과음 재생 오류:", e);
             }
         }
-
 
         // 색상표
         const EXP1_COLORS = {
@@ -1010,7 +1014,7 @@
             }
 
             if (solutionType) {
-                 infoText += `<br>➡ 현재 용액은 <b>${solutionType}</b> 상태입니다.`;
+                 infoText += `<br>➡ 현재 용액은 <b>${solutionType}</b> 상태입니다.`; // [v39] pH 텍스트 제거됨
             }
 
             if (water > 0 && (h_ions_remaining > 0 || oh_ions_remaining > 0)) {
@@ -1188,7 +1192,7 @@
                     instructions.innerHTML = `<b>1. 용액 넣기</b><br><br>[${baseName}] 도구를 3개의 홈에<br>각각 <b style="color: #d9534f;">${BASE_DROPS}방울</b>씩 끌어다 놓으세요.`;
                     break;
                 case 'ADD_INDICATOR':
-                    instructions.innerHTML = `<b>2. 지시약 넣기</b><br><br>[양배추 지시약] 도구를 3개의 홈에<br>각각 <b style="color: #d9534f;">1번</b>씩 끌어다 놓으세요.`;
+                    instructions.innerHTML = `<b>2. 지시약 넣기</b><br><br>[양배추 지시약] 도구를 3개의 홈에<br>각각 <b style="color: #d9534f;">1방울</b>씩 끌어다 놓으세요.`;
                     break;
                 case 'ADD_TITRANT':
                     instructions.innerHTML = `<b>3. 반응 시키기</b><br><br>[${titrantName}] 도구를<br>각 홈의 목표량(<b style="color: #d9534f;">${targetTitrantDrops.join(', ')}</b>방울)만큼<br>끌어다 놓으세요.`;
@@ -1245,7 +1249,7 @@
                     // 3방울 다 채웠는지 확인
                     if (state.hclDrops === BASE_DROPS || state.naohDrops === BASE_DROPS) {
                          // 3개 홈이 모두 다 채워졌는지 확인
-                        const allBaseAdded = wellStates.every(s => s.hclDrops === BASE_DROPS || s.naohDrops === BASE_DROPS);
+                        const allBaseAdded = wellStates.every(s => (s.hclDrops === BASE_DROPS || s.naohDrops === BASE_DROPS)); // [v39] 수정: ||로 변경
                         if (allBaseAdded) {
                             currentStep = 'ADD_INDICATOR';
                             updateGuide(currentStep);
@@ -1482,7 +1486,7 @@
         function handleDragOver(e) {
             e.preventDefault();
             const well = e.target.closest('.well');
-            if (draggedTool && well && !well.classList.contains('disabled')) {
+            if (draggedTool && well && !well.classList.contains('opacity-60')) { // [v37] 완료된 홈은 drag-over 안 함
                 well.classList.add('drag-over');
             }
         }
@@ -1547,8 +1551,8 @@
             
             if (elementUnder) {
                 const well = elementUnder.closest('.well');
-                // [v37] 클릭 허용 로직에 따라 수정
-                if (well) { 
+                // [v37] 완료된 홈은 drag-over 안 함
+                if (well && !well.classList.contains('opacity-60')) { 
                     well.classList.add('drag-over');
                 }
             }
@@ -1584,7 +1588,7 @@
 
         // --- 스크립트 실행 ---
         window.addEventListener('DOMContentLoaded', () => {
-            // [v38] 오디오 로드 수정: 전역 변수 제거. DOMContentLoaded에서도 관련 코드 제거.
+            // [v40] 오디오 로드 수정: 전역 변수 및 DOMContentLoaded 로드 제거
             
             // DOM 요소 할당
             wells = document.querySelectorAll('.well');
@@ -1655,4 +1659,3 @@
     </script>
 </body>
 </html>
-
