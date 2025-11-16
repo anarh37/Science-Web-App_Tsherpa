@@ -18,47 +18,15 @@
             color: #333;
             display: flex;
             justify-content: center;
-            align-items: center; 
+            align-items: center;
             padding: 20px;
             min-height: 100vh;
             user-select: none; /* 텍스트 선택 방지 */
         }
 
-        /* [NEW] 홈 버튼 스타일 (Flexbox 아이템으로) */
-        .home-button {
-            position: static; 
-            font-family: 'Jua', sans-serif;
-            font-size: 1.1rem;
-            padding: 8px 15px;
-            background-color: #6666FF;
-            color: white;
-            text-decoration: none;
-            border-radius: 8px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-            transition: all 0.3s ease;
-            z-index: 100;
-            white-space: nowrap; /* 글자 줄바꿈 방지 */
-        }
-         .home-button:hover {
-            background-color: #5050d4;
-            transform: translateY(-2px);
-        }
-
-        /* [NEW] 홈 버튼과 타이틀을 묶는 래퍼 */
-        .header-with-home {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            width: 100%;
-            gap: 20px; /* 버튼과 타이틀 사이 여백 */
-            margin-bottom: 20px;
-        }
-
-        /* [MODIFIED] max-width 900px로 복원 및 min-width 추가 */
         .container {
-            width: 100%; 
-            max-width: 900px; /* 900px로 고정 */
-            min-width: 900px; /* 레이아웃 고정을 위한 최소 너비 */
+            width: 100%;
+            max-width: 1200px;
             background-color: #ffffff;
             border-radius: 10px;
             box-shadow: 0 4px 12px rgba(0,0,0,0.05);
@@ -66,9 +34,6 @@
             display: flex; 
             flex-direction: column;
             align-items: center;
-            position: relative; /* 홈 버튼 기준점 */
-            margin-top: 20px; 
-            margin-bottom: 20px;
         }
 
         /* 메인 타이틀 스타일 */
@@ -85,15 +50,15 @@
                  4px 4px 0 rgba(0,0,0,0.3); 
             line-height: 1.2; 
             padding-bottom: 10px;
-            margin-bottom: 0;  /* [MODIFIED] header-with-home이 여백 관리 */
-            margin-top: 0; /* [MODIFIED] header-with-home이 여백 관리 */
+            margin-bottom: 20px; 
         }
         
-        /* 부모 .container를 따름 */
+        /* [MODIFIED] 메인 탭 스타일 - 50:50 비율 */
         .main-tabs {
             width: 100%;
+            max-width: 880px; 
             display: grid; 
-            grid-template-columns: 1fr 1fr; 
+            grid-template-columns: 1fr 1fr; /* [MODIFIED] 50:50 비율로 하단과 통일 */
             gap: 10px;
             margin-bottom: 20px;
         }
@@ -135,26 +100,41 @@
             min-width: 280px; 
         }
         
-        /* [REMOVED] 이모지를 막던 CSS 제거 */
+        .left-content-wrapper h2::before {
+             content: ''; /* 이모지 제거 */
+             margin-right: 0;
+        }
         
-        /* 부모 .container를 따름 */
+        /* 실험 영역 전체를 감싸는 래퍼 */
         .experiment-wrapper {
             display: flex;
             flex-direction: column;
             align-items: center; 
             width: 100%; 
+            max-width: 880px; /* 상단 탭과 max-width 통일 */
         }
 
+        /* [MODIFIED] 전체 레이아웃 (데스크탑 2단) - 50:50 비율 */
         .lab-bench {
             display: grid; 
-            grid-template-columns: 1fr 1fr; /* 50:50 비율 */
+            grid-template-columns: 1fr 1fr; /* [MODIFIED] 50:50 비율로 재조정 */
             gap: 10px; 
             margin-top: 0; 
             width: 100%;
         }
 
-        /* [REMOVED] 반응형 미디어 쿼리 삭제 (레이아웃 고정) */
-
+        @media (max-width: 960px) { 
+            /* 모바일에서는 다시 1단으로 */
+            .lab-bench {
+                grid-template-columns: 1fr; 
+                gap: 20px; 
+                align-items: center;
+            }
+            /* 모바일에서는 탭 비율 1:1 유지 */
+            .main-tabs {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
 
         /* 왼쪽 전체 영역 (제목과 박스 모두 포함) */
         .left-content-wrapper {
@@ -236,21 +216,25 @@
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
         
-        /* [MODIFIED] 이미지 태그에 맞게 수정 */
+        /* [MODIFIED] 이미지용 CSS로 수정 */
         .material-img {
             width: 70px; 
             height: 70px; 
             border: 1px solid #c0c0c0; 
             background-color: #f0f0f0;
+            display: flex;
+            justify-content: center;
+            align-items: center; 
             border-radius: 6px;
             box-shadow: 0 1px 3px rgba(0,0,0,0.1);
             box-sizing: border-box;
             padding: 5px; /* 이미지 여백 */
+            overflow: hidden; /* 이미지 모서리 */
         }
         .material-img img {
             width: 100%;
             height: 100%;
-            object-fit: contain; /* 이미지가 찌그러지지 않게 */
+            object-fit: contain;
         }
         
         .material-name {
@@ -312,7 +296,7 @@
             background-color: #dc2626; 
         }
 
-        /* [MODIFIED] 900px 너비에 맞게 내부 크기 복원 */
+        /* 6홈판 전체 컨테이너 스타일 */
         .well-plate-wrapper {
             position: relative;
             display: flex;
@@ -320,7 +304,6 @@
             align-items: center;
             width: 100%; 
             margin: 0 auto;
-            /* [MODIFIED] 좌우 여백 90px로 복원 */
             padding: 15px 90px; 
             background-color: #ffffff;
             border: 1px solid #e0e0e0; 
@@ -340,10 +323,10 @@
             position: relative; 
         }
 
-        /* [MODIFIED] 900px 너비에 맞게 내부 크기 복원 */
+        /* 각 홈(well) 컨테이너 */
         .well {
             position: relative; 
-            width: 130px; /* 110 -> 130 */
+            width: 130px; 
             height: 180px; 
             border: 1px solid #eee; 
             border-radius: 8px;
@@ -363,7 +346,7 @@
             transform: scale(1.05);
         }
         
-        /* [MODIFIED] 900px 너비에 맞게 내부 크기 복원 */
+        /* 각 홈의 재료 라벨 (2줄 표시) */
         .well-material-label {
             position: absolute;
             font-size: 0.9rem; 
@@ -376,7 +359,7 @@
             white-space: normal; 
             text-align: center; 
             z-index: 1; 
-            width: 80px; /* 40 -> 80 */
+            width: 80px; 
             
             top: 50px; 
             height: 80px; 
@@ -385,16 +368,16 @@
             justify-content: center;
         }
         .well-material-label.left {
-            left: -80px; /* -40 -> -80 */
+            left: -80px; 
         }
         .well-material-label.right {
-            right: -80px; /* -40 -> -80 */
+            right: -80px; 
         }
 
-        /* [MODIFIED] 900px 너비에 맞게 내부 크기 복원 */
+        /* 용액 원 */
         .well .solution {
-            width: 90px; /* 80 -> 90 */
-            height: 90px; /* 80 -> 90 */
+            width: 90px; 
+            height: 90px; 
             margin: 0; 
             border: 1px solid #d0d0d0; 
             border-radius: 50%;
@@ -436,24 +419,26 @@
             height: 45px; 
         }
         
-        /* [MODIFIED] 900px 너비에 맞게 내부 크기 복원 */
+        /* [MODIFIED] 이미지용 CSS로 수정 */
         .material-in-well {
-            width: 70px; /* 60 -> 70 */
-            height: 70px; /* 60 -> 70 */
+            width: 70px; 
+            height: 70px; 
             background-color: #e0e6ed;
             border: 1px solid #c0c8d4;
             border-radius: 6px;
-            font-size: 11px; 
-            color: #555;
-            text-align: center;
-            padding: 2px;
-            line-height: 1.1;
             animation: fadeIn 0.3s;
             z-index: 1; 
             position: absolute; 
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
+            padding: 5px; /* 이미지 여백 */
+            box-sizing: border-box;
+        }
+        .material-in-well img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
         }
         
         .well-result {
@@ -533,7 +518,7 @@
         /* 하단 결과 요약 - 정렬 문제 수정 */
         .instructions {
             width: 100%;
-            max-width: 100%; /* 부모의 900px를 따르도록 */
+            max-width: 100%; /* 부모의 880px를 따르도록 */
             margin-top: 25px;
             padding: 20px;
             background: #f9fafb;
@@ -684,14 +669,9 @@
 <body class="bg-gray-100">
 
     <div class="container my-5">
-        
-        <!-- [NEW] 홈 버튼 + 타이틀 래퍼 -->
-        <div class="header-with-home">
-            <a href="../index.html" class="home-button">🏠 과학 실험실 홈으로</a>
-            <h1 class="main-title">
-                🧪 산성 용액과 염기성 용액의 성질
-            </h1>
-        </div>
+        <h1 class="main-title">
+            🧪 산성 용액과 염기성 용액의 성질
+        </h1>
         
         <div class="main-tabs">
             <button id="main-tab-experiment" class="main-tab-btn active">🔬 실험하기</button>
@@ -702,7 +682,7 @@
             <div class="lab-bench">
                 
                 <div class="left-content-wrapper">
-                    <!-- [MODIFIED] h2 태그에 이모지 📖 추가 -->
+                    <!-- [MODIFIED] 1. h2 태그에 이모지 📖 추가 -->
                     <h2 class="text-3xl font-bold mb-4 flex items-center justify-center min-w-[280px]">📖 사용 방법 및 준비물</h2>
                     
                     <div class="instructions-box">
@@ -729,8 +709,10 @@
                         </div>
 
                         <div id="supply-set-2" class="supply-area hidden">
+                            <!-- id="egg-white" -> "eggwhite" -->
                             <div class="supply-item" id="eggwhite" draggable="true">
                                 <!-- [BUG FIX] id="egg-white-img" -> "eggwhite-img" -->
+                                <!-- [MODIFIED] 이미지 태그로 변경 -->
                                 <div class="material-img" id="eggwhite-img">
                                     <img src="egg.png" alt="삶은 메추리알 흰자">
                                 </div>
@@ -762,6 +744,7 @@
                         
                         <div class="well-plate" id="main-plate">
                             
+                            <!-- data-set1-used, data-set2-used 속성 추가, ID 변경 -->
                             <div class="well well-top-label" 
                                 data-solution="hcl" 
                                 data-material-set1-id="eggshell" data-material-set2-id="eggwhite" 
@@ -842,17 +825,17 @@
 
         /* [NEW] 효과음 재생 함수 (cabbage_simulation에서 복사) */
         function playWaterSound(type = 'drop') {
-            if (!waterPlayer) return; 
+            if (!waterPlayer) return; // waterPlayer가 로드되지 않았으면 중지
 
-            waterPlayer.currentTime = 0; 
+            waterPlayer.currentTime = 0; // 재생 위치를 처음으로
 
             if (type === 'drop') {
-                waterPlayer.volume = 0.3; 
-                waterPlayer.playbackRate = 1.5; 
+                waterPlayer.volume = 0.3; // 0~1 사이 값 (작게)
+                waterPlayer.playbackRate = 1.5; // 재생 속도 (빠르게)
                 waterPlayer.play().catch(e => console.error("효과음 재생 실패:", e));
             } else if (type === 'neutral') {
-                waterPlayer.volume = 0.6; 
-                waterPlayer.playbackRate = 1.0; 
+                waterPlayer.volume = 0.6; // 0~1 사이 값 (보통)
+                waterPlayer.playbackRate = 1.0; // 재생 속도 (보통)
                 waterPlayer.play().catch(e => console.error("효과음 재생 실패:", e));
             }
         }
@@ -1103,12 +1086,14 @@
                 if (!solutionDiv.querySelector(`.${materialClassName}`)) {
                     const materialVisual = document.createElement('div');
                     materialVisual.className = `material-in-well ${materialClassName}`;
+                    
                     /* [MODIFIED] 이미지 사용 시 innerText 대신 img 태그 사용 */
                     const imgContainer = document.getElementById(`${materialId}-img`);
-                    if (imgContainer) { // [BUG FIX]
+                    if (imgContainer && imgContainer.querySelector('img')) { 
                         const img = imgContainer.querySelector('img').cloneNode(true);
                         materialVisual.appendChild(img);
                     } else {
+                        // Fallback to text if image not found
                         materialVisual.innerText = getMaterialDisplayName(materialId); 
                     }
                     solutionDiv.appendChild(materialVisual);
