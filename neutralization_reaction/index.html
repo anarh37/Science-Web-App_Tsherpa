@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>붉은 양배추 지시약 중화 반응 시뮬레이터</title>
+    <title>중화 반응 시뮬레이터</title>
     
     <!-- Jua 폰트 -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -365,8 +365,8 @@
             box-shadow: 0 0 15px rgba(0,123,255,0.5);
             transform: scale(1.05);
         }
-        .well.disabled { /* [v34] .animating -> .disabled */
-            pointer-events: none;
+        .well.disabled { 
+            /* [v37] 클릭 허용을 위해 pointer-events 제거 */
             opacity: 0.6;
         }
 
@@ -378,7 +378,7 @@
             width: 100%; 
             margin-top: 10px;
             text-align: center;
-            font-size: 1.1rem; /* [v34] 폰트 크기 살짝 줄임 */
+            font-size: 1.1rem; 
             font-weight: normal; 
             color: #555;
             padding: 0 20px;
@@ -390,6 +390,13 @@
             line-height: 1.4; 
         }
         
+        /* [v37] 방울 수 강조 스타일 */
+        .labels .drop-count {
+            font-weight: bold;
+            color: #005a9c; /* 이온 관찰하기 테두리 색과 통일 */
+            font-size: 1.1em; /* 살짝 크게 */
+        }
+
         /* 초기 라벨 (높이 고정) */
         .labels-init {
             display: grid;
@@ -767,7 +774,7 @@
         <a href="../index.html" class="home-button">🏠 과학 실험실 홈으로</a>
 
         <h1 class="main-title"> 
-            붉은 양배추 지시약 중화 반응
+            4. 산성 용액과 염기성 용액을 섞을때의 변화
         </h1>
 
         <div class="controls">
@@ -888,24 +895,22 @@
     </div> 
 
     <script>
-        // [v33] '오디오 클론'으로 수정 (오디오 중첩 문제 해결)
-        let waterPlayerTemplate; // 미리 로드할 오디오 템플릿
-
+        // [v38] '오디오 중첩' 문제의 근본적인 해결책:
+        // 매번 새로운 Audio 객체를 생성하여 재생합니다.
         function playWaterSound(type = 'drop') {
-            if (!waterPlayerTemplate) return; 
-
             try {
-                // 매번 새로운 Audio 객체를 생성하는 대신, 미리 로드된 노드를 복제
-                const audioClone = waterPlayerTemplate.cloneNode(true); 
+                // 이 함수가 호출될 때마다 완전히 새로운 Audio 객체를 생성합니다.
+                const audio = new Audio('water.mp3'); 
                 
                 if (type === 'drop') {
-                    audioClone.volume = 0.3; 
-                    audioClone.playbackRate = 1.0;
+                    audio.volume = 0.3; 
+                    audio.playbackRate = 1.0;
                 } else if (type === 'neutral') {
-                    audioClone.volume = 0.6;
-                    audioClone.playbackRate = 1.0; 
+                    audio.volume = 0.6;
+                    audio.playbackRate = 1.0; 
                 }
-                audioClone.play();
+                
+                audio.play();
             } catch (e) {
                 console.error("효과음 재생 오류:", e);
             }
@@ -1048,9 +1053,8 @@
                     // base = 3, titrant = 0, 1, 2, 3, 4, 5, 6
                     let hcl = state.hclDrops; // 3
                     let naoh = state.naohDrops; // 0~6
-                    colorIndex = Math.max(0, naoh - (hcl - BASE_DROPS)); // [v35] 로직 수정 (hcl은 3부터 시작)
                     
-                    // [v35] 촛농 방식에서 방울 수 기준으로 변경
+                    // [v35] 방울 수 기준으로 변경
                     let netDrops = naoh - hcl; // (예: 4-3=1, 5-3=2, 6-3=3)
                     
                     if (netDrops < 0) colorIndex = 0; // 산성
@@ -1094,15 +1098,20 @@
             updateChartTickerPosition(null); 
         }
 
-        // [v35] 홈 라벨 텍스트 업데이트 함수 (요청 반영)
+        // [v37] 홈 라벨 텍스트 업데이트 함수 (스크린샷 형식 + 방울 수 강조)
         function updateWellLabel(index) {
             const state = wellStates[index];
             const labelEl = wellLabels[index];
             if (!labelEl) return;
             
             const targetDrops = targetTitrantDrops[index];
+            
             let baseName = (currentExperiment === 1) ? "묽은 염산" : "묽은 수산화나트륨";
             let titrantName = (currentExperiment === 1) ? "묽은 수산화나트륨" : "묽은 염산";
+            
+            // [v36] 표시될 이름 (줄바꿈 처리)
+            let displayBaseName = (baseName === "묽은 수산화나트륨") ? "묽은 수산화<br>나트륨" : baseName;
+            let displayTitrantName = (titrantName === "묽은 수산화나트륨") ? "묽은 수산화<br>나트륨" : titrantName;
             
             let baseCount = (currentExperiment === 1) ? state.hclDrops : state.naohDrops;
             let titrantCount = (currentExperiment === 1) ? state.naohDrops : state.hclDrops;
@@ -1111,10 +1120,10 @@
 
             if (currentStep === 'ADD_BASE' || currentStep === 'ADD_INDICATOR') {
                  // 지시약 단계에서도 기본 용액 방울 수 표시 (요청사항)
-                 labelText = `${baseName} (${baseCount}/${BASE_DROPS}) ml`;
+                 labelText = `${displayBaseName} <span class="drop-count">(${baseCount}/${BASE_DROPS})</span> ml`;
             } else if (currentStep === 'ADD_TITRANT' || currentStep === 'DONE') {
-                // 적정 단계
-                labelText = `${baseName} ${BASE_DROPS} ml<br>+ ${titrantName} (${titrantCount}/${targetDrops}) ml`;
+                // [v37] 스크린샷 형식으로 수정
+                labelText = `${displayBaseName} ${BASE_DROPS} ml<br>+<br>${displayTitrantName} <span class="drop-count">(${titrantCount}/${targetDrops})</span> ml`;
             } else {
                 // 실험 시작 전
                 labelText = `${index + 1}번 홈`;
@@ -1176,13 +1185,13 @@
                     exp2Button.classList.add('pulsing-guide');
                     break;
                 case 'ADD_BASE':
-                    instructions.innerHTML = `<b>1. 용액 넣기</b><br><br>[${baseName}] 도구를 3개의 홈에<br>각각 <b>${BASE_DROPS}방울</b>씩 끌어다 놓으세요.`;
+                    instructions.innerHTML = `<b>1. 용액 넣기</b><br><br>[${baseName}] 도구를 3개의 홈에<br>각각 <b style="color: #d9534f;">${BASE_DROPS}방울</b>씩 끌어다 놓으세요.`;
                     break;
                 case 'ADD_INDICATOR':
-                    instructions.innerHTML = "<b>2. 지시약 넣기</b><br><br>[양배추 지시약] 도구를 3개의 홈에<br>각각 <b>1방울</b>씩 끌어다 놓으세요.";
+                    instructions.innerHTML = `<b>2. 지시약 넣기</b><br><br>[양배추 지시약] 도구를 3개의 홈에<br>각각 <b style="color: #d9534f;">1번</b>씩 끌어다 놓으세요.`;
                     break;
                 case 'ADD_TITRANT':
-                    instructions.innerHTML = `<b>3. 반응 시키기</b><br><br>[${titrantName}] 도구를<br>각 홈의 목표량(${targetTitrantDrops.join(', ')}방울)만큼<br>끌어다 놓으세요.`;
+                    instructions.innerHTML = `<b>3. 반응 시키기</b><br><br>[${titrantName}] 도구를<br>각 홈의 목표량(<b style="color: #d9534f;">${targetTitrantDrops.join(', ')}</b>방울)만큼<br>끌어다 놓으세요.`;
                     break;
                 case 'ALL_DONE':
                     instructions.innerHTML = "<b>실험 완료!</b><br><br>하단의 [실험 결과 정리]를<br>확인하고 퀴즈를 풀어보세요.";
@@ -1200,10 +1209,11 @@
             const state = wellStates[index];
             if (!state) return; 
 
+            // [v37] 클릭 시, 비활성화된 홈도 시각적 업데이트 허용
             updateWellVisuals(index, true); 
             
-            if (currentStep !== 'DONE') {
-                updateGuide(currentStep);
+            if (currentStep !== 'DONE' && currentStep !== 'INIT') {
+                updateGuide(currentStep); // 현재 단계 가이드 다시 표시
                 wells[index].classList.add('pulsing-guide');
             }
         }
@@ -1216,7 +1226,9 @@
             }
 
             const state = wellStates[index];
-            if (!state || state.titrated) return; // 이미 적정 완료된 홈은 무시
+            if (!state || (state.titrated && currentStep === 'ADD_TITRANT')) { // [v37] 적정 완료된 홈은 적정 단계에서만 무시
+                return;
+            }
 
             let baseTool = (currentExperiment === 1) ? 'hcl' : 'naoh';
             let titrantTool = (currentExperiment === 1) ? 'naoh' : 'hcl';
@@ -1262,7 +1274,6 @@
                 
                 if (currentExperiment === 1 && state.naohDrops < targetDrops) {
                     state.naohDrops++;
-                    // [v35] 중화 로직 수정 (hclDrops는 3으로 고정됨)
                     playWaterSound(state.naohDrops <= state.hclDrops ? 'neutral' : 'drop'); 
                     updateWellVisuals(index, true);
                     if (state.naohDrops === targetDrops) state.titrated = true;
@@ -1270,7 +1281,6 @@
                 } 
                 else if (currentExperiment === 2 && state.hclDrops < targetDrops) {
                     state.hclDrops++;
-                    // [v35] 중화 로직 수정 (naohDrops는 3으로 고정됨)
                     playWaterSound(state.hclDrops <= state.naohDrops ? 'neutral' : 'drop');
                     updateWellVisuals(index, true);
                     if (state.hclDrops === targetDrops) state.titrated = true;
@@ -1306,7 +1316,7 @@
             exp1Button.classList.toggle('active', expNum === 1);
             exp2Button.classList.toggle('active', expNum === 2);
             
-            wells.forEach(well => well.classList.remove('disabled'));
+            wells.forEach(well => well.classList.remove('disabled', 'opacity-60')); // [v37] 모든 비활성화 클래스 제거
 
             wellStates = [];
             for (let i = 0; i < 3; i++) {
@@ -1347,7 +1357,7 @@
             
             wells.forEach(well => {
                 well.style.backgroundColor = COLOR_EMPTY;
-                well.classList.remove('disabled');
+                well.classList.remove('disabled', 'opacity-60'); // [v37] 모든 비활성화 클래스 제거
             });
 
             Object.values(droppers).forEach(dropper => {
@@ -1387,7 +1397,8 @@
                 showSummary(currentExperiment);
                 summaryBox.classList.add('pulsing-guide');
                 
-                wells.forEach(well => well.classList.add('disabled'));
+                // [v37] 클릭 허용을 위해 홈을 시각적으로만 흐리게 처리
+                wells.forEach(well => well.classList.add('opacity-60')); 
             }
         }
 
@@ -1423,13 +1434,18 @@
                 clickedChoice.classList.add('incorrect');
             }
 
+            // [v39] 퀴즈 클릭 시 다음 버튼 반짝임 + 안내 문구 변경
             const summaryDiv = clickedChoice.closest('#summary-exp1, #summary-exp2');
             if (summaryDiv) {
                 clearAllPulses(); 
                 if (summaryDiv.id === 'summary-exp1') {
                     exp2Button.classList.add('pulsing-guide');
+                    // [v39] 실험 1 퀴즈 풀면 안내 문구 변경 (빨간색)
+                    instructions.innerHTML = `<b>실험 ① 완료!</b><br><br><span style="color: #d9534f; font-weight: bold;">이제 '실험 ②' 버튼을 눌러<br>다음 실험을 진행하세요!</span>`;
                 } else if (summaryDiv.id === 'summary-exp2') {
                     resetButton.classList.add('pulsing-guide');
+                    // [v39] 실험 2 퀴즈 풀면 안내 문구 변경 (파란색)
+                    instructions.innerHTML = `<b>모든 실험 완료!</b><br><br><span style="color: #005a9c; font-weight: bold;">'초기화' 버튼을 눌러<br>다시 실험할 수 있습니다.</span>`;
                 }
             }
         }
@@ -1483,7 +1499,8 @@
             const well = e.target.closest('.well');
             if (well) well.classList.remove('drag-over');
             
-            if (draggedTool && well && !well.classList.contains('disabled')) {
+            // [v37] 클릭 허용 로직에 따라 수정
+            if (draggedTool && well) {
                 handleToolDrop(index, draggedTool);
             }
         }
@@ -1530,7 +1547,8 @@
             
             if (elementUnder) {
                 const well = elementUnder.closest('.well');
-                if (well && !well.classList.contains('disabled')) { 
+                // [v37] 클릭 허용 로직에 따라 수정
+                if (well) { 
                     well.classList.add('drag-over');
                 }
             }
@@ -1547,7 +1565,8 @@
             
             if (elementUnder) {
                 const well = elementUnder.closest('.well');
-                if (well && !well.classList.contains('disabled')) {
+                // [v37] 클릭 허용 로직에 따라 수정
+                if (well) {
                     const index = Array.from(wells).indexOf(well);
                     if (index > -1 && draggedTool) {
                         handleToolDrop(index, draggedTool);
@@ -1565,14 +1584,8 @@
 
         // --- 스크립트 실행 ---
         window.addEventListener('DOMContentLoaded', () => {
-            // [v33] mp3 플레이어 템플릿 로드
-            try {
-                waterPlayerTemplate = new Audio('water.mp3');
-                waterPlayerTemplate.load(); // 미리 로드
-            } catch (e) {
-                console.error("Audio 파일을 로드할 수 없습니다.", e);
-            }
-
+            // [v38] 오디오 로드 수정: 전역 변수 제거. DOMContentLoaded에서도 관련 코드 제거.
+            
             // DOM 요소 할당
             wells = document.querySelectorAll('.well');
             wellLabels = [
