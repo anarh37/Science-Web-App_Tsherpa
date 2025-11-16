@@ -5,150 +5,181 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>산과 염기 과학 실험실</title>
     
-    <!-- Jua 폰트 -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <!-- Jua 폰트 --><link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Jua&display=swap" rel="stylesheet">
     
     <style>
-        /* 기존 양배추 실험 앱과 스타일 통일 */
+        /* 새로운 팔레트 기반 스타일 */
         body {
             font-family: 'Jua', sans-serif;
-            background-color: #f0f4f8; 
+            background-color: #F8F6FC; /* 연한 보라색 배경 */
             color: #333;
             display: flex;
             justify-content: center; 
             align-items: center; 
             padding: 20px;
             min-height: 100vh;
-            margin: 0; /* body의 기본 마진 제거 */
-            box-sizing: border-box; /* 패딩 계산 방식 변경 */
-            position: relative; /* ::before pseudo-element 배치 기준 */
+            margin: 0;
+            box-sizing: border-box;
+            position: relative;
         }
 
-        /* --- [수정됨] 배경 이미지 및 투명도 --- */
+        /* --- [수정됨] 전체 배경 이미지 --- */
         body::before {
             content: '';
-            position: fixed; /* 뷰포트에 고정 */
+            position: fixed;
             top: 0;
             left: 0;
             width: 100vw;
             height: 100vh;
-            /* --- [수정됨] 이미지 경로를 bg.jpg로 변경 --- */
-            background-image: url('bg.jpg');
-            background-size: contain; 
+            background-image: url('bg.jpg'); /* 전체 배경 이미지 */
+            background-size: cover; /* 화면을 꽉 채우도록 */
             background-position: center center;
             background-repeat: no-repeat;
-            opacity: 1; /* 투명도 없음 (100%) */
-            z-index: -1; /* 콘텐츠 뒤로 보내기 */
+            opacity: 1; /* 불투명하게 유지 */
+            z-index: -2; /* 가장 뒤로 보내기 */
         }
         
-        /* 전체 컨테이너 */
+        /* --- [수정됨] 컨테이너 배경을 bg.jpg 이미지로 대체, 투명도 40% --- */
         .container {
             width: 100%;
-            max-width: 900px; /* 4개 카드에 맞게 크기 조절 */
-            /* --- [수정됨] 50% 투명도 --- */
-            background-color: rgba(255, 255, 255, 0.5);
+            max-width: 900px;
+            /* background-color: rgba(255, 255, 255, 0.5); 기존 흰색 배경 제거 */
+            position: relative; /* ::before 가상 요소의 기준점 */
             border-radius: 10px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
             padding: 30px 40px;
             display: flex; 
             flex-direction: column;
             align-items: center;
-            box-sizing: border-box; /* 패딩 계산 방식 변경 */
+            box-sizing: border-box;
+            z-index: 0; /* 다른 요소 위에 오도록 */
+            overflow: hidden; /* 배경 이미지가 컨테이너 밖으로 나가지 않도록 */
         }
 
-        /* 메인 타이틀 (기존 앱과 동일한 스타일) */
+        /* --- [추가됨] 컨테이너 내부 배경 이미지 (투명도 40%) --- */
+        .container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('bg.jpg'); /* 컨테이너 배경 이미지 */
+            background-size: cover; /* 컨테이너를 꽉 채우도록 */
+            background-position: center center;
+            background-repeat: no-repeat;
+            opacity: 0.4; /* 투명도 40% */
+            z-index: -1; /* 컨테이너 내부 콘텐츠 뒤로 보내기 */
+            border-radius: 10px; /* 컨테이너와 동일한 둥근 모서리 */
+        }
+
+        /* 메인 타이틀 (새 팔레트 기반) */
         .main-title {
             text-align: center;
             font-size: 3.8rem; 
             font-weight: bold;
-            color: #581c87; /* 짙은 보라색 */
+            color: #6666FF; /* 요청하신 파란색 */
             text-shadow: 
                 -2px -2px 0 #fff,  
                  2px -2px 0 #fff,
                 -2px  2px 0 #fff,
                  2px  2px 0 #fff,
-                 4px 4px 0 rgba(0,0,0,0.3); 
+                 5px 5px 0 rgba(0,0,0,0.25); /* 그림자 더 진하게 */
             line-height: 1.2; 
-            margin-bottom: 20px; /* 설명 텍스트 추가로 여백 조절 */
+            margin-bottom: 20px; 
             display: flex; 
             align-items: center;
             gap: 10px;
+            z-index: 1; /* 텍스트가 배경 위에 오도록 */
         }
         
         .main-title::before {
-            content: '🔬'; /* 메인 아이콘 변경 */
+            content: '🔬'; 
         }
 
-        /* --- [수정됨] 앱 설명 --- */
+        /* 앱 설명 (새 팔레트 기반) */
         .app-description {
             font-size: 1.6rem;
-            color: #444;
+            color: #4A4A4A; /* 진한 회색 */
             text-align: center;
-            margin-bottom: 40px; /* 카드와 여백 */
+            margin-bottom: 40px; 
             line-height: 1.5;
             word-break: keep-all;
+            z-index: 1; /* 텍스트가 배경 위에 오도록 */
         }
 
-        /* --- [추가됨] 앱 설명 내 강조 텍스트 --- */
+        /* 앱 설명 내 강조 텍스트 (새 팔레트 기반) */
         .app-description b {
-            color: #c026d3; /* 푸터 링크와 동일한 강조색 */
+            color: #5F8FFF; /* 파란색 강조 */
+            font-weight: 800; /* 더 굵게 */
         }
 
-        /* 시뮬레이터 선택 그리드 (스크린샷 레이아웃) */
         .simulation-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
             gap: 25px;
             width: 100%;
+            z-index: 1; /* 카드들이 배경 위에 오도록 */
         }
 
-        /* --- [수정됨] 시뮬레이션 카드 (연보라) --- */
+        /* 시뮬레이션 카드 (새 팔레트 기반) */
         .sim-card {
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            background: #f3e8ff; /* 연보라 배경 */
-            border: 2px solid #d8b4fe; /* 연보라 테두리 */
+            background: #F5F8FF; /* 연한 하늘색 배경 */
+            border: 2px solid #D8D8E0; /* 연한 회색 테두리 */
             border-radius: 10px;
             padding: 20px;
             text-decoration: none;
             text-align: center;
             min-height: 200px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08); /* 그림자 조정 */
             transition: all 0.3s ease;
             word-break: keep-all;
-            box-sizing: border-box; /* 패딩 계산 방식 변경 */
+            box-sizing: border-box;
+            z-index: 1; /* 카드들이 배경 위에 오도록 */
         }
 
         .sim-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 6px 15px rgba(168, 85, 247, 0.2); /* 보라색 그림자 */
-            border-color: #a855f7; /* 진한 보라색 테두리 */
+            box-shadow: 0 6px 15px rgba(95, 143, 255, 0.25); /* 파란색 그림자 강조 */
+            border-color: #5F8FFF; /* 파란색 테두리 강조 */
         }
 
-        /* --- [추가됨] 카드 제목 스타일 --- */
+        /* 카드 넘버링 스타일 */
+        .sim-number {
+            color: #F44336; /* 팔레트의 빨간색 */
+            font-size: 1.8rem;
+            font-weight: 800;
+            margin-bottom: 10px; /* 제목과의 간격 */
+            z-index: 1; /* 텍스트가 배경 위에 오도록 */
+        }
+
+        /* 카드 제목 스타일 (새 팔레트 기반) */
         .sim-title {
             font-size: 1.9rem;
-            color: #581c87; /* 짙은 보라색 */
+            color: #4242B5; /* 짙은 파란색 */
             font-weight: bold;
             line-height: 1.4;
             word-break: keep-all;
+            z-index: 1; /* 텍스트가 배경 위에 오도록 */
         }
 
-        /* --- [수정됨] 교과 정보 스타일 --- */
+        /* 교과 정보 스타일 (새 팔레트 기반) */
         .sim-card .textbook-info {
             font-size: 1.2rem;
-            color: #7e2dcb; /* 중간 보라색 */
-            font-weight: bold; /* 강조 */
+            color: #6C6C6C; /* 중간 회색 */
+            font-weight: 500; /* 굵기 조절 */
             margin-top: 15px;
             display: block;
             line-height: 1.3;
+            z-index: 1; /* 텍스트가 배경 위에 오도록 */
         }
 
-        /* 준비중인 카드 스타일 */
         .sim-card.disabled {
             background: #f4f4f4;
             border-color: #ddd;
@@ -165,18 +196,19 @@
             margin-top: 10px;
         }
 
-        /* --- [수정됨] 푸터 스타일 --- */
+        /* 푸터 스타일 (새 팔레트 기반) */
         .footer-text {
             margin-top: 30px;
-            font-size: 1.1rem; /* 크기 키움 */
-            color: #4b5563; /* 짙은 회색 */
+            font-size: 1.1rem;
+            color: #6C6C6C; /* 중간 회색 */
             text-align: center;
             width: 100%;
+            z-index: 1; /* 텍스트가 배경 위에 오도록 */
         }
 
-        /* --- [추가됨] 푸터 이메일 링크 스타일 --- */
+        /* 푸터 이메일 링크 스타일 (새 팔레트 기반) */
         .footer-text a {
-            color: #c026d3; /* 눈에 띄는 보라/핑크 */
+            color: #5F8FFF; /* 파란색 강조 */
             font-weight: bold;
             text-decoration: none;
         }
@@ -188,14 +220,14 @@
         /* 모바일 반응형 */
         @media (max-width: 768px) {
             body {
-                padding: 10px; /* 모바일에서 좌우 패딩 줄임 */
+                padding: 10px;
             }
             .container {
-                padding: 20px; /* 모바일에서 내부 패딩 줄임 */
+                padding: 20px;
             }
             .simulation-grid {
-                grid-template-columns: 1fr; /* 모바일에선 1줄로 */
-                gap: 20px; /* 모바일에서 카드 간격 줄임 */
+                grid-template-columns: 1fr;
+                gap: 20px;
             }
             .main-title {
                 font-size: 2.8rem;
@@ -203,14 +235,18 @@
             
             .app-description {
                 font-size: 1.3rem;
-                margin-bottom: 30px; /* 모바일에서 여백 줄임 */
+                margin-bottom: 30px;
             }
             .sim-card {
                 min-height: 150px;
                 padding: 15px;
             }
+
+            .sim-number {
+                font-size: 1.6rem;
+                margin-bottom: 8px;
+            }
             
-            /* [추가됨] 모바일 카드 제목 */
             .sim-title {
                 font-size: 1.6rem;
             }
@@ -223,15 +259,17 @@
         
         @media (max-width: 480px) {
              .main-title {
-                font-size: 2.4rem; /* 더 작은 화면에서 타이틀 크기 */
+                font-size: 2.4rem;
             }
             .app-description {
-                font-size: 1.1rem; /* 더 작은 화면에서 설명 크기 */
+                font-size: 1.1rem;
             }
             .sim-card {
-                min-height: auto; /* 높이 자동 조절 */
+                min-height: auto;
             }
-             /* [추가됨] 더 작은 모바일 카드 제목 */
+            .sim-number {
+                font-size: 1.5rem;
+            }
             .sim-title {
                 font-size: 1.4rem;
             }
@@ -240,7 +278,7 @@
                 font-size: 0.9rem;
             }
             .footer-text {
-                font-size: 0.9rem; /* 1.1rem -> 0.9rem */
+                font-size: 0.9rem;
             }
         }
 
@@ -254,7 +292,6 @@
             산과 염기 과학 실험실
         </h1>
 
-        <!-- --- [수정됨] 앱 설명 --- -->
         <p class="app-description">
             지루한 암기는 이제 그만! 🧪<br>
             실험 도구를 <b>직접 클릭</b>하고 <b>변화를 관찰</b>하며<br>
@@ -263,9 +300,8 @@
 
         <div class="simulation-grid">
             
-            <!-- 1. 지시약 활용 -->
-            <a href="./indicator_simulation/index.html" class="sim-card">
-                <!-- [수정됨] sim-title 클래스 추가 -->
+            <!-- 1. 지시약 활용 --><a href="./indicator_simulation/index.html" class="sim-card">
+                <span class="sim-number">1.</span>
                 <span class="sim-title">
                     지시약 활용<br>용액 분류
                 </span>
@@ -274,9 +310,8 @@
                 </span>
             </a>
 
-            <!-- 2. 붉은 양배추 지시약 -->
-             <a href="./red_cabbage_simulation/index.html" class="sim-card">
-                <!-- [수정됨] sim-title 클래스 추가 -->
+            <!-- 2. 붉은 양배추 지시약 --><a href="./red_cabbage_simulation/index.html" class="sim-card">
+                <span class="sim-number">2.</span>
                 <span class="sim-title">
                     붉은 양배추 지시약<br>용액 분류
                 </span>
@@ -285,9 +320,8 @@
                 </span>
             </a>
 
-            <!-- 3. 산과 염기의 성질 -->
-            <a href="./acid_base_simulation/index.html" class="sim-card">
-                <!-- [수정됨] sim-title 클래스 추가 -->
+            <!-- 3. 산과 염기의 성질 --><a href="./acid_base_simulation/index.html" class="sim-card">
+                <span class="sim-number">3.</span>
                 <span class="sim-title">
                     산성 용액과<br>염기성 용액의 성질
                 </span>
@@ -296,9 +330,8 @@
                 </span>
             </a>
 
-            <!-- 4. 중화 반응 -->
-            <a href="./neutralization_reaction/index.html" class="sim-card">
-                <!-- [수정됨] sim-title 클래스 추가 -->
+            <!-- 4. 중화 반응 --><a href="./neutralization_reaction/index.html" class="sim-card">
+                <span class="sim-number">4.</span>
                 <span class="sim-title">
                     산성 용액과<br>염기성 용액의 중화 반응
                 </span>
@@ -309,7 +342,6 @@
 
         </div>
 
-      
         <p class="footer-text">
             오류문의: 대양초 허성철 <a href="mailto:byulnoa@gmail.com">byulnoa@gmail.com</a>
         </p>
