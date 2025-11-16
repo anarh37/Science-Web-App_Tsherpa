@@ -173,11 +173,10 @@
                 padding: 5px 10px;
             }
             .container {
-                /* margin-top: 0; */ /* [v29] 홈 버튼 내부로 이동하며 제거 */
                 padding-top: 60px; /* 홈 버튼용 여백 */
             }
             .main-title {
-                margin-top: 0; /* [v29] 홈 버튼 내부로 이동하며 조정 */
+                margin-top: 0;
             }
             .lab-area {
                 flex-direction: column;
@@ -248,11 +247,22 @@
             border-color: #4a90e2;
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
+
+        /* [v34] 비활성화된 점적병 스타일 */
+        .dropper-bottle.disabled {
+            cursor: not-allowed;
+            opacity: 0.4;
+            background: #f0f0f0;
+        }
+        .dropper-bottle.disabled:hover {
+            border-color: #ddd;
+            box-shadow: none;
+            transform: none;
+        }
         
-        /* [v27] 점적병 시각적 오브젝트 (이미지용) */
         .dropper-visual {
-            width: 110px; /* [v27] 130px -> 110px */
-            height: 110px; /* [v27] 130px -> 110px */
+            width: 110px;
+            height: 110px;
             display: flex;
             justify-content: center;
             align-items: center; 
@@ -269,7 +279,6 @@
             object-fit: contain;
         }
         
-        /* [v25] CSS 점적병 코드 제거 */
         .dropper-bottle .dropper-visual::before {
            display: none;
         }
@@ -345,10 +354,9 @@
             cursor: pointer;
             transition: background-color 0.5s, transform 0.2s, opacity 0.3s, border-color 0.2s;
             box-sizing: border-box;
-            opacity: 0.3; 
+            opacity: 1; /* [v34] 기본 활성화 */
         }
-        .well.active { opacity: 1; }
-        .well.active:hover {
+        .well:hover {
             transform: scale(1.03);
             border-color: #007bff;
         }
@@ -357,13 +365,12 @@
             box-shadow: 0 0 15px rgba(0,123,255,0.5);
             transform: scale(1.05);
         }
-        .well.animating {
+        .well.disabled { /* [v34] .animating -> .disabled */
             pointer-events: none;
-            border-color: #007bff;
-            box-shadow: 0 0 10px #007bff;
+            opacity: 0.6;
         }
 
-        /* 3홈판 라벨 */
+        /* [v34] 3홈판 라벨 (진행 상황 표시용) */
         .labels {
             display: grid;
             grid-template-columns: repeat(3, 110px);
@@ -371,7 +378,7 @@
             width: 100%; 
             margin-top: 10px;
             text-align: center;
-            font-size: 1.2rem; 
+            font-size: 1.1rem; /* [v34] 폰트 크기 살짝 줄임 */
             font-weight: normal; 
             color: #555;
             padding: 0 20px;
@@ -448,10 +455,10 @@
             content: '🔬';
         }
 
-        /* [v28] 이온 비커 */
+        /* 이온 비커 */
         #ion-beaker {
             width: 100%;
-            min-height: 120px; /* [v28] 150px -> 120px */
+            min-height: 120px;
             background-color: #eaeaea;
             border: 3px solid #777;
             border-radius: 5px;
@@ -511,7 +518,7 @@
             background-color: #70a1b5; 
         }
         
-        /* [v28] 이온 설명 텍스트 (스크롤바 제거) */
+        /* 이온 설명 텍스트 (스크롤바 제거) */
         #ion-info {
             font-size: 1.0rem;
             font-weight: normal; 
@@ -524,7 +531,7 @@
             width: 100%; 
             box-sizing: border-box; 
             padding: 0;
-            overflow: hidden; /* [v28] 스크롤바 숨김 */
+            overflow: hidden; /* 스크롤바 숨김 */
         }
         #ion-info b.ion-h { color: #e65a5f; }
         #ion-info b.ion-oh { color: #70a1b5; }
@@ -548,7 +555,7 @@
         .color-gradient {
             display: flex;
             width: 100%;
-            height: 30px; /* [v27] 40px -> 30px */
+            height: 30px;
             border-radius: 5px;
             overflow: hidden;
             border: 1px solid #ccc;
@@ -569,7 +576,7 @@
         /* 파란색 삼각형 마커 */
         #chart-ticker {
             position: absolute;
-            top: 32px; /* [v27] 42px -> 32px */
+            top: 32px;
             left: 50%; 
             width: 0;
             height: 0;
@@ -702,7 +709,7 @@
              border-radius: 5px;
         }
 
-        /* [v27] 터치 드래그용 고스트 (이미지용) */
+        /* 터치 드래그용 고스트 */
         .ghost-dropper {
             position: absolute;
             pointer-events: none;
@@ -721,11 +728,11 @@
             border-radius: 8px;
             background: #fff;
             box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-            width: 130px; /* [v27] 150px -> 130px */
+            width: 130px;
         }
         .ghost-dropper .dropper-visual { 
-            width: 110px; /* [v27] 130px -> 110px */
-            height: 110px; /* [v27] 130px -> 110px */
+            width: 110px;
+            height: 110px;
             display: flex;
             justify-content: center;
             align-items: center; 
@@ -757,7 +764,6 @@
 
     <div class="container my-5">
         
-        <!-- [v29] 홈 버튼 HTML 위치 이동 -->
         <a href="../index.html" class="home-button">🏠 과학 실험실 홈으로</a>
 
         <h1 class="main-title"> 
@@ -775,7 +781,6 @@
                 <h2>실험 도구</h2> 
                 <div class="tool-shelf instructions-box">
                     
-                    <!-- [v25] 점적병 HTML (이미지 태그로 변경) -->
                     <div class="dropper-bottle" id="hcl-dropper" draggable="true">
                         <div class="dropper-visual">
                             <img src="hcl-dropper.png" alt="묽은 염산">
@@ -811,8 +816,11 @@
                     <div class="labels-init" id="labels-container-init" style="width: 100%; padding: 0 25px; gap: 25px;"> 
                         실험 ① 또는 ② 버튼을 눌러<br>실험을 시작해 보세요!
                     </div>
+                    <!-- [v34] 라벨 컨테이너 (진행 상황 표시용) -->
                     <div class="labels" id="labels-container" style="width: 100%; padding: 0 25px; gap: 25px; display: none;"> 
-                        <div></div><div></div><div></div>
+                        <div id="label-0">1번 홈</div>
+                        <div id="label-1">2번 홈</div>
+                        <div id="label-2">3번 홈</div>
                     </div>
 
                     <div class="color-chart" style="width: 100%;"> 
@@ -914,10 +922,15 @@
             NAMES: ['노란색', '초록색', '청록색', '푸른 보라', '보라색', '자주색', '붉은색']
         };
         const COLOR_EMPTY = '#FFFFFF';
-        const COLOR_LIQUID_ONLY = '#F0F8FF'; 
+        const COLOR_LIQUID_ONLY = '#F0F8FF'; // [v34] 기본 용액 색 (연한 파랑)
 
         let currentExperiment = 0; 
         let wellStates = []; 
+        
+        // [v34] 새 변수: 실험 단계 및 방울 수
+        let currentStep = ''; // 'ADD_BASE', 'ADD_INDICATOR', 'ADD_TITRANT', 'DONE'
+        const BASE_DROPS = 3; // 각 홈에 넣는 기본 용액 방울 수
+        const targetTitrantDrops = [4, 5, 6]; // 각 홈에 넣을 적정 용액 방울 수
 
         let draggedTool = null; 
         let isTouchDragging = false;
@@ -925,6 +938,7 @@
 
         let wells, droppers, exp1Button, exp2Button, resetButton, instructions, labelsContainer, labelsContainerInit, plateTitle, summaryBox, summaryContent, gradientBar, ionBeaker, ionInfo, summaryCheckBtn, summaryFeedback;
         let chartTicker; 
+        let wellLabels = []; // [v34] 홈 라벨 DOM 배열
 
         const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
@@ -949,23 +963,28 @@
             return ion;
         }
 
-        // [v30] 이온 설명 텍스트 (pH 제거)
-        function renderIons(h_count, oh_count, water_count) {
+        // [v34] 이온 렌더링 (로직 변경)
+        function renderIons(state) {
             if (!ionBeaker) return;
             ionBeaker.innerHTML = ''; 
             
-            let h_ions_remaining = h_count;
-            let oh_ions_remaining = oh_count;
-            let water_created = water_count;
+            let h_ions = 0, oh_ions = 0, water = 0;
 
-            let neutralized = Math.min(h_ions_remaining, oh_ions_remaining);
-            water_created += neutralized;
-            h_ions_remaining -= neutralized;
-            oh_ions_remaining -= neutralized;
+            if (currentExperiment === 1) { // Exp 1: HCl(base) + NaOH(titrant)
+                h_ions = state.hclDrops;
+                oh_ions = state.naohDrops;
+            } else if (currentExperiment === 2) { // Exp 2: NaOH(base) + HCl(titrant)
+                oh_ions = state.naohDrops;
+                h_ions = state.hclDrops;
+            }
+            
+            water = Math.min(h_ions, oh_ions);
+            let h_ions_remaining = h_ions - water;
+            let oh_ions_remaining = oh_ions - water;
 
             for (let i = 0; i < h_ions_remaining; i++) ionBeaker.appendChild(createIon('h-ion', 'H+'));
             for (let i = 0; i < oh_ions_remaining; i++) ionBeaker.appendChild(createIon('oh-ion', 'OH-'));
-            for (let i = 0; i < water_created; i++) ionBeaker.appendChild(createIon('water', ''));
+            for (let i = 0; i < water; i++) ionBeaker.appendChild(createIon('water', ''));
             
             let infoText = "";
             let solutionType = "";
@@ -976,10 +995,10 @@
             } else if (oh_ions_remaining > 0) { // 염기성
                 infoText += `염기성을 만드는 <b class="ion-oh">푸른 알갱이</b>가 ${oh_ions_remaining}개 남았어요.`;
                 solutionType = "염기성";
-            } else if (water_created > 0) { // 중성
+            } else if (water > 0) { // 중성
                 infoText = "알갱이들이 모두 짝을 만났어요!";
                 solutionType = "중성";
-            } else { // 초기 상태 등
+            } else { // 초기 상태
                 infoText = "관찰할 홈을 클릭하세요.";
                 if(ionInfo) ionInfo.innerHTML = infoText;
                 return;
@@ -989,10 +1008,10 @@
                  infoText += `<br>➡ 현재 용액은 <b>${solutionType}</b> 상태입니다.`;
             }
 
-            if (water_created > 0 && (h_ions_remaining > 0 || oh_ions_remaining > 0)) {
-                 infoText += `<br>알갱이 ${water_created}쌍이 <b class="ion-water">짝을 만났어요! (물)</b>`;
-            } else if (water_created > 0 && h_ions_remaining === 0 && oh_ions_remaining === 0) {
-                 infoText += `<br><b class="ion-water">짝을 만난 알갱이</b>가 ${water_created}쌍 있어요.`;
+            if (water > 0 && (h_ions_remaining > 0 || oh_ions_remaining > 0)) {
+                 infoText += `<br>알갱이 ${water}쌍이 <b class="ion-water">짝을 만났어요! (물)</b>`;
+            } else if (water > 0 && h_ions_remaining === 0 && oh_ions_remaining === 0) {
+                 infoText += `<br><b class="ion-water">짝을 만난 알갱이</b>가 ${water}쌍 있어요.`;
             }
             
             if(ionInfo) ionInfo.innerHTML = infoText;
@@ -1010,50 +1029,61 @@
             }
         }
 
+        // [v34] 홈 시각적 상태 업데이트 (로직 대폭 수정)
         function updateWellVisuals(index, targetBeaker = true) {
             const state = wellStates[index];
             const wellEl = wells[index];
             let color = COLOR_EMPTY;
-            let h_ions = 0, oh_ions = 0, water = 0;
-            const base_amount = 3; 
-            let chartLevel = null; 
+            let chartLevel = null;
 
-            if (!state.base) {
-                wellEl.classList.remove('active');
+            if (state.hclDrops === 0 && state.naohDrops === 0) {
+                color = COLOR_EMPTY; // 1. 완전 초기
+            } else if (state.indicatorDrops === 0) {
+                color = COLOR_LIQUID_ONLY; // 2. 기본 용액만 있음
             } else {
-                wellEl.classList.add('active');
-                color = COLOR_LIQUID_ONLY; 
-
-                if (state.base === 'hcl') h_ions = base_amount;
-                if (state.base === 'naoh') oh_ions = base_amount;
+                // 3. 지시약 + 용액
+                let colorIndex = 0;
                 
-                if (state.indicator) {
-                    chartLevel = (state.base === 'hcl') ? 0 : 6;
-                    color = (state.base === 'hcl') ? EXP1_COLORS.HEX[0] : EXP2_COLORS.HEX[0];
-                }
-
-                if (state.titrated) {
-                    const titration_amount = state.titrationAmount;
+                if (currentExperiment === 1) { // Exp 1: HCl(base) + NaOH(titrant)
+                    // base = 3, titrant = 0, 1, 2, 3, 4, 5, 6
+                    let hcl = state.hclDrops; // 3
+                    let naoh = state.naohDrops; // 0~6
+                    colorIndex = Math.max(0, naoh - (hcl - BASE_DROPS)); // [v35] 로직 수정 (hcl은 3부터 시작)
                     
-                    if (state.base === 'hcl') {
-                        chartLevel = titration_amount; 
-                        color = EXP1_COLORS.HEX[chartLevel];
-                        water = Math.min(base_amount, titration_amount);
-                        h_ions = Math.max(0, base_amount - titration_amount);
-                        oh_ions = Math.max(0, titration_amount - base_amount);
-                    } else { 
-                        chartLevel = 6 - titration_amount; 
-                        color = EXP2_COLORS.HEX[titration_amount]; 
-                        water = Math.min(base_amount, titration_amount);
-                        oh_ions = Math.max(0, base_amount - titration_amount);
-                        h_ions = Math.max(0, titration_amount - base_amount);
-                    }
+                    // [v35] 촛농 방식에서 방울 수 기준으로 변경
+                    let netDrops = naoh - hcl; // (예: 4-3=1, 5-3=2, 6-3=3)
+                    
+                    if (netDrops < 0) colorIndex = 0; // 산성
+                    else if (netDrops === 0) colorIndex = 3; // 중성
+                    else if (netDrops > 0) colorIndex = 3 + netDrops; // 염기성
+                    
+                    colorIndex = Math.min(colorIndex, 6); // 최대 6 (노란색)
+                    chartLevel = colorIndex;
+                    color = EXP1_COLORS.HEX[colorIndex];
+
+                } else { // Exp 2: NaOH(base) + HCl(titrant)
+                    let naoh = state.naohDrops; // 3
+                    let hcl = state.hclDrops; // 0~6
+                    
+                    let netDrops = hcl - naoh; // (예: 4-3=1, 5-3=2, 6-3=3)
+                    
+                    if (netDrops < 0) colorIndex = 0; // 염기성
+                    else if (netDrops === 0) colorIndex = 3; // 중성
+                    else if (netDrops > 0) colorIndex = 3 + netDrops; // 산성
+
+                    colorIndex = Math.min(colorIndex, 6); // 최대 6 (붉은색)
+                    chartLevel = 6 - colorIndex; // 6~0
+                    color = EXP2_COLORS.HEX[colorIndex];
                 }
             }
-            wellEl.style.backgroundColor = state.base ? color : COLOR_EMPTY;
             
+            wellEl.style.backgroundColor = color;
+            
+            // [v34] 홈 라벨 업데이트
+            updateWellLabel(index);
+
             if (targetBeaker) {
-                renderIons(h_ions, oh_ions, water);
+                renderIons(state);
                 updateChartTickerPosition(chartLevel); 
             }
         }
@@ -1062,6 +1092,35 @@
             wellStates.forEach((_, index) => updateWellVisuals(index, false));
             clearMicroscope();
             updateChartTickerPosition(null); 
+        }
+
+        // [v35] 홈 라벨 텍스트 업데이트 함수 (요청 반영)
+        function updateWellLabel(index) {
+            const state = wellStates[index];
+            const labelEl = wellLabels[index];
+            if (!labelEl) return;
+            
+            const targetDrops = targetTitrantDrops[index];
+            let baseName = (currentExperiment === 1) ? "묽은 염산" : "묽은 수산화나트륨";
+            let titrantName = (currentExperiment === 1) ? "묽은 수산화나트륨" : "묽은 염산";
+            
+            let baseCount = (currentExperiment === 1) ? state.hclDrops : state.naohDrops;
+            let titrantCount = (currentExperiment === 1) ? state.naohDrops : state.hclDrops;
+
+            let labelText = ``;
+
+            if (currentStep === 'ADD_BASE' || currentStep === 'ADD_INDICATOR') {
+                 // 지시약 단계에서도 기본 용액 방울 수 표시 (요청사항)
+                 labelText = `${baseName} (${baseCount}/${BASE_DROPS}) ml`;
+            } else if (currentStep === 'ADD_TITRANT' || currentStep === 'DONE') {
+                // 적정 단계
+                labelText = `${baseName} ${BASE_DROPS} ml<br>+ ${titrantName} (${titrantCount}/${targetDrops}) ml`;
+            } else {
+                // 실험 시작 전
+                labelText = `${index + 1}번 홈`;
+            }
+            
+            labelEl.innerHTML = labelText;
         }
         
         function clearMicroscope() {
@@ -1075,35 +1134,55 @@
             });
         }
 
-        function updateGuide(guideState) {
-            clearAllPulses(); 
+        // [v34] 점적병 활성화/비활성화 함수
+        function updateDropperActivation(step) {
+            // 1. 모두 비활성화
+            Object.values(droppers).forEach(dropper => {
+                dropper.classList.add('disabled');
+                dropper.setAttribute('draggable', 'false');
+            });
+            clearAllPulses();
+
+            // 2. 단계에 맞는 것만 활성화
+            let activeDropper = null;
+            if (step === 'ADD_BASE') {
+                activeDropper = (currentExperiment === 1) ? droppers.hcl : droppers.naoh;
+            } else if (step === 'ADD_INDICATOR') {
+                activeDropper = droppers.indicator;
+            } else if (step === 'ADD_TITRANT') {
+                activeDropper = (currentExperiment === 1) ? droppers.naoh : droppers.hcl;
+            }
             
-            switch (guideState) {
+            if (activeDropper) {
+                activeDropper.classList.remove('disabled');
+                activeDropper.setAttribute('draggable', 'true');
+                activeDropper.classList.add('pulsing-guide');
+            }
+        }
+
+
+        // [v34] 안내 텍스트 업데이트 함수
+        function updateGuide(step) {
+            clearAllPulses(); // 이전 반짝임 제거
+            updateDropperActivation(step); // 점적병 상태 업데이트
+            
+            let baseName = (currentExperiment === 1) ? "묽은 염산" : "묽은 수산화나트륨";
+            let titrantName = (currentExperiment === 1) ? "묽은 수산화나트륨" : "묽은 염산";
+            
+            switch (step) {
                 case 'INIT':
                     instructions.innerHTML = "<b>1. 실험 시작하기</b><br><br>'실험 ①' 또는 '실험 ②' 버튼을<br>선택하세요.";
                     exp1Button.classList.add('pulsing-guide');
                     exp2Button.classList.add('pulsing-guide');
                     break;
-                case 'EXP_STARTED':
-                    instructions.innerHTML = "<b>2. 지시약 넣기</b><br><br>[양배추 지시약] 도구를 끌어<br>활성화된 홈에 놓으세요.";
-                    droppers.indicator.classList.add('pulsing-guide');
+                case 'ADD_BASE':
+                    instructions.innerHTML = `<b>1. 용액 넣기</b><br><br>[${baseName}] 도구를 3개의 홈에<br>각각 <b>${BASE_DROPS}방울</b>씩 끌어다 놓으세요.`;
                     break;
-                case 'INDICATOR_DROPPED':
-                    const toolName = (currentExperiment === 1) ? "묽은 수산화나트륨" : "묽은 염산";
-                    instructions.innerHTML = `<b>3. 반응 시키기</b><br><br>[${toolName}] 도구를 끌어<br>색이 변한 홈에 놓으세요.`;
-                    if (currentExperiment === 1) {
-                        droppers.naoh.classList.add('pulsing-guide');
-                    } else {
-                        droppers.hcl.classList.add('pulsing-guide');
-                    }
+                case 'ADD_INDICATOR':
+                    instructions.innerHTML = "<b>2. 지시약 넣기</b><br><br>[양배추 지시약] 도구를 3개의 홈에<br>각각 <b>1방울</b>씩 끌어다 놓으세요.";
                     break;
-                case 'REACTION_DONE':
-                    instructions.innerHTML = "<b>4. 이온 관찰하기</b><br><br>반응이 끝난 홈을 <b>클릭</b>해서<br>이온 변화를 확인하세요.";
-                    wells.forEach((well, i) => {
-                        if (wellStates[i].titrated) {
-                            well.classList.add('pulsing-guide');
-                        }
-                    });
+                case 'ADD_TITRANT':
+                    instructions.innerHTML = `<b>3. 반응 시키기</b><br><br>[${titrantName}] 도구를<br>각 홈의 목표량(${targetTitrantDrops.join(', ')}방울)만큼<br>끌어다 놓으세요.`;
                     break;
                 case 'ALL_DONE':
                     instructions.innerHTML = "<b>실험 완료!</b><br><br>하단의 [실험 결과 정리]를<br>확인하고 퀴즈를 풀어보세요.";
@@ -1111,90 +1190,25 @@
                     break;
             }
         }
-
-        async function animateNeutralization(index) {
-            const state = wellStates[index];
-            const wellEl = wells[index];
-            if (state.isAnimating) return; 
-            
-            state.isAnimating = true;
-            wellEl.classList.add('animating'); 
-            clearAllPulses(); 
-
-            const base_amount = 3;
-            const titration_amount = state.titrationAmount;
-            let h_ions = 0, oh_ions = 0, water = 0;
-            let infoText = "";
-
-            if (state.base === 'hcl') {
-                h_ions = base_amount;
-                updateChartTickerPosition(0); 
-            } else {
-                oh_ions = base_amount;
-                updateChartTickerPosition(6); 
-            }
-            
-            renderIons(h_ions, oh_ions, water); 
-            await sleep(600); 
-
-            for (let i = 1; i <= titration_amount; i++) {
-                if (state.base === 'hcl') { 
-                    infoText = `묽은 수산화나트륨 ${i}번째 방울 투입...`;
-                    if (h_ions > 0) { h_ions--; water++; playWaterSound('neutral'); } 
-                    else { oh_ions++; playWaterSound('drop'); } 
-                    updateChartTickerPosition(i); 
-                } else { 
-                    infoText = `묽은 염산 ${i}번째 방울 투입...`;
-                    if (oh_ions > 0) { oh_ions--; water++; playWaterSound('neutral'); } 
-                    else { h_ions++; playWaterSound('drop'); } 
-                    updateChartTickerPosition(6 - i); 
-                }
-                
-                instructions.textContent = infoText;
-                renderIons(h_ions, oh_ions, water); 
-                await sleep(600); 
-            }
-
-            state.titrated = true; 
-            state.isAnimating = false;
-            wellEl.classList.remove('animating');
-            
-            updateWellVisuals(index, true); 
-            instructions.textContent = `[${index+1}번 홈] 반응 완료!`;
-            checkCompletion(); 
-            
-            if (!wellStates.every(state => !state.base || state.titrated)) {
-                updateGuide('INDICATOR_DROPPED');
-            } else {
-                updateGuide('REACTION_DONE');
-            }
-        }
-
+        
+        // [v34] 홈 클릭 핸들러 (로직 수정)
         function handleWellClick(index) {
             if (currentExperiment === 0) {
                 updateGuide('INIT'); 
                 return;
             }
             const state = wellStates[index];
-            if (!state.base || state.isAnimating) return; 
+            if (!state) return; 
 
             updateWellVisuals(index, true); 
-            instructions.innerHTML = "이온 상태를 관찰 중입니다.<br><br>도구를 끌어다 놓으세요.";
             
-            clearAllPulses();
-            if (state.titrated) { 
-                checkCompletion(); 
-            } else if (state.indicator) { 
-                // [v31] 3개 다 넣었는지 재확인
-                const allIndicatorsPlaced = wellStates.every(s => s.indicator || !s.base);
-                if (allIndicatorsPlaced) {
-                    updateGuide('INDICATOR_DROPPED');
-                } else {
-                    updateGuide('EXP_STARTED');
-                }
+            if (currentStep !== 'DONE') {
+                updateGuide(currentStep);
+                wells[index].classList.add('pulsing-guide');
             }
         }
 
+        // [v34] 도구 드롭 핸들러 (로직 대폭 수정)
         async function handleToolDrop(index, toolType) {
             if (currentExperiment === 0) {
                 updateGuide('INIT'); 
@@ -1202,48 +1216,86 @@
             }
 
             const state = wellStates[index];
-            if (!state.base || state.isAnimating) return; 
+            if (!state || state.titrated) return; // 이미 적정 완료된 홈은 무시
 
-            if (toolType === 'indicator') {
-                if (state.indicator) {
-                    instructions.innerHTML = "이미 지시약을 넣었습니다.";
-                } else {
-                    state.indicator = true;
-                    playWaterSound('drop'); 
-                    updateWellVisuals(index, true); 
+            let baseTool = (currentExperiment === 1) ? 'hcl' : 'naoh';
+            let titrantTool = (currentExperiment === 1) ? 'naoh' : 'hcl';
+
+            // --- 1. 기본 용액 넣기 단계 ---
+            if (currentStep === 'ADD_BASE' && toolType === baseTool) {
+                if ((currentExperiment === 1 && state.hclDrops < BASE_DROPS) || (currentExperiment === 2 && state.naohDrops < BASE_DROPS)) {
+                    if (currentExperiment === 1) state.hclDrops++;
+                    else state.naohDrops++;
                     
-                    // [v31] 3개의 홈에 모두 지시약이 들어갔는지 확인
-                    const allIndicatorsPlaced = wellStates.every(s => s.indicator || !s.base);
-                    if (allIndicatorsPlaced && currentExperiment > 0) { // 실험이 시작된 상태여야 함
-                        updateGuide('INDICATOR_DROPPED');
-                    } else {
-                        updateGuide('EXP_STARTED'); // 아직 덜 넣었으면 지시약 계속 반짝임
+                    playWaterSound('drop');
+                    updateWellVisuals(index, true);
+
+                    // 3방울 다 채웠는지 확인
+                    if (state.hclDrops === BASE_DROPS || state.naohDrops === BASE_DROPS) {
+                         // 3개 홈이 모두 다 채워졌는지 확인
+                        const allBaseAdded = wellStates.every(s => s.hclDrops === BASE_DROPS || s.naohDrops === BASE_DROPS);
+                        if (allBaseAdded) {
+                            currentStep = 'ADD_INDICATOR';
+                            updateGuide(currentStep);
+                        }
                     }
                 }
-            } 
-            else if ((currentExperiment === 1 && toolType === 'naoh') || (currentExperiment === 2 && toolType === 'hcl')) {
-                if (!state.indicator) {
-                    instructions.innerHTML = "지시약을 먼저 넣어주세요!";
-                    updateGuide('EXP_STARTED'); 
-                    return;
+            }
+            // --- 2. 지시약 넣기 단계 ---
+            else if (currentStep === 'ADD_INDICATOR' && toolType === 'indicator') {
+                if (state.indicatorDrops === 0) {
+                    state.indicatorDrops = 1;
+                    playWaterSound('drop');
+                    updateWellVisuals(index, true);
+
+                    // 3개 홈에 지시약이 모두 들어갔는지 확인
+                    const allIndicatorAdded = wellStates.every(s => s.indicatorDrops === 1);
+                    if (allIndicatorAdded) {
+                        currentStep = 'ADD_TITRANT';
+                        updateGuide(currentStep);
+                    }
                 }
-                if (state.titrated) {
-                    instructions.innerHTML = "이미 반응이 완료되었습니다.";
-                    return;
+            }
+            // --- 3. 적정 용액 넣기 단계 ---
+            else if (currentStep === 'ADD_TITRANT' && toolType === titrantTool) {
+                const targetDrops = targetTitrantDrops[index];
+                
+                if (currentExperiment === 1 && state.naohDrops < targetDrops) {
+                    state.naohDrops++;
+                    // [v35] 중화 로직 수정 (hclDrops는 3으로 고정됨)
+                    playWaterSound(state.naohDrops <= state.hclDrops ? 'neutral' : 'drop'); 
+                    updateWellVisuals(index, true);
+                    if (state.naohDrops === targetDrops) state.titrated = true;
+
+                } 
+                else if (currentExperiment === 2 && state.hclDrops < targetDrops) {
+                    state.hclDrops++;
+                    // [v35] 중화 로직 수정 (naohDrops는 3으로 고정됨)
+                    playWaterSound(state.hclDrops <= state.naohDrops ? 'neutral' : 'drop');
+                    updateWellVisuals(index, true);
+                    if (state.hclDrops === targetDrops) state.titrated = true;
                 }
                 
-                await animateNeutralization(index);
-            } 
+                // 모든 홈의 적정이 완료되었는지 확인
+                const allTitrated = wellStates.every(s => s.titrated);
+                if (allTitrated) {
+                    currentStep = 'DONE';
+                    checkCompletion(); // 결과창 표시
+                }
+            }
+            // --- 4. 잘못된 도구 사용 ---
             else {
-                instructions.innerHTML = "실험 순서에 맞지 않는 용액입니다.";
+                // 현재 단계와 다른 도구를 사용하려고 할 때
+                instructions.innerHTML = "<b>실험 순서가 아닙니다!</b><br><br>안내에 따라 반짝이는 도구를<br>사용해 주세요.";
+                updateDropperActivation(currentStep); // 현재 단계 도구만 다시 반짝임
             }
         }
         
+        // [v34] 실험 설정 함수 (로직 대폭 수정)
         function setupExperiment(expNum) {
-            // [v31] 버튼 눌렀을 때 다른 버튼 반짝임 끄기
             clearAllPulses();
-
             currentExperiment = expNum;
+            currentStep = 'ADD_BASE'; // [v34] 첫 단계 설정
             summaryBox.classList.remove('show'); 
             clearMicroscope(); 
             updateChartTickerPosition(null); 
@@ -1253,44 +1305,33 @@
 
             exp1Button.classList.toggle('active', expNum === 1);
             exp2Button.classList.toggle('active', expNum === 2);
-
-            // [v30] "묽은" 라벨 수정
-            const labels = (expNum === 1) ? 
-                [ "묽은 염산 3mL +<br>묽은 수산화<br>나트륨 4mL",
-                  "묽은 염산 3mL +<br>묽은 수산화<br>나트륨 5mL",
-                  "묽은 염산 3mL +<br>묽은 수산화<br>나트륨 6mL" ] :
-                [ "묽은 수산화<br>나트륨 3mL +<br>묽은 염산 4mL",
-                  "묽은 수산화<br>나트륨 3mL +<br>묽은 염산 5mL",
-                  "묽은 수산화<br>나트륨 3mL +<br>묽은 염산 6mL" ];
             
+            wells.forEach(well => well.classList.remove('disabled'));
+
             wellStates = [];
-            wells.forEach((well, i) => { 
-                const labelEl = labelsContainer.children[i];
-                labelEl.innerHTML = labels[i];
-
-                let state = { base: null, indicator: false, titrated: false, titrationAmount: 0, isAnimating: false };
-                
-                if (expNum === 1) { 
-                    state.base = 'hcl';
-                    state.titrationAmount = [4, 5, 6][i]; 
-                } else if (expNum === 2) { 
-                    state.base = 'naoh';
-                    state.titrationAmount = [4, 5, 6][i]; 
-                }
-                wellStates.push(state);
-            });
-
+            for (let i = 0; i < 3; i++) {
+                wellStates.push({
+                    hclDrops: 0,
+                    naohDrops: 0,
+                    indicatorDrops: 0,
+                    titrated: false 
+                });
+            }
+            
             if (expNum === 1) {
                 plateTitle.textContent = "용액 섞기 판 ①";
             } else {
                 plateTitle.textContent = "용액 섞기 판 ②";
             }
-            updateGuide('EXP_STARTED'); 
+            
+            updateGuide(currentStep); 
             updateAllWellsVisuals(); 
         }
 
+        // [v34] 초기화 함수 (로직 수정)
         function resetToInitialState() {
             currentExperiment = 0;
+            currentStep = '';
             exp1Button.classList.remove('active');
             exp2Button.classList.remove('active');
             
@@ -1306,14 +1347,15 @@
             
             wells.forEach(well => {
                 well.style.backgroundColor = COLOR_EMPTY;
-                well.classList.remove('active', 'animating');
+                well.classList.remove('disabled');
+            });
+
+            Object.values(droppers).forEach(dropper => {
+                dropper.classList.remove('disabled');
+                dropper.setAttribute('draggable', 'true');
             });
             
-            wellStates = [
-                { base: null, indicator: false, titrated: false, titrationAmount: 0, isAnimating: false },
-                { base: null, indicator: false, titrated: false, titrationAmount: 0, isAnimating: false },
-                { base: null, indicator: false, titrated: false, titrationAmount: 0, isAnimating: false }
-            ];
+            wellStates = [];
         }
 
 
@@ -1327,13 +1369,14 @@
             });
         }
 
-        // [v31] 퀴즈 풀 때까지 반짝임 보류
         function checkCompletion() {
             if (currentExperiment === 0) return;
-
-            const allTitrated = wellStates.every(state => state.titrated && state.base);
+            
+            const allTitrated = wellStates.every(s => s.titrated);
 
             if (allTitrated) {
+                currentStep = 'DONE'; 
+                
                 if (currentExperiment === 1) {
                     instructions.innerHTML = "<b>실험 ① 완료!</b><br><br>하단의 [실험 결과 정리] 퀴즈를<br>풀어보세요.";
                 } 
@@ -1342,7 +1385,9 @@
                 }
                 
                 showSummary(currentExperiment);
-                // 반짝임 로직은 handleChoiceClick으로 이동
+                summaryBox.classList.add('pulsing-guide');
+                
+                wells.forEach(well => well.classList.add('disabled'));
             }
         }
 
@@ -1358,12 +1403,11 @@
             } else {
                 exp1Div.style.display = 'none';
                 exp2Div.style.display = 'block';
-                resetSummaryTGoggles(exp2Div);
+                resetSummaryToggles(exp2Div); 
             }
             summaryFeedback.textContent = ''; 
         }
 
-        // [v31] 퀴즈 클릭 시 다음 단계 버튼 반짝임
         function handleChoiceClick(e) {
             const clickedChoice = e.target.closest('.choice');
             if (!clickedChoice) return;
@@ -1379,10 +1423,9 @@
                 clickedChoice.classList.add('incorrect');
             }
 
-            // [v31] 퀴즈 클릭 시 반짝임 트리거
             const summaryDiv = clickedChoice.closest('#summary-exp1, #summary-exp2');
             if (summaryDiv) {
-                clearAllPulses(); // 다른 반짝임 모두 끄기
+                clearAllPulses(); 
                 if (summaryDiv.id === 'summary-exp1') {
                     exp2Button.classList.add('pulsing-guide');
                 } else if (summaryDiv.id === 'summary-exp2') {
@@ -1402,6 +1445,10 @@
 
         
         function handleDragStart(e, toolType) {
+            if (e.target.classList.contains('disabled')) {
+                e.preventDefault();
+                return;
+            }
             draggedTool = toolType;
             e.target.classList.add('selected'); 
         }
@@ -1418,12 +1465,9 @@
 
         function handleDragOver(e) {
             e.preventDefault();
-            if (draggedTool) {
-                const well = e.target.closest('.well');
-                const index = Array.from(wells).indexOf(well);
-                if (well && index > -1 && wellStates[index] && wellStates[index].base) {
-                    well.classList.add('drag-over');
-                }
+            const well = e.target.closest('.well');
+            if (draggedTool && well && !well.classList.contains('disabled')) {
+                well.classList.add('drag-over');
             }
         }
 
@@ -1436,8 +1480,10 @@
 
         function handleDrop(e, index) {
             e.preventDefault();
-            e.target.closest('.well').classList.remove('drag-over');
-            if (draggedTool) {
+            const well = e.target.closest('.well');
+            if (well) well.classList.remove('drag-over');
+            
+            if (draggedTool && well && !well.classList.contains('disabled')) {
                 handleToolDrop(index, draggedTool);
             }
         }
@@ -1449,7 +1495,12 @@
         }
 
         function handleTouchStart(e, toolType) {
-            if (isTouchDragging) return; 
+            const dropperEl = e.target.closest('.dropper-bottle');
+            if (isTouchDragging || dropperEl.classList.contains('disabled')) {
+                e.preventDefault();
+                return;
+            }
+            
             isTouchDragging = true;
             draggedTool = toolType;
             
@@ -1479,11 +1530,8 @@
             
             if (elementUnder) {
                 const well = elementUnder.closest('.well');
-                if (well) {
-                    const index = Array.from(wells).indexOf(well);
-                    if (index > -1 && wellStates[index] && wellStates[index].base) { 
-                        well.classList.add('drag-over');
-                    }
+                if (well && !well.classList.contains('disabled')) { 
+                    well.classList.add('drag-over');
                 }
             }
         }
@@ -1499,7 +1547,7 @@
             
             if (elementUnder) {
                 const well = elementUnder.closest('.well');
-                if (well) {
+                if (well && !well.classList.contains('disabled')) {
                     const index = Array.from(wells).indexOf(well);
                     if (index > -1 && draggedTool) {
                         handleToolDrop(index, draggedTool);
@@ -1527,6 +1575,11 @@
 
             // DOM 요소 할당
             wells = document.querySelectorAll('.well');
+            wellLabels = [
+                document.getElementById('label-0'),
+                document.getElementById('label-1'),
+                document.getElementById('label-2')
+            ];
             droppers = {
                 hcl: document.getElementById('hcl-dropper'),
                 naoh: document.getElementById('naoh-dropper'),
