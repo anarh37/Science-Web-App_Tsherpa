@@ -164,38 +164,11 @@
             justify-content: center;
         }
         
-        /* 모바일 반응형 */
-        @media (max-width: 960px) { 
-            /* [홈 버튼] 모바일 위치 */
-            .home-button {
-                top: 10px;
-                left: 10px;
-                font-size: 1.0rem;
-                padding: 5px 10px;
-            }
-            .container {
-                padding-top: 60px; /* 홈 버튼용 여백 */
-            }
-            .main-title {
-                margin-top: 0;
-            }
-            .lab-area {
-                flex-direction: column;
-                gap: 20px; 
-                align-items: stretch; 
-            }
-            .info-area, .tool-wrapper, .experiment-mat {
-                width: 100% !important;
-                max-width: 430px; 
-            }
-            .controls {
-                flex-direction: column;
-                gap: 10px;
-            }
-            .controls button {
-                max-width: 100%;
-            }
+        /* [v50] 모바일 반응형 레이아웃 CSS 블록 삭제 */
+        /* @media (max-width: 960px) { 
+            ... (삭제됨) ...
         }
+        */
 
         /* 왼쪽 '실험 도구' 래퍼 */
         .tool-wrapper {
@@ -1665,6 +1638,5 @@
     </script>
 </body>
 </html>
-
 
 
