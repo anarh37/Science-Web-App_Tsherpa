@@ -50,6 +50,7 @@
         .container {
             width: 100%;
             max-width: 1100px; /* 1200px -> 1100px로 수정 */
+            min-width: 1100px; /* [v47] 태블릿에서 레이아웃이 축소되지 않도록 최소 너비 고정 */
             background-color: #ffffff;
             border-radius: 10px;
             box-shadow: 0 4px 12px rgba(0,0,0,0.05);
@@ -312,6 +313,7 @@
         /* '실험판' 흰색 테두리 박스 */
         .plate-content-wrapper {
             position: relative;
+            /* [v49] 좌우 패딩 15px 복원 (v48 수정 취소) */
             padding: 15px; 
             background-color: #ffffff;
             border: 1px solid #e0e0e0; 
@@ -337,12 +339,14 @@
         .well-plate {
             display: grid;
             grid-template-columns: repeat(3, 110px);
-            gap: 30px; 
+            /* [v49] gap 15px로 수정, padding 20px로 수정 (인라인 스타일 제거) */
+            gap: 15px; 
             background-color: #e8e8e8;
-            padding: 20px;
+            padding: 20px 25px; /* [v49] 360px 콘텐츠 + 40px 패딩 = 400px */
             border-radius: 10px;
             border: 2px solid #aaa;
-            width: 100%; 
+            /* [v49] width 100% 제거. (부모 400px 콘텐츠 영역에 400px로 딱 맞게) */
+            /* width: 100%; */
             box-sizing: border-box;
         }
         .well {
@@ -374,14 +378,16 @@
         .labels {
             display: grid;
             grid-template-columns: repeat(3, 110px);
-            gap: 30px; 
-            width: 100%; 
+            /* [v49] gap 15px로 수정 (인라인 스타일 제거) */
+            gap: 15px; 
+            /* [v49] width 100% 제거 */
+            /* width: 100%; */
             margin-top: 10px;
             text-align: center;
             font-size: 1.1rem; 
             font-weight: normal; 
             color: #555;
-            padding: 0 20px;
+            padding: 0 25px; /* [v49] well-plate와 동일한 좌우 패딩 */
             box-sizing: border-box;
             min-height: 84px; 
             align-content: center; 
@@ -548,10 +554,12 @@
         .color-chart {
             background: #fff; padding: 15px; border-radius: 10px;
             box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-            width: 100%; 
+            /* [v49] width 100% 제거 */
+            /* width: 100%; */
             margin-top: 25px; 
             box-sizing: border-box;
             position: relative; 
+            width: 400px; /* [v49] .well-plate와 너비 고정 */
         }
         .color-chart h3 { 
             margin-top: 0; 
@@ -814,8 +822,8 @@
                 <h2 id="plate-title">용액 섞기 판</h2> 
                 
                 <div class="plate-content-wrapper"> 
-                    <!-- [v46] gap을 25px -> 23px로 수정 -->
-                    <div class="well-plate" style="width: 100%; padding: 20px 25px; gap: 23px;"> 
+                    <!-- [v49] 인라인 스타일 제거 -->
+                    <div class="well-plate"> 
                         <div class="well" id="well-0"></div>
                         <div class="well" id="well-1"></div>
                         <div class="well" id="well-2"></div>
@@ -825,14 +833,15 @@
                         실험 ① 또는 ② 버튼을 눌러<br>실험을 시작해 보세요!
                     </div>
                     <!-- [v34] 라벨 컨테이너 (진행 상황 표시용) -->
-                    <!-- [v46] gap을 25px -> 23px로 수정 -->
-                    <div class="labels" id="labels-container" style="width: 100%; padding: 0 25px; gap: 23px; display: none;"> 
+                    <!-- [v49] 인라인 스타일 제거 -->
+                    <div class="labels" id="labels-container" style="display: none;"> 
                         <div id="label-0">1번 홈</div>
                         <div id="label-1">2번 홈</div>
                         <div id="label-2">3번 홈</div>
                     </div>
 
-                    <div class="color-chart" style="width: 100%;"> 
+                    <!-- [v49] 인라인 스타일 제거 -->
+                    <div class="color-chart"> 
                         <div id="chart-ticker"></div> 
                         <h3>양배추 지시약 색깔 변화표</h3>
                         <div class="color-gradient" id="gradient-bar">
@@ -1656,7 +1665,6 @@
     </script>
 </body>
 </html>
-
 
 
 
