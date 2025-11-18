@@ -1186,13 +1186,13 @@
                     exp2Button.classList.add('pulsing-guide');
                     break;
                 case 'ADD_BASE':
-                    instructions.innerHTML = `<b>1. 용액 넣기</b><br><br>[${baseName}] 도구를 3개의 홈에<br>각각 <b style="color: #d9534f;">${BASE_DROPS}방울</b>씩 끌어다 놓으세요.`;
+                    instructions.innerHTML = `<b>1. 용액 넣기</b><br><br>[${baseName}] 도구를 3개의 홈에<br>각각 <b style="color: #d9534f;">${BASE_DROPS}ml</b>씩 끌어다 놓으세요.`;
                     break;
                 case 'ADD_INDICATOR':
-                    instructions.innerHTML = `<b>2. 지시약 넣기</b><br><br>[양배추 지시약] 도구를 3개의 홈에<br>각각 <b style="color: #d9534f;">1방울</b>씩 끌어다 놓으세요.`;
+                    instructions.innerHTML = `<b>2. 지시약 넣기</b><br><br>[양배추 지시약] 도구를 3개의 홈에<br>각각 <b style="color: #d9534f;">1ml</b>씩 끌어다 놓으세요.`;
                     break;
                 case 'ADD_TITRANT':
-                    instructions.innerHTML = `<b>3. 반응 시키기</b><br><br>[${titrantName}] 도구를<br>각 홈의 목표량(<b style="color: #d9534f;">${targetTitrantDrops.join(', ')}</b>방울)만큼<br>끌어다 놓으세요.`;
+                    instructions.innerHTML = `<b>3. 반응 시키기</b><br><br>[${titrantName}] 도구를<br>각 홈의 목표량(<b style="color: #d9534f;">${targetTitrantDrops.join(', ')}</b>ml)만큼<br>끌어다 놓으세요.`;
                     break;
                 case 'ALL_DONE':
                     instructions.innerHTML = "<b>실험 완료!</b><br><br>하단의 [실험 결과 정리]를<br>확인하고 퀴즈를 풀어보세요.";
@@ -1656,6 +1656,7 @@
     </script>
 </body>
 </html>
+
 
 
 
